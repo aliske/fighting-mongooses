@@ -26,7 +26,7 @@ Note: Browser will have to be manually refreshed, but node server will be bounce
 
 ## Resources
   - [Trello board](https://trello.com/b/ljpEvrvB/fightingmongooses-bitsandbytes)
-  - [Requirements Doc](https://docs.google.com/document/d/1qrMm8dnEFCeLFZJUo_kGaji6gborta-OU1PfeC2_GWc/edit)
+
 
 
 
