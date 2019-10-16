@@ -21,7 +21,7 @@ npm run serve
 
 #### Access dev page
 Development page will be hosted @ http://localhost:8080
-
+Browser will have to be manually refreshed, but node server will be bounced automatically upon local file changes.
 
 ## Resources
   - [Trello board](https://trello.com/b/ljpEvrvB/fightingmongooses-bitsandbytes)
