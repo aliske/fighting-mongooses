@@ -1,5 +1,5 @@
 exports.up = async function (knex, Promise) {
-  return await knex.schema.createTable('ideas', table => {
+  return await knex.schema.createTable('TEST_ideas', table => {
       table.increments('id').primary()
       table.string('idea')
       table.string('creator')
@@ -7,5 +7,5 @@ exports.up = async function (knex, Promise) {
 }
 
 exports.down = async function (knex, Promise) {
-  return await knex.schema.dropTable('ideas')
+  return await knex.schema.dropTable('TEST_ideas')
 }

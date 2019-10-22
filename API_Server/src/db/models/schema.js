@@ -11,7 +11,7 @@ Model.knex(knexConnection)
 
 class User extends Model {
   static get tableName () {
-    return 'users'
+    return 'TEST_users'
   }
 }
 
@@ -23,7 +23,7 @@ class User extends Model {
 
 class Idea extends Model {
   static get tableName () {
-    return 'ideas'
+    return 'TEST_ideas'
   }
 
   static get relationMappings () {
@@ -32,8 +32,8 @@ class Idea extends Model {
         relation: Model.HasManyRelation,
         modelClass: Comment,
         join: {
-          from: 'ideas.id',
-          to: 'comments.ideas_id'
+          from: 'TEST_ideas.id',
+          to: 'TEST_comments.ideas_id'
         }
       }
     }
@@ -42,7 +42,7 @@ class Idea extends Model {
 
 class Comment extends Model {
   static get tableName () {
-    return 'comments'
+    return 'TEST_comments'
   }
 
   static get relationMappings () {
@@ -51,8 +51,8 @@ class Comment extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Idea,
         join: {
-          from: 'comments.ideas_id',
-          to: 'ideas.id'
+          from: 'TEST_comments.ideas_id',
+          to: 'TEST_ideas.id'
         }
       }
     }
