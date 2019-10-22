@@ -134,7 +134,7 @@ module.exports = async () => {
     devServer: {
       open: 'Chrome',
       // contentBase: 'src', // static files (images, etc),
-      hot: true,
+      hot: true
       // publicPath: 'src'
     },
 

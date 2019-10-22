@@ -6,11 +6,9 @@
   "scripts": {
     "install_client": "cd Client && npm install",
     "start_client": "cd Client && npm run start",
-
     "install_server": "cd API_Server && npm install",
     "start_server": "cd API_Server && npm run start",
-
-    "install_all": "npm run install_client && npm run install_server",
+    "install_all": "concurrently \"npm install\" \"npm run install_client\" \"npm run install_server\"",
     "start_all": "concurrently \"npm run start_client\" \"npm run start_server\""
   },
   "author": "",
