@@ -1,0 +1,62 @@
+
+
+
+<!doctype html>
+<html lang=en>
+
+<head>
+    <link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous>
+    <meta charset=UTF-8>
+    <title>db_test</title>
+    <script>
+        const ROOT_URI = 'http://localhost:3000'
+
+        buildDB = async () => {
+          console.log('building')
+          return await fetch(`${ROOT_URI}/api/test_db_functions/build`)
+        }
+        seedDB = async () => {
+          console.log('seeding')
+          return await fetch(`${ROOT_URI}/api/test_db_functions/seed`)
+        }
+        destroyDB = async () => {
+          return await fetch(`${ROOT_URI}/api/test_db_functions/destroy`)
+        }
+
+
+
+        getData = async () => {
+          // raw query
+          return await fetch(`${ROOT_URI}/api/test_db_functions/build`)
+        }
+        submit = async () => {
+
+        }
+      </script>
+</head>
+
+<body>
+    <h1>DB Test</h1>
+    <hr>
+    <button class="btn btn-primary button" type=button onclick='buildDB()'>Build DB</button>
+    <button class="btn btn-warning button" type=button onclick='seedDB()'>Seed DB</button>
+    <button class="btn btn-danger button" type=button onclick='destroyDB()'>Destroy DB</button>
+    <hr>
+    <h3>Enter a new TO DO:</h3>
+
+    <div class=col-md-6>
+        <textarea class=form-control rows=5 cols=40></textarea>
+        <input class="btn btn-primary button" value=Submit type=submit>
+    </div>
+
+
+
+
+
+
+    <script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js integrity=sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 crossorigin=anonymous></script>
+    <script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script>
+<script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script src=../../dist/bundle.js></script><script type="text/javascript" src="../../dist/bundle.js"></script></body>
+
+</html>
