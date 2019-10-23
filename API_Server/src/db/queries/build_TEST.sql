@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS to_do_TEST (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  quantity int
+)
