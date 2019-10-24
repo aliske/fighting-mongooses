@@ -35,9 +35,10 @@ app.use(function(req, res, next) {
 
 
 // route to test DB functions
-const test_db_functions = require('./api/test_db_functions')
-app.use('/api/test_db_functions/', test_db_functions)
-
+const test_db_functions_routes = require('./api/test_db_functions')
+app.use('/api/test_db_functions/', test_db_functions_routes)
+const users_routes = require('./api/users')
+app.use('/api/users/', users_routes)
 
 
 

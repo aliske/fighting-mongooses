@@ -22,11 +22,11 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.1.1",
     "fs": "0.0.1-security",
-    "mysql": "^2.17.1"
+    "mysql2": "^1.7.0"
   },
   "devDependencies": {
     "babel-jest": "^24.8.0",
-    "jest": "^23.6.0",
+    "jest": "^25.0.0",
     "nodemon": "^1.19.1"
   }
 }
