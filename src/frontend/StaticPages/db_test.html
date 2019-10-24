@@ -31,6 +31,14 @@
         background-color: #4CAF50;
         color: white;
       }
+
+
+      .delete-icon {
+        text-align: center;
+        font-size: 20px;
+        color: red;
+        cursor: pointer;
+      }
     </style>
 
 
@@ -100,8 +108,8 @@
               return `<td>${row[header.internal_name] || ''}</td>` 
             }).join('')
 
-            return `<tr>${row_data}</tr>`
-          }).join('')
+            return `<tr>${row_data}<td class='delete-icon' onclick='deleteUser(${row['id']})'>&times;</td></tr>`
+          }).join('') 
 
           $('#users_table').html(headers_HTML + data_HTML)
 
@@ -137,10 +145,22 @@
               else 
               displayAlert(data.msg, 'alert-danger');
             })
-
-          console.log(data)
-          
           }
+
+        deleteUser = async (id) => {
+          const data = await fetch(`${ROOT_URI}/api/users/${id}`, {
+            method: 'DELETE'
+          })
+            .then(resp => { 
+              if (resp.status === 200) {
+                displayAlert('record deleted successfully', 'alert-success')
+                getUsers()
+              }
+              else
+              displayAlert(data.msg, 'alert-danger');
+            })
+          }
+
 
 
         var alert_close_timer

@@ -26,7 +26,7 @@ function run_prebuilt_sql_query(filename) {
   let sql = fs.readFileSync(`${basepath}/queries/${filename}.sql`, 'UTF8');
   // console.log(sql);
   pool.query(sql, function (err, result) {
-    if (err) throw err;
+    // if (err) throw err;
     // console.log('Result: ', result)
   })
 }
