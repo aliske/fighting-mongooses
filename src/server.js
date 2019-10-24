@@ -33,7 +33,6 @@ app.use(function(req, res, next) {
 
 
 
-
 // route to backend API
 const test_db_functions_routes = require('./backend/api/test_db_functions')
 app.use('/api/test_db_functions/', test_db_functions_routes)
@@ -52,9 +51,3 @@ app.listen(port, function() {
 });
 
 
-
-
-// // route our app
-// app.get('/', function(req, res) {
-//   res.sendFile(__dirname + '/src/index.html');
-// });
