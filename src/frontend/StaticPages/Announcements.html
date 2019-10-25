@@ -2,37 +2,125 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Bootstrap things -->
+    <link rel="stylesheet" 
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+          crossorigin="anonymous">
+
     <meta charset="UTF-8">
+
+    <!-- CSS things -->
     <style>
-        body{
-            color:white;
-            background-color:green;
+        body {
+            color: white;
+            background-color: green;
+        }
+
+        hr {
+            height: 10px;
+            background-color: white;
+        }
+
+        table {
+            width: 50%;
+        }
+
+        th, td {
+            border-bottom: 1px solid white;
+        }
+
+        .tbl-msg {
+            text-align: left;
+            width: 70%;
+        }
+
+        .tbl-time {
+            text-align: right;
+            width: 30%;
         }
     </style>
-    <title>Announcements</title>
+
+    <title>Announcements Page</title>
 </head>
 
 <body>
-    <h1>Announcements</h1>
+    <h1>Announcements Page</h1>
+    
     <hr>
-    <h3>Enter a new announcement:</h3>
 
     <div class="col-md-6">
-        <textarea class="form-control" rows=5 cols=40></textarea>
-        <input class="btn btn-primary button" value="Submit" type=submit>
+        <textarea id="msg-entry"
+                  class="form-control" 
+                  rows=5 
+                  cols=40
+                  placeholder="Enter a new announcement here...">
+        </textarea>
+        <button id="submit-btn"
+                type="button" 
+                class="btn btn-primary" 
+                onclick="submit(); makeAnnouncementTable()">
+            Add Announcement
+        </button>
     </div>
 
+    <br>
+
+    <h3>Announcements:</h3>
+    <p id="announcement-table"></p>
+
+    <!-- JavaScript things -->
+    <script>
+        var announcements = [];
+        var times = [];
+
+        var msgEntry = document.getElementById("msg-entry");
+        var announcementTable = document.getElementById("announcement-table");
+
+        // returns the time and date as a string
+        function getTimeDate() {
+            var theDate = new Date(); 
+            var timeDate = theDate.getHours() + ":"  
+                + theDate.getMinutes() + " "
+                + theDate.getDate() + "/"
+                + (theDate.getMonth() + 1) + "/" 
+                + theDate.getFullYear();
+            return timeDate;
+        }
+
+        // get text in textarea and add it to announcements array
+        function submit() {
+            announcements.push(msgEntry.value);
+            times.push(getTimeDate());
+            msgEntry.value = "";
+            alert("Your announcement has been submitted.");
+        }
+
+        // construct a table that displays announcements array
+        function makeAnnouncementTable() {
+            text = "<table>";
+            for (var i = 0; i < announcements.length; i++) {
+                text += "<tr><td class='tbl-msg'>" + announcements[i] + "</td>";
+                text += "<td class='tbl-time'>" + times[i] + "</td></tr>";
+            }
+            text += "</table>";
+            announcementTable.innerHTML = text;
+        }
+    </script>
+
+    <!-- jQuery things -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
