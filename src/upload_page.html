@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <script language="JavaScript">
       function showImage() {
-        document.getElementById('display').innerHTML = 
-                    document.getElementById("user_input").value;
+        document.getElementById("dispimage").innerHTML = 
+                    document.getElementById("impfile").value;
     }
   </script>
 	<head>
@@ -19,5 +19,6 @@
 		<input type="file" target="_self" name="impfile" size="75" id="impfile" accept=".jpg, .pdf, .doc">
       </form>
         <button onclick ="showImage()">Submit</button>
+		<div id="dispimage"><img src=""> </div>
 	</body>
 </html>
