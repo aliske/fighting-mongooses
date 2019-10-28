@@ -29,10 +29,10 @@
 		<h1>Upload forms to Bits and Bytes</h1>
 		<hr class="half_horizontal_rule">
 		<h2>Choose a file to upload.</h2>
-		<input type="file" accept="image/*" size="75" onchange="dispFile(event)">
+		<input type="file" name="file" accept="image/*" size="75" onchange="dispFile(event)" id="choose_file">
 		<br>
 		<img id="output" height="300" width="300"/>
       </form>
-        <button>Submit</button>
+        <button value="Submit" type=submit>Submit</button>
 	</body>
 </html>
