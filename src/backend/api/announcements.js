@@ -9,15 +9,15 @@ const announcements_table_name = 'announcements'
 
 // get all announcements, with optional LIMIT and OFFSET
 router.get('/', (req, res) => {
-  var query = `SELECT * FROM announcements`;
-  if(req.query.limit !== "")
-  {
-    query = query + ' LIMIT ' + req.query.limit;
-    if(req.query.offset !== "")
-    {
-      query = query + ' OFFSET ' + req.query.offset;
-    }
-  }
+  var query = `SELECT * FROM announcements`
+  //if(req.query.limit !== "undefined")
+  //{
+  //  query = query + ' LIMIT ' + req.query.limit
+  //  if(req.query.offset !== "undefined")
+  //  {
+  //    query = query + ' OFFSET ' + req.query.offset
+  //  }
+  //}
     db_functions.query(query)
       .then(resp => { res.json(resp) })
       .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
