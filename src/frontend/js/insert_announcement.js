@@ -1,6 +1,6 @@
 async function insertAnnouncement(){
   const title = $('#title').val()
-  const announcement = $('#announcment').val()
+  const announcement = $('#announcement').val()
 
 // VALIDATE USER INPUT HERE
 
