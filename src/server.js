@@ -38,6 +38,8 @@ const test_db_functions_routes = require('./backend/api/test_db_functions')
 app.use('/api/test_db_functions/', test_db_functions_routes)
 const users_routes = require('./backend/api/users')
 app.use('/api/users/', users_routes)
+const announcements_routes = require('./backend/api/announcements')
+app.use('/api/announcements/', announcements_routes)
 
 
 // route to frontend static pages

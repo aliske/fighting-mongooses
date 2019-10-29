@@ -41,128 +41,15 @@
       }
     </style>
 
-
+    <script type="text/javascript" src="../js/root_uri.js"></script>
+    <script type="text/javascript" src="../js/test_db_functions.js"></script>
+    <script type="text/javascript" src="../js/get_users.js"></script>
+    <script type="text/javascript" src="../js/get_announcements.js"></script>
+    <script type="text/javascript" src="../js/insert_user.js"></script>
+    <script type="text/javascript" src="../js/insert_announcement.js"></script>
+    <script type="text/javascript" src="../js/delete_user.js"></script>
+    <script type="text/javascript" src="../js/test_page_load.js"></script>
     <script>
-        const ROOT_URI = 'http://localhost:3000'
-
-        buildDB = async () => {
-          const data = await fetch(`${ROOT_URI}/api/test_db_functions/build`)
-            .then(resp => { return resp.json() })
-            .then(data => { return data })
-
-          getUsers()
-          displayAlert(data.msg, 'alert-success');
-        }
-        seedDB = async () => {
-          const data = await fetch(`${ROOT_URI}/api/test_db_functions/seed`)
-            .then(resp => { return resp.json() })
-            .then(data => { return data })
-
-          // $('#alert_text').html(data.msg)
-          // $('.alert').addClass('show alert-warning')
-          // setTimeout(() => {$('.alert').removeClass('show alert-warning')}, 2000);
-          getUsers()
-          displayAlert(data.msg, 'alert-warning');
-
-        }
-        destroyDB = async () => {
-          const data = await fetch(`${ROOT_URI}/api/test_db_functions/destroy`)
-            .then(resp => { return resp.json() })
-            .then(data => { return data })
-
-          $('#users_table').html('')
-          displayAlert(data.msg, 'alert-danger');
-        }
-
-
-
-        getUsers = async () => {
-          // raw query
-          const data = await fetch(`${ROOT_URI}/api/users/`)
-                          .then(resp => { return resp.json() })
-
-
-          const headers = [
-          {
-              'internal_name': 'name',
-              'display_name': 'Name'
-            },
-            {
-              'internal_name': 'age',
-              'display_name': 'Age'
-            },
-            {
-              'internal_name': 'bio',
-              'display_name': 'Bio'
-            }
-          ]
-
-
-          let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
-          headers_HTML = `<tr>${headers_HTML}</tr>`
-
-
-          let data_HTML = data.map(row => {
-            const row_data = headers.map(header => {
-              // defaults to '' if null
-              return `<td>${row[header.internal_name] || ''}</td>` 
-            }).join('')
-
-            return `<tr>${row_data}<td class='delete-icon' onclick='deleteUser(${row['id']})'>&times;</td></tr>`
-          }).join('') 
-
-          $('#users_table').html(headers_HTML + data_HTML)
-
-        }
-
-
-        insertUser = async () => {
-          const name = $('#name').val()
-          const age = $('#age').val()
-          const bio = $('#bio').val()
-
-          // VALIDATE USER INPUT HERE
-
-
-          const body = {
-              'name': name,
-              'age': age,
-              'bio': bio
-            }
-
-          const data = await fetch(`${ROOT_URI}/api/users`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          })
-            .then(resp => { 
-              if (resp.status === 200) {
-                displayAlert('record inserted successfully', 'alert-success')
-                getUsers()
-              }
-              else 
-              displayAlert(data.msg, 'alert-danger');
-            })
-          }
-
-        deleteUser = async (id) => {
-          const data = await fetch(`${ROOT_URI}/api/users/${id}`, {
-            method: 'DELETE'
-          })
-            .then(resp => { 
-              if (resp.status === 200) {
-                displayAlert('record deleted successfully', 'alert-success')
-                getUsers()
-              }
-              else
-              displayAlert(data.msg, 'alert-danger');
-            })
-          }
-
-
-
         var alert_close_timer
         function displayAlert(msg, classes) {
           // reset alert if currently being displayed
@@ -177,7 +64,7 @@
       </script>
 </head>
 
-<body onload='getUsers()'>
+<body onload='load_page()'>
     <div class="alert alert-dismissible fade show" role="alert">
         <span id='alert_text'></span>
       </div>
@@ -201,8 +88,20 @@
     </div>
 
     <br /><br /><br />
-    <h3>Current users: <button class='btn btn-info btn-small' onclick='getUsers()'>REFRESH DATA</button></h3>
+    <h3>Current users: <button class='btn btn-info btn-small' onclick='getUsers("users_table")'>REFRESH DATA</button></h3>
     <table id='users_table'></table>
+    <br><br>
+
+    <br /><br />
+    <h3>Enter a new Announcment:</h3>
+
+    <div class=col-md-6>
+      <h1 id='title_text'></h1>
+      <input id='title' class=form-control type='text' placeholder="Title"></input>
+      <textarea id='announcement' class=form-control rows='3' placeholder="Announcement"></textarea>
+      <button class="btn btn-primary button" type=button onclick='insertAnnouncement()'>Submit</button>
+    </div>
+    <table id='announcements_table'></table>
 
 
 
