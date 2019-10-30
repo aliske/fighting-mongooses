@@ -3,8 +3,10 @@
 
 <head>
     <!-- Bootstrap things -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" 
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 
     <meta charset="UTF-8">
 
@@ -20,23 +22,41 @@
             background-color: white;
         }
 
+        .announcement-card-form {
+            color: black;
+        }
+
+        .my-card-title {
+            padding-top: 5px;
+        }
+
+        .form-label {
+            color: black;
+            font-weight: bold;
+        }
+
         table {
             width: 50%;
         }
 
-        th,
-        td {
-            border-bottom: 1px solid white;
+        .td-title {
+            width: 20%;
+            border: 1px solid white;
         }
 
-        .tbl-msg {
-            text-align: left;
-            width: 70%;
+        .td-mssg {
+            width: 60%;
+            border: 1px solid white;
         }
 
-        .tbl-time {
-            text-align: right;
-            width: 30%;
+        .td-time {
+            width: 18%;
+            border: 1px solid white;
+            text-align: center;
+        }
+
+        .td-other {
+            border: 1px solid white;
         }
     </style>
 
@@ -44,90 +64,157 @@
 </head>
 
 <body>
-    <ul class="nav">
+        <!-- Navigation bar -->
+        <ul class="nav">
+            <li>
+                <img src="../Assets/Bits_and_Bytes_Logo.png"
+                    alt="Bits and Bytes Logo"
+                    height = 100px>
+            </li>
 
-        <li>
-            <img src="../Assets/Bits_and_Bytes_Logo.png" alt="Bits and Bytes Logo" height=100px>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="../index.html">
+                    Home
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link active" href="../index.html">Home</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="Announcements.html">
+                    Announcements
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link active" href="Announcements.html">Announcements</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="upload_page.html">
+                    Uploads
+                </a>
+            </li>
+        </ul>
 
-        <li class="nav-item">
-            <a class="nav-link" href="upload_page.html">Uploads</a>
-        </li>
-
-    </ul>
     <h1>Announcements</h1>
     <hr>
 
-    <div class="col-md-6">
-        <textarea id="msg-entry" class="form-control" rows=5 cols=40 placeholder="Enter a new announcement here...">
-        </textarea>
-        <button id="submit-btn" type="button" class="btn btn-primary" onclick="submit(); makeAnnouncementTable()">
-            Add Announcement
-        </button>
+    <!-- Announcement form -->
+    <div class="announcement-card-form">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="my-card-title">Make An Announcement</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="title">
+                                Announcement Title
+                            </label>
+                            <input type="text"
+                                class="form-control"
+                                placeholder="Enter a title..."
+                                id="title"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="announcement">
+                                Announcement
+                            </label>
+                            <textarea class="form-control"
+                                placeholder="Enter an announcement..."
+                                rows=5
+                                id="announcement">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button"
+                            class="btn btn-primary"
+                            onclick="submitAnnouncement()"
+                            id="submit-btn">
+                            Submit Announcement
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <br>
 
-    <h3>Announcements:</h3>
-    <p id="announcement-table"></p>
+    <!-- Announcement table -->
+    <table id="announcement-table">
+        <thead>
+            <h3>Announcements:</h3>
+        </thead>
+        <tbody id="announcement-tbody">
+        </tbody>
+    </table>
 
     <!-- JavaScript things -->
     <script>
-        var announcements = [];
-        var times = [];
-
-        var msgEntry = document.getElementById("msg-entry");
-        var announcementTable = document.getElementById("announcement-table");
+        
 
         // returns the time and date as a string
-        function getTimeDate() {
-            var theDate = new Date();
-            var timeDate = theDate.getHours() + ":"
-                + theDate.getMinutes() + " "
-                + theDate.getDate() + "/"
-                + (theDate.getMonth() + 1) + "/"
-                + theDate.getFullYear();
-            return timeDate;
+        function timestamp() {
+            const now = new Date();
+            const time = now.toLocaleTimeString("en-US");
+            const date = now.toLocaleDateString("en-US");
+            return date + " at " + time;
         }
 
-        // get text in textarea and add it to announcements array
-        function submit() {
-            announcements.push(msgEntry.value);
-            times.push(getTimeDate());
-            msgEntry.value = "";
+        function submitAnnouncement() {
+            // get title, message, and timestamp
+            const title = $("#title").val();
+            const mssg = $("#announcement").val();
+            const time = timestamp();
+            // add title, message, and timestamp to announcement table
+            $("#announcement-tbody").prepend(
+                "<tr>" +
+                    "<td class='td-left'>" +
+                        "<td class='td-title'>" + title + "</td>" +
+                        "<td class='td-mssg'>" + mssg + "</td>" +
+                        "<td class='td-time'>" + time + "</td>" +
+                        "<td class='td-other'>" +
+                            "<button class='btn btn-primary' id='edit-btn' onclick='editAnnouncement()'>" +
+                                "Edit" +
+                            "</button>" +
+                        "</td>" +
+                        "<td class='td-other'>" +
+                            "<button class='btn btn-primary' id='del-btn' onclick='deleteAnnouncement(this)'>" +
+                                "Delete" +
+                            "</button>" +
+                        "</td>" +
+                    "</td>" +
+                "</tr>"
+            );
+            // clear form areas
+            $("#title").val("");
+            $("#announcement").val("");
+            // notify user of announcement
             alert("Your announcement has been submitted.");
         }
 
-        // construct a table that displays announcements array
-        function makeAnnouncementTable() {
-            text = "<table>";
-            for (var i = 0; i < announcements.length; i++) {
-                text += "<tr><td class='tbl-msg'>" + announcements[i] + "</td>";
-                text += "<td class='tbl-time'>" + times[i] + "</td></tr>";
-            }
-            text += "</table>";
-            announcementTable.innerHTML = text;
+        function editAnnouncement() {
+
+        }
+
+        function deleteAnnouncement(ctl) {
+            $(ctl).parents("tr").remove();
         }
     </script>
 
     <!-- jQuery things -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-        </script>
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-        </script>
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-        </script>
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
