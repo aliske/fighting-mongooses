@@ -3,7 +3,7 @@
 
 <head>
     <!-- Bootstrap things -->
-    <link rel="stylesheet" 
+    <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../js/insert_announcement.js"></script>
     <script type="text/javascript" src="../js/delete_announcement.js"></script>
     <script type="text/javascript" src="../js/update_announcement.js"></script>
-    
+
 
     <!-- CSS things -->
     <style>
@@ -212,14 +212,14 @@
         }
         // submit an announcement that has been entered on the page
         function submitAnnouncement() {
-            
+
             // INSERT ANNOUNCEMENT INTO DATABASE HERE
             insertAnnouncement("announcements");
             getAnnouncements("announcements");
             // clear form areas
             $("#title").val("");
             $("#announcement").val("");
-            
+
         }
 
 
@@ -238,7 +238,7 @@
         function editAnnouncement() {
             // EDIT ANNOUNCEMENT IN DATABASE HERE
             updateAnnouncement();
-            
+
             const row = $(global_ctl).parents("tr");
             const col = row.children("td");
             $(col[1]).text($("#edit-title").val());
