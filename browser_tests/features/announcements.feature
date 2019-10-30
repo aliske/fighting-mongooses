@@ -6,14 +6,14 @@ Feature: bits and bytes-announcements
     And I navigate to the announcements management page
     When I completely fill out the new announcements form
     And I submit the announcements form
-    Then The announcement is visible on the website
+    Then The announcement is successfully created
 
   Scenario: An administrator can edit an announcement
     Given I am logged in as an administrator
     And I navigate to the announcements management page
-    When I edit the first announcement
-    And I submit the announcements form
-    Then The announcement is visible on the website
+    When I edit the last announcement
+    And I submit the edit announcements form
+    Then The announcement is successfully edited
 
   Scenario: An administrator can delete an announcement
     Given I am logged in as an administrator
