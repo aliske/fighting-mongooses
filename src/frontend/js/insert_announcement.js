@@ -19,7 +19,8 @@ const data = await fetch(`${ROOT_URI}/api/announcements`, {
 })
 .then(resp => { 
   if (resp.status === 200) {
-    alert('record inserted successfully')
+    if(alert('record inserted successfully')){}
+    else window.location.reload();
   }
   else 
     alert(data.msg);

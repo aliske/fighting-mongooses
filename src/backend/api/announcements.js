@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
   // param name, default value
   let title = encodeHTML(req.body['title']) || null;
   let announcement = encodeHTML(req.body['announcement']) || null;
-  let author = encodeHTML(req.body['author']) || 1;
+  let author = req.body['author'] || 1;
 
   const [rows, fields] = await db_functions.execute('INSERT INTO announcements(title, announcement, author) VALUES (?, ?, ?)', [title, announcement, author]);
 

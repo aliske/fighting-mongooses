@@ -159,7 +159,7 @@
                         <button type="button"
                             class="btn btn-primary"
                             onclick="editAnnouncement()"
-                            id="submit-btn">
+                            id="edit-submit-btn">
                             Change Announcement
                         </button>
 
@@ -246,7 +246,8 @@
             $("#edit-title").val("");
             $("#edit-announcement").val("");
             $("#edit-card").attr("hidden", "true");
-            alert("Your edit has been made.");
+            if(alert("Your edit has been made.")){}
+            else window.location.reload();
         }
         // delete an announcement that is displayed on the page
         function removeAnnouncement(ctl) {
