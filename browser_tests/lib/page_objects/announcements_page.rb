@@ -13,7 +13,7 @@ class AnnouncementsPage
     @edit_message_field = @browser.textarea(id: 'edit-announcement')
 
     @submit_button = @browser.button(id: 'submit-btn')
-    @submit_edit_button = @browser.button(id: 'edit-submit-btm')
+    @submit_edit_button = @browser.button(id: 'edit-submit-btn')
 
     @announcements_table_body = @browser.tbody(id: 'announcement-tbody')
 
@@ -46,7 +46,7 @@ class AnnouncementsPage
 
 
   def edit_announcement(item: 0, title: @edited_title, message: @edited_message)
-    ann = parsed_announcement(@announcements[item])
+    ann = parsed_announcement(@announcements.last)
     ann[:edit].click
     @edit_title_field.set title
     @edit_message_field.set message
@@ -57,7 +57,8 @@ class AnnouncementsPage
   end
 
   def delete_announcement(item: 0)
-    # @announcements_list[item].delete_button.click
+    ann = parsed_announcement(@announcements.last)
+    ann[:delete].click
   end
 
 

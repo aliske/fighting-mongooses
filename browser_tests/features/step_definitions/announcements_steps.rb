@@ -45,9 +45,9 @@ When(/^I delete the first announcement$/) do
 end
 
 Then(/^The announcement is not visible on the website$/) do
-  #no op
+  expect($browser.alert.text).to eq 'record deleted successfully'
 end
 
 And(/^I submit the edit announcements form$/) do
-  AnnouncementsPage.new.submit_form
+  AnnouncementsPage.new.submit_edit_form
 end

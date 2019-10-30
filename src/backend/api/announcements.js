@@ -5,7 +5,9 @@ const router = express.Router()
 
 const announcements_table_name = 'announcements'
 
-
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
 
 // get all announcements, with optional LIMIT and OFFSET
 router.get('/', (req, res) => {
@@ -36,8 +38,8 @@ router.get('/:id', (req, res) => {
 // insert announcement
 router.post('/', async (req, res) => {
   // param name, default value
-  let title = req.body['title'] || null;
-  let announcement = req.body['announcement'] || null;
+  let title = encodeHTML(req.body['title']) || null;
+  let announcement = encodeHTML(req.body['announcement']) || null;
   let author = req.body['author'] || 1;
 
   const [rows, fields] = await db_functions.execute('INSERT INTO announcements(title, announcement, author) VALUES (?, ?, ?)', [title, announcement, author]);
@@ -64,8 +66,8 @@ router.patch('/:id', async (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // set update values
-  let title = req.body['title'] || row.title
-  let announcement = req.body['announcement'] || row.announcement
+  let title = encodeHTML(req.body['title']) || row.title
+  let announcement = encodeHTML(req.body['announcement']) || row.announcement
 
 
   // update db
