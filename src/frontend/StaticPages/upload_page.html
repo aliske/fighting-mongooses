@@ -16,12 +16,32 @@
 		body {
 		background-color:green;
 		}
+	
 	 </style>	
 	<script>
-		var dispFile = function(event) {
-			var output = document.getElementById('output');
-			output.src = URL.createObjectURL(event.target.files[0]);
-		};
+      function showImage() {
+        var preview = document.querySelector('#dispimage');
+        var file    = document.querySelector('#impfile').files[0];
+        var reader  = new FileReader();
+
+        reader.addEventListener("load", function () {
+          preview.data = reader.result;
+
+          // prints base64 to screen
+          // this reader.result value can be uploaded to db
+          console.log(reader.result)
+        }, false);
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+    }
+
+	</script>
+	<script>
+	function upload_file() {
+	
+	}
 	</script>
 	<head>
 	   <title>file upload </title>
@@ -50,10 +70,14 @@
 		<h1>Upload forms to Bits and Bytes</h1>
 		<hr class="half_horizontal_rule">
 		<h2>Choose a file to upload.</h2>
-		<input type="file" accept="image/*" size="75" onchange="dispFile(event)">
+        <input type="file" size="75" id="impfile" accept=".jpg, .pdf, .img">
 		<br>
-		<img id="output" height="300" width="300"/>
       </form>
-        <button>Submit</button>
+      <button id ="preview_btn" onclick ="showImage()">Preview</button>
+	  <br>
+	  <object id="dispimage" height='500px' width='500px'></object>
+	  <div>
+        <button  id="file_submit_btn" onclick = "upload_file()">Submit File</button>
+      </div>
 	</body>
 </html>
