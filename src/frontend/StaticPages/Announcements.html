@@ -3,7 +3,7 @@
 
 <head>
     <!-- Bootstrap things -->
-    <link rel="stylesheet" 
+    <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
@@ -11,9 +11,12 @@
     <meta charset="UTF-8">
 
     <!-- JavaScript imports -->
+    <script type="text/javascript" src="../js/root_uri.js"></script>
+    <script type="text/javascript" src="../js/get_announcements.js"></script>
     <script type="text/javascript" src="../js/insert_announcement.js"></script>
     <script type="text/javascript" src="../js/delete_announcement.js"></script>
-    <script type="text/javascript" src="../js/get_announcements.js"></script>
+    <script type="text/javascript" src="../js/update_announcement.js"></script>
+
 
     <!-- CSS things -->
     <style>
@@ -21,45 +24,36 @@
             color: white;
             background-color: green;
         }
-
         hr {
             height: 10px;
             background-color: white;
         }
-
         .my-card-form {
             color: black;
         }
-
         .my-card-title {
             padding-top: 5px;
         }
-
         .form-label {
             color: black;
             font-weight: bold;
         }
-
         table {
             width: 50%;
         }
-
         .td-title {
             width: 20%;
             border: 1px solid white;
         }
-
         .td-mssg {
             width: 60%;
             border: 1px solid white;
         }
-
         .td-time {
             width: 18%;
             border: 1px solid white;
             text-align: center;
         }
-
         .td-other {
             border: 1px solid white;
         }
@@ -68,7 +62,7 @@
     <title>Announcements Page</title>
 </head>
 
-<body>
+<body onLoad='getAnnouncements("announcements")'>
         <!-- Navigation bar -->
         <ul class="nav">
             <li>
@@ -123,11 +117,7 @@
                                 for="announcement">
                                 Announcement
                             </label>
-                            <textarea class="form-control"
-                                placeholder="Enter an announcement here."
-                                rows=5
-                                id="announcement">
-                            </textarea>
+                            <textarea class="form-control" placeholder="" rows=5 id="announcement">Enter an announcement here.</textarea>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -147,6 +137,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
+                            <input type=hidden id="edit-id">
                             <label class="form-label"
                                 for="edit-title">
                                 New Announcement Title
@@ -161,11 +152,7 @@
                                 for="edit-announcement">
                                 New Announcement
                             </label>
-                            <textarea class="form-control"
-                                placeholder="Enter the new announcement here."
-                                rows=5
-                                id="edit-announcement">
-                            </textarea>
+                            <textarea class="form-control" placeholder="" rows=5 id="edit-announcement"></textarea>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -175,6 +162,7 @@
                             id="submit-btn">
                             Change Announcement
                         </button>
+
                     </div>
                 </div>
             </div>
@@ -184,9 +172,26 @@
     <br>
 
     <!-- Announcement table -->
+    <h3>Announcements:</h3>
     <table id="announcement-table">
+
         <thead>
-            <h3>Announcements:</h3>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Announcement
+                </th>
+                <th>
+                    Timestamp
+                </th>
+                <th colspan=2>
+                    Management
+                </th>
         </thead>
         <tbody id="announcement-tbody">
         </tbody>
@@ -198,7 +203,6 @@
         // away this global variable once i get the hang
         // of this better
         var global_ctl = null;
-
         // returns the time and date as a string
         function timestamp() {
             const now = new Date();
@@ -206,85 +210,50 @@
             const date = now.toLocaleDateString("en-US");
             return date + " at " + time;
         }
-
         // submit an announcement that has been entered on the page
         function submitAnnouncement() {
-            
+
             // INSERT ANNOUNCEMENT INTO DATABASE HERE
-            // insertAnnouncement();
-            
-            // get title, message, and timestamp
-            const title = $("#title").val();
-            const mssg = $("#announcement").val();
-            const time = timestamp();
-            // add title, message, and timestamp to announcement table
-            $("#announcement-tbody").prepend(
-                "<tr>" +
-                    "<td class='td-left'>" +
-                        "<td class='td-title'>" + title + "</td>" +
-                        "<td class='td-mssg'>" + mssg + "</td>" +
-                        "<td class='td-time'>" + time + "</td>" +
-                        "<td class='td-other'>" +
-                            `<button class='btn btn-primary' 
-                                     id='edit-btn'
-                                     onclick='showEditCard(this)'>` +
-                                "Edit" +
-                            "</button>" +
-                        "</td>" +
-                        "<td class='td-other'>" +
-                            `<button class='btn btn-primary'
-                                     id='del-btn'
-                                     onclick='removeAnnouncement(this)'>` +
-                                "Delete" +
-                            "</button>" +
-                        "</td>" +
-                    "</td>" +
-                "</tr>"
-            );
+            insertAnnouncement("announcements");
+            getAnnouncements("announcements");
             // clear form areas
             $("#title").val("");
             $("#announcement").val("");
-            // notify user of announcement
-            alert("Your announcement has been submitted.");
+
         }
+
 
         // "un-hides" the edit form, and stashes a
         // reference to the row which will be edited
         function showEditCard(ctl) {
             const row = $(ctl).parents("tr");
             const col = row.children("td");
-            
+            $("#edit-id").val($(col[0]).text());
             $("#edit-title").val($(col[1]).text());
             $("#edit-announcement").val($(col[2]).text());
-
             $("#edit-card").removeAttr("hidden");
             global_ctl = ctl;
         }
-
         // edit an announcement that is displayed on the page
         function editAnnouncement() {
             // EDIT ANNOUNCEMENT IN DATABASE HERE
-            // ???(???);
-            
+            updateAnnouncement();
+
             const row = $(global_ctl).parents("tr");
             const col = row.children("td");
-
             $(col[1]).text($("#edit-title").val());
             $(col[2]).text($("#edit-announcement").val());
-
             $("#edit-title").val("");
             $("#edit-announcement").val("");
-
             $("#edit-card").attr("hidden", "true");
             alert("Your edit has been made.");
         }
-
         // delete an announcement that is displayed on the page
         function removeAnnouncement(ctl) {
-            
+
             // DELETE ANNOUNCEMENT FROM DATABASE HERE
-            // deleteAnnouncement(???);
-            
+            deleteAnnouncement(ctl);
+            getAnnouncements("announcements");
             // delete the announcement from announcement table
             $(ctl).parents("tr").remove();
         }

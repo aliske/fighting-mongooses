@@ -4,10 +4,9 @@ const data = await fetch(`${ROOT_URI}/api/announcements/${id}`, {
 })
   .then(resp => { 
     if (resp.status === 200) {
-      displayAlert('record deleted successfully', 'alert-success')
-      getUsers()
+      alert('record deleted successfully')
     }
     else
-    displayAlert(data.msg, 'alert-danger');
+    alert(data.msg);
   })
 }
