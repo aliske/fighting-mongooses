@@ -39,6 +39,6 @@ CREATE TABLE IF NOT EXISTS images(
 	author INT,
 	filename VARCHAR(100),
 	file BLOB,
-	cdate DEFAULT CURRENT_TIMESTAMP,
+	cdate DATETIME DEFAULT CURRENT_TIMESTAMP,
 	key(id)
 );

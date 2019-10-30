@@ -19,10 +19,9 @@ const data = await fetch(`${ROOT_URI}/api/announcements`, {
 })
 .then(resp => { 
   if (resp.status === 200) {
-    displayAlert('record inserted successfully', 'alert-success')
-    getUsers()
+    alert('record inserted successfully')
   }
   else 
-    displayAlert(data.msg, 'alert-danger');
+    alert(data.msg);
 })
 }
