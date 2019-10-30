@@ -66,14 +66,13 @@ router.patch('/:id', async (req, res) => {
   // set update values
   let title = req.body['title'] || row.title
   let announcement = req.body['announcement'] || row.announcement
-  let author = req.body['author'] || row.author
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
     UPDATE announcements
-    SET title=?, announcement=?, author=?
-    WHERE id=?`, [title, announcement, author, id]);
+    SET title=?, announcement=? 
+    WHERE id=?`, [title, announcement, id]);
 
 
   if (rows.affectedRows > 0)
@@ -91,7 +90,7 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json({'msg': 'Please provide a valid ID to delete'})
 
 
-  db_functions.query(`DELETE FROM ${users_table_name} WHERE id=${id}`)
+  db_functions.query(`DELETE FROM announcements WHERE id=${id}`)
     .then(resp => {
       if (resp.affectedRows > 0)
         res.json({'msg':'Announcement has been deleted'})
