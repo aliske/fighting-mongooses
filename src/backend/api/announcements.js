@@ -3,36 +3,44 @@ const express = require('express')
 const router = express.Router()
 
 
-const users_table_name = 'users_TEST'
+const announcements_table_name = 'announcements'
 
 
 
-// get all users
+// get all announcements, with optional LIMIT and OFFSET
 router.get('/', (req, res) => {
-  db_functions.query(`SELECT * FROM ${users_table_name}`)
-    .then(resp => { res.json(resp) })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+  var query = `SELECT * FROM announcements`
+  //if(req.query.limit !== "undefined")
+  //{
+  //  query = query + ' LIMIT ' + req.query.limit
+  //  if(req.query.offset !== "undefined")
+  //  {
+  //    query = query + ' OFFSET ' + req.query.offset
+  //  }
+  //}
+    db_functions.query(query)
+      .then(resp => { res.json(resp) })
+      .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
-// get individual user
+// get individual announcement
 router.get('/:id', (req, res) => {
   const id = req.params['id']
-  db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  db_functions.query(`SELECT * FROM ${announcements_table_name} WHERE id=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
 
 
-// insert user
+// insert announcement
 router.post('/', async (req, res) => {
   // param name, default value
-  let name = req.body['name'] || null;
-  let age = req.body['age'] || null;
-  let bio = req.body['bio'] || null;
+  let title = req.body['title'] || null;
+  let announcement = req.body['announcement'] || null;
+  let author = req.body['author'] || 1;
 
-
-  const [rows, fields] = await db_functions.execute('INSERT INTO users_TEST (name, age, bio) VALUES (?, ?, ?)', [name, age, bio]);
+  const [rows, fields] = await db_functions.execute('INSERT INTO announcements(title, announcement, author) VALUES (?, ?, ?)', [title, announcement, author]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
@@ -43,7 +51,7 @@ router.post('/', async (req, res) => {
 // .patch   == update
 
 
-// insert user
+// update announcement
 router.patch('/:id', async (req, res) => {
   // param name, default value
   const id = req.params['id']
@@ -51,31 +59,31 @@ router.patch('/:id', async (req, res) => {
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
-  const row = await db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  const row = await db_functions.query(`SELECT * FROM ${announcements_table_name} WHERE id=${id}`)
     .then(resp => { return resp[0] })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // set update values
-  let name = req.body['name'] || row.name
-  let age = req.body['age'] || row.age
-  let bio = req.body['bio'] || row.bio
+  let title = req.body['title'] || row.title
+  let announcement = req.body['announcement'] || row.announcement
+  let author = req.body['author'] || row.author
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
-    UPDATE users_TEST
-    SET name=?, age=?, bio=?
-    WHERE id=?`, [name, age, bio, id]);
+    UPDATE announcements
+    SET title=?, announcement=?, author=?
+    WHERE id=?`, [title, announcement, author, id]);
 
 
   if (rows.affectedRows > 0)
-    res.json({'msg': 'Your data has been updated.'})
+    res.json({'msg': 'Your announcement has been updated.'})
   else
     res.status(500).json({'msg': 'No update.'})
 })
 
 
-// delete user
+// delete announcement
 router.delete('/:id', async (req, res) => {
   // param name, default value
   const id = req.params['id']
@@ -86,9 +94,9 @@ router.delete('/:id', async (req, res) => {
   db_functions.query(`DELETE FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => {
       if (resp.affectedRows > 0)
-        res.json({'msg':'User has been deleted'})
+        res.json({'msg':'Announcement has been deleted'})
       else
-        res.json({'msg': 'User did not exist, could not delete'})
+        res.json({'msg': 'Announcement did not exist, could not delete'})
     })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
