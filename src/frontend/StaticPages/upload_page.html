@@ -16,8 +16,7 @@
 		body {
 		background-color:green;
 		}
-		id {
-		color:white}
+	
 	 </style>	
 	<script>
       function showImage() {
@@ -38,6 +37,11 @@
         }
     }
 
+	</script>
+	<script>
+	function upload_file() {
+	
+	}
 	</script>
 	<head>
 	   <title>file upload </title>
@@ -69,8 +73,11 @@
         <input type="file" size="75" id="impfile" accept=".jpg, .pdf, .img">
 		<br>
       </form>
-      <button onclick ="showImage()">Preview</button>
+      <button id ="preview_btn" onclick ="showImage()">Preview</button>
 	  <br>
 	  <object id="dispimage" height='500px' width='500px'></object>
+	  <div>
+        <button  id="file_submit_btn" onclick = "upload_file()">Submit File</button>
+      </div>
 	</body>
 </html>
