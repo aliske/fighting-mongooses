@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <!-- Fighting mongoose  file load  -->
   <head lang="en">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <meta charset="UTF-8">
-  <script language="JavaScript">
-      function showImage() {
-        document.getElementById('display').innerHTML = 
-                    document.getElementById("user_input").value;
-    }
-  </script>
+	<style>
+		h1 {
+		text-align:  center;
+		color:white;
+		}
+		h2 {
+		text-align:  left;
+		color:white;
+		}
+		body {
+		background-color:green
+		}
+	 </style>	
+	<script>
+		var dispFile = function(event) {
+			var output = document.getElementById('output');
+			output.src = URL.createObjectURL(event.target.files[0]);
+		};
+	</script>
 	<head>
 	   <title>file upload </title>
-
 	</head>
-	<body style="background-color:green;">>
+	<body>
         <form>
 		<h1>Upload forms to Bits and Bytes</h1>
-		<label>Choose a file to upload.</label>
-		<input type="file" target="_self" name="impfile" size="75" id="impfile" accept=".jpg, .pdf, .doc">
+		<hr class="half_horizontal_rule">
+		<h2>Choose a file to upload.</h2>
+		<input type="file" accept="image/*" size="75" onchange="dispFile(event)">
+		<br>
+		<img id="output" height="300" width="300"/>
       </form>
-        <button onclick ="showImage()">Submit</button>
+        <button>Submit</button>
 	</body>
 </html>
