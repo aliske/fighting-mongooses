@@ -9,7 +9,16 @@ And(/^I navigate to the image uploads page$/) do
 end
 
 When(/^I choose a file to upload$/) do
-  ImageUploadsPage.new.choose_image('/some/real/path')
+  ImageUploadsPage.new.choose_image('/users/cheard/fightingmongooses/fighting-mongooses/browser_tests/lib/forms/Photo_Release_Form.pdf')
+  x = 'x'
+end
+
+Then(/^I can preview the file$/) do
+  ImageUploadsPage.new do |page|
+    page.preview_image
+    expect(page.preview_viewer).to exist
+    sleep 5
+  end
 end
 
 And(/^I submit the file upload$/) do
