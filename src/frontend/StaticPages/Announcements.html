@@ -10,6 +10,11 @@
 
     <meta charset="UTF-8">
 
+    <!-- JavaScript imports -->
+    <script type="text/javascript" src="../js/insert_announcement.js"></script>
+    <script type="text/javascript" src="../js/delete_announcement.js"></script>
+    <script type="text/javascript" src="../js/get_announcements.js"></script>
+
     <!-- CSS things -->
     <style>
         body {
@@ -22,7 +27,7 @@
             background-color: white;
         }
 
-        .announcement-card-form {
+        .my-card-form {
             color: black;
         }
 
@@ -95,7 +100,7 @@
     <hr>
 
     <!-- Announcement form -->
-    <div class="announcement-card-form">
+    <div id="entry-form" class="my-card-form">
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
@@ -110,7 +115,7 @@
                             </label>
                             <input type="text"
                                 class="form-control"
-                                placeholder="Enter a title..."
+                                placeholder="Enter a title here."
                                 id="title"/>
                         </div>
                         <div class="form-group">
@@ -119,7 +124,7 @@
                                 Announcement
                             </label>
                             <textarea class="form-control"
-                                placeholder="Enter an announcement..."
+                                placeholder="Enter an announcement here."
                                 rows=5
                                 id="announcement">
                             </textarea>
@@ -131,6 +136,44 @@
                             onclick="submitAnnouncement()"
                             id="submit-btn">
                             Submit Announcement
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div hidden id="edit-card" class="card">
+                    <div class="card-header">
+                        <h3 class="my-card-title">Edit An Announcement</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="edit-title">
+                                New Announcement Title
+                            </label>
+                            <input type="text"
+                                class="form-control"
+                                placeholder="Enter the new title here."
+                                id="edit-title"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="edit-announcement">
+                                New Announcement
+                            </label>
+                            <textarea class="form-control"
+                                placeholder="Enter the new announcement here."
+                                rows=5
+                                id="edit-announcement">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button"
+                            class="btn btn-primary"
+                            onclick="editAnnouncement()"
+                            id="submit-btn">
+                            Change Announcement
                         </button>
                     </div>
                 </div>
@@ -151,7 +194,10 @@
 
     <!-- JavaScript things -->
     <script>
-        
+        // it would be nice to, at some point, refactor
+        // away this global variable once i get the hang
+        // of this better
+        var global_ctl = null;
 
         // returns the time and date as a string
         function timestamp() {
@@ -161,7 +207,12 @@
             return date + " at " + time;
         }
 
+        // submit an announcement that has been entered on the page
         function submitAnnouncement() {
+            
+            // INSERT ANNOUNCEMENT INTO DATABASE HERE
+            // insertAnnouncement();
+            
             // get title, message, and timestamp
             const title = $("#title").val();
             const mssg = $("#announcement").val();
@@ -174,12 +225,16 @@
                         "<td class='td-mssg'>" + mssg + "</td>" +
                         "<td class='td-time'>" + time + "</td>" +
                         "<td class='td-other'>" +
-                            "<button class='btn btn-primary' id='edit-btn' onclick='editAnnouncement()'>" +
+                            `<button class='btn btn-primary' 
+                                     id='edit-btn'
+                                     onclick='showEditCard(this)'>` +
                                 "Edit" +
                             "</button>" +
                         "</td>" +
                         "<td class='td-other'>" +
-                            "<button class='btn btn-primary' id='del-btn' onclick='deleteAnnouncement(this)'>" +
+                            `<button class='btn btn-primary'
+                                     id='del-btn'
+                                     onclick='removeAnnouncement(this)'>` +
                                 "Delete" +
                             "</button>" +
                         "</td>" +
@@ -193,11 +248,44 @@
             alert("Your announcement has been submitted.");
         }
 
-        function editAnnouncement() {
+        // "un-hides" the edit form, and stashes a
+        // reference to the row which will be edited
+        function showEditCard(ctl) {
+            const row = $(ctl).parents("tr");
+            const col = row.children("td");
+            
+            $("#edit-title").val($(col[1]).text());
+            $("#edit-announcement").val($(col[2]).text());
 
+            $("#edit-card").removeAttr("hidden");
+            global_ctl = ctl;
         }
 
-        function deleteAnnouncement(ctl) {
+        // edit an announcement that is displayed on the page
+        function editAnnouncement() {
+            // EDIT ANNOUNCEMENT IN DATABASE HERE
+            // ???(???);
+            
+            const row = $(global_ctl).parents("tr");
+            const col = row.children("td");
+
+            $(col[1]).text($("#edit-title").val());
+            $(col[2]).text($("#edit-announcement").val());
+
+            $("#edit-title").val("");
+            $("#edit-announcement").val("");
+
+            $("#edit-card").attr("hidden", "true");
+            alert("Your edit has been made.");
+        }
+
+        // delete an announcement that is displayed on the page
+        function removeAnnouncement(ctl) {
+            
+            // DELETE ANNOUNCEMENT FROM DATABASE HERE
+            // deleteAnnouncement(???);
+            
+            // delete the announcement from announcement table
             $(ctl).parents("tr").remove();
         }
     </script>
