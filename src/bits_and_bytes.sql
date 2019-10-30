@@ -30,3 +30,15 @@ CREATE TABLE IF NOT EXISTS users(
 	cdate DEFAULT CURRENT_TIMESTAMP,
 	key(id)
 );
+
+
+--This creates the file table, collecting the author, filename derived from the upload and the file storage as a blob.
+
+CREATE TABLE IF NOT EXISTS images(
+	id INT AUTO_INCREMENT UNIQUE,
+	author INT,
+	filename VARCHAR(100),
+	file BLOB,
+	cdate DEFAULT CURRENT_TIMESTAMP,
+	key(id)
+);
