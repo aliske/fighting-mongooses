@@ -16,7 +16,8 @@
 		body {
 		background-color:green;
 		}
-	 </style>	
+   </style>	
+   
 	<script>
       function showImage() {
         var preview = document.querySelector('#dispimage');
@@ -59,24 +60,29 @@
 			<li class="nav-item">
 			<a class="nav-link active" href="Announcements.html">Announcements</a>
 			</li>
-			
+
 			<li class="nav-item">
 			<a class="nav-link" href="upload_page.html">Uploads</a>
 			</li>
-
-		</ul>
-        <form>
-		<h1>Upload forms to Bits and Bytes</h1>
-		<hr class="half_horizontal_rule">
-		<h2>Choose a file to upload.</h2>
-        <input type="file" size="75" id="impfile" accept=".jpg, .pdf, .img">
-		<br>
+    </ul>
+    
+    <form method="POST" action="http://localhost:3000/api/storage/upload" enctype="multipart/form-data">
+        <h1>Upload forms to Bits and Bytes</h1>
+        <hr class="half_horizontal_rule">
+        <h2>Choose a file to upload.</h2>
+        <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img">
+        <input type="submit">
       </form>
-      <button id ="preview_btn" onclick ="showImage()">Preview</button>
-	  <br>
-	  <object id="dispimage" height='500px' width='500px'></object>
-	  <div>
-        <button  id="file_submit_btn" onclick = "upload_file()">Submit File</button>
-      </div>
+    <br>
+
+    <!-- Preview Content -->
+    <object id="dispimage" height='500px' width='500px'></object>
+
+
+    
+    <object data="https://storage.googleapis.com/fighting-mongooses-storage-dev/rtfm-red-team-field-manual.pdf" type="application/pdf">
+      <embed src="https://storage.googleapis.com/fighting-mongooses-storage-dev/rtfm-red-team-field-manual.pdf" type="application/pdf" />
+    </object>
+
 	</body>
 </html>
