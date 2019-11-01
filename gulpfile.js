@@ -7,8 +7,6 @@ var nodemon = require('gulp-nodemon');
 
 
 
-
-
 gulp.task('nodemon', function (cb) {
 
 	var started = false;
@@ -30,9 +28,10 @@ gulp.task('nodemon', function (cb) {
 gulp.task('browser-sync', gulp.series('nodemon', () => {
 	browserSync.init(null, {
 		proxy: "http://localhost:3000",
-        files: ["src/**/*.*"],
-        browser: "chrome",
-        port: 8080,
+    files: ["src/**/*.*"],
+    browser: "chrome",
+    port: 8080,
+    ghostMode: false
 	});
 }));
 
