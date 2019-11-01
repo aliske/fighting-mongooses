@@ -39,6 +39,8 @@ const users_routes = require('./backend/api/users')
 app.use('/api/users/', users_routes)
 const announcements_routes = require('./backend/api/announcements')
 app.use('/api/announcements/', announcements_routes)
+const storage_routes = require('./backend/api/storage')
+app.use('/api/storage/', storage_routes)
 
 
 // route to frontend static pages

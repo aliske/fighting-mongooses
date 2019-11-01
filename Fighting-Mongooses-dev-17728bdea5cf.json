@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fighting-mongooses-dev-256623",
+  "private_key_id": "17728bdea5cfe04052409d9059458d6bcbda77b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDndC5wz4vpTgTL\n7R7+GsDDSlm3p9McrQTv2SCJfe88ad4hh2jQYSAuoGrgRHLCG3c3NmafuOof3Zv4\neac+em8MK9XCTZzMroahTyWkuTr/xGYBtQJ7paSPrPmmpn9yqKMQzuv3hyC38omr\nBV7nh/oR0P1dVOU7ylwrMDPT76Xo+5YAhjULynUbQqTx42NPo9EsOIFXyRzO7Z8q\nlwpRLiq/RkpyUu0XOkOrFoEhN1n7wsGWN4FZ5ko1SIRBvQc9TiB4pnZLUWieomU0\nwTKFfrvsCuo18FbxPn2PR1Khm5i9lNJJ8wuKZZFiO06zdz4Dvm6m7MuHoOG1uqeG\nLLGe7w8NAgMBAAECggEAEImv5s4homA5fgO5pvDs7JdTrUh/0Gj5dRTX2xMlRLUQ\n0ub8wYTrGoHKWS9y3rU9MbQApbF+Axxf0GOK5G81n5JDQhCvHz3qLzz7RNeaZFuZ\naU5QeNrHVR/IL9TuPthXXHRYjnV4jEQ3e4GU/CiuYNcEv4Y5IepN5yUY0vAo8+ph\nTnDzoWckxg4fodq30aH8FAa39WcgijlHPdbPz/R26oEyRHr5/NNosDg0kwqGGQix\n3DwjL8cDG/Vt3npSuS796Gk/M/PVWU9XeHnP0+TR8BUMEpN3ztg/UfpgyMuQQ3to\n5EnTET0UA3BgNsW+5IG6z4qqzA2eHry6gmsemjjIGQKBgQD0a67//KMqfLTvEysS\nL2Hc9V5hNEWR7m5NybcKXpbubbDGz2sitSsrzW6F+3L+RQ6m8jNMrVDw0iln8KP+\ndyo8E0nuVRV8nl7gkcSRBX4ERk+ibjS0+3mQOP6q4lbgnTQ7MAIymSkAQr70Uk0O\nget+JoIGlwz0Jdozy/pWhG0ziQKBgQDyazzAIXdYHJWSjiH+6ZKCri17hkgpZaco\n3Mrcr3TCp7VfBqYbmrAQhQDCusZjFz8F6VKlYN64hqry8Alf1WUJ4+y9sLiF1Lyt\nD30j9KhlRFcM7C5cf/8A7GgvTW3asDOF1C9zdcXhhq3VY8cFaX1dlAfa5BA4tk2x\nrDHH3KtqZQKBgQCU0JOGLG2zyqXnAgaxVcQB4isKh+bryP3DwtL9L0Y5+PMuuM8E\nHMYiLzvhu4zyH12ia8isIMItPegT7sIKhsdiOGRFBezFKS+fD2Fc4rktJRoLTYot\nvwbutqTnqlM3Ar/wYXSVFgeOrxTQcOOVt6iH8C4ukP1EEV/fNYw/7PUH8QKBgQC4\nlesmKNVk5C8H7u332gZTNykuu2rLCrojpStaqsbvSSATgU6OClUx3vRbUjipTxQP\n/j+N6ZrtSq10Wk3pCOXsh/7F2YBHd1tLM1YIQMzQfx8Bmf0bNeMH4vrZuc2CDVTN\n/Gk9M1o/hXtr1pO+jTqGPKdWhv3LERVLymAFXQOw+QKBgQCkw4zLtO17F/O5fv08\nSEmRFKAuE7WyhV6dJaOjR2jT4Ybv79bHsDjo3qAE58mC+VtVKUHPYt3v+5Dc37WT\nqnZZ2rSJS86tIdjhh7rS4hbpN3zBpZcoBCBlDbbf6D9BMhGm11tBu6hlXU/FBUT4\n348Fj+/fYO4exJO1Qv7Ge1LTxg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "fighting-mongooses-dev-sa@fighting-mongooses-dev-256623.iam.gserviceaccount.com",
+  "client_id": "113891866525745893977",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fighting-mongooses-dev-sa%40fighting-mongooses-dev-256623.iam.gserviceaccount.com"
+}
