@@ -251,12 +251,15 @@
         }
         // delete an announcement that is displayed on the page
         function removeAnnouncement(ctl) {
-
-            // DELETE ANNOUNCEMENT FROM DATABASE HERE
-            deleteAnnouncement(ctl);
-            getAnnouncements("announcements");
-            // delete the announcement from announcement table
-            $(ctl).parents("tr").remove();
+            // get user confirmation before deleting
+            const conf = confirm("Delete the announcement?");
+            if (conf) {
+                // DELETE ANNOUNCEMENT FROM DATABASE HERE
+                deleteAnnouncement(ctl);
+                getAnnouncements("announcements");
+                // delete the announcement from announcement table
+                $(ctl).parents("tr").remove();
+            }
         }
     </script>
 
