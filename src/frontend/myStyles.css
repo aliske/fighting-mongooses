@@ -1,0 +1,23 @@
+
+		body {
+		background-color: #90ee90;
+		}
+		
+		div.bottom {
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		}
+		
+		img.center{
+		position: relative;
+		display: block;
+		margin-left:auto;
+		margin-right:auto;
+		
+		}
+		
+		li.navbarRight{
+		float: right;
+			
+		}
