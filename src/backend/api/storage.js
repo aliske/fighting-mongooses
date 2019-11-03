@@ -44,28 +44,31 @@ const multer = Multer({
     fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
   },
 });
+// router.use(multer.array())
 
 
-// get uploaded documents
-router.get('/', async (req, res) => {
-    // Lists files in the bucket
-    // possibly replace with SQL server
-    const [files] = await bucket.getFiles();
-    console.log(files);
 
+const files_table_name = 'files_TEST'
 
-    console.log('Files:');
-    files.forEach(file => {
-      console.log('https://storage.cloud.google.com/fighting-mongooses-storage-dev/' + file.name);
-    });
-
-
-    res.send('done')
-    // [END storage_list_files]
+// get all public files
+router.get('/public', (req, res) => {
+  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
 
-router.get('/view/:filename', util_functions.validate_user, async (req, res) => {
+// get my files
+router.get('/me', (req, res) => {
+  const user_id = 1 // TO DO: update user ID to use session.user.id
+
+  db_functions.query(`SELECT * FROM ${files_table_name} WHERE author = ${user_id}`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+// get file: works for pdfs
+router.get('/:filename', util_functions.validate_user_permissions, async (req, res) => {
   // TODO: validate input
   const filename = req.params['filename']
 
@@ -91,8 +94,20 @@ router.get('/view/:filename', util_functions.validate_user, async (req, res) => 
       res.send(url)
     });
   });
+})
+
+// get file: works for pdfs
+router.delete('/:filename', util_functions.validate_user_permissions, async (req, res) => {
+  // TODO: validate input
+  const filename = req.params['filename']
+
+
+  await bucket.file(filename).delete()
+    .then(() => { res.send('done') })
+    .err(err => { res.send('error') })
 
 })
+
 
 
 
@@ -103,37 +118,46 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
     res.status(400).send('No file uploaded.');
     return;
   }
-  // content-type
-  // application/pdf, image/jpeg, image/png
-  // application/octet-stream
-
 
   // Create a new blob in the bucket and upload the file data.
   const blob = bucket.file(req.file.originalname);
-
   const blobStream = blob.createWriteStream();
 
   blobStream.on('error', err => {
     next(err);
   });
 
-  blobStream.on('finish', () => {
+  blobStream.on('finish', async () => {
     // The public URL can be used to directly access the file via HTTP.
 
     const publicUrl = format(
       `https://storage.googleapis.com/${bucket.name}/${blob.name}`
     );
 
+    // update database
+    const author = 1; // TO DO: change to user logged in. session.user.id
+    const filename = req.file.originalname || null;
+    const file_url = publicUrl || null;
+    const filetype = filename.slice(filename.lastIndexOf('.'))
+    const public = req.body['public'] === 'true' ? 1 : 0;
+
+
     // make public
     // conditional if public image vs. private .pdf
-    blob.makePublic(function(err, apiResponse) {});
+    if (public === 1)
+      blob.makePublic(function(err, apiResponse) {});
+    // set metadata: content-type
+    // blob.setMetadata: (content-type: application/pdf, image/jpeg, image/png, application/octet-stream)
 
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, filename, file_url, filetype, public) VALUES (?, ?, ?, ?, ?)`, [author, filename, file_url, filetype, public]);
 
-    // storage image URL in SQL server
-    // + metadata
+    if (rows.insertId)
+      // res.status(200).json({'insertID': rows.insertId})
+      res.redirect('/StaticPages/upload_page.html')
+    else
+      res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 
-
-    res.status(200).send(publicUrl);
+    // res.status(200).send(publicUrl);
   });
 
   blobStream.end(req.file.buffer);

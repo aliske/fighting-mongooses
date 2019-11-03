@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- Fighting mongoose  file load  -->
+  <head lang="en">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="UTF-8">
+	<style>
+		h1 {
+		text-align:  center;
+		color:white;
+		}
+		h2 {
+		text-align:  left;
+		color:white;
+		}
+		body {
+		background-color:green;
+		}
+   </style>	
+   
+	<script>
+      function showImage() {
+        var preview = document.querySelector('#dispimage');
+        var file    = document.querySelector('#impfile').files[0];
+        var reader  = new FileReader();
+
+        reader.addEventListener("load", function () {
+          preview.data = reader.result;
+
+          // prints base64 to screen
+          // this reader.result value can be uploaded to db
+          console.log(reader.result)
+        }, false);
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+    }
+
+	</script>
+	<script>
+	function upload_file() {
+
+	}
+	</script>
+	<head>
+	   <title>file upload </title>
+	</head>
+	<body>
+	<ul class="nav">
+			
+			<li>
+			<img src="../Assets/Bits_and_Bytes_Logo.png" alt="Bits and Bytes Logo" height = 100px>
+			</li>
+			
+			<li class="nav-item">
+			<a class="nav-link active" href="../index.html">Home</a>
+			</li>
+			
+			<li class="nav-item">
+			<a class="nav-link active" href="Announcements.html">Announcements</a>
+			</li>
+
+			<li class="nav-item">
+			<a class="nav-link" href="upload_page.html">Uploads</a>
+			</li>
+    </ul>
+
+    <div class='container'>
+      <object height="800em" width="100%" data="https://storage.googleapis.com/fighting-mongooses-storage-dev/rtfm-red-team-field-manual.pdf" type="application/pdf">
+        <embed  height="800em" width="100%" src="https://storage.googleapis.com/fighting-mongooses-storage-dev/rtfm-red-team-field-manual.pdf" type="application/pdf" />
+      </object>
+    </div>
+    
+
+
+	</body>
+</html>
