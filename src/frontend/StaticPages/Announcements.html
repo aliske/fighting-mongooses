@@ -117,7 +117,7 @@
                                 for="announcement">
                                 Announcement
                             </label>
-                            <textarea class="form-control" placeholder="" rows=5 id="announcement">Enter an announcement here.</textarea>
+                            <textarea class="form-control" placeholder="Enter an announcement here." rows=5 id="announcement"></textarea>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -152,7 +152,7 @@
                                 for="edit-announcement">
                                 New Announcement
                             </label>
-                            <textarea class="form-control" placeholder="" rows=5 id="edit-announcement"></textarea>
+                            <textarea class="form-control" placeholder="Enter the new announcement here." rows=5 id="edit-announcement"></textarea>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -251,12 +251,15 @@
         }
         // delete an announcement that is displayed on the page
         function removeAnnouncement(ctl) {
-
-            // DELETE ANNOUNCEMENT FROM DATABASE HERE
-            deleteAnnouncement(ctl);
-            getAnnouncements("announcements");
-            // delete the announcement from announcement table
-            $(ctl).parents("tr").remove();
+            // get user confirmation before deleting
+            const conf = confirm("Delete the announcement?");
+            if (conf) {
+                // DELETE ANNOUNCEMENT FROM DATABASE HERE
+                deleteAnnouncement(ctl);
+                getAnnouncements("announcements");
+                // delete the announcement from announcement table
+                $(ctl).parents("tr").remove();
+            }
         }
     </script>
 
