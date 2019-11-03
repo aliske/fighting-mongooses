@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
 
+<!-- Don't forget to change title and add navbar links as needed -->
+
 	<head>
 		<meta charset="UTF-8">
 		<link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous>
-		<link rel="stylesheet" type="text/css" href="myStyles.css">
-		<title>Bits and Bytes Home</title>
+		<link rel="stylesheet" type="text/css" href="../myStyles.css">
+		<title>Bits and Bytes Template page</title>
 		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
 		<script type='text/javascript'>
-			$.get('Templates/Header.html',function(response){
+			// These are relative paths
+			$.get('Header.html',function(response){
 				$('#header').html(response);
 			});
-			$.get('Templates/Footer.html',function(response){
+			$.get('Footer.html',function(response){
 				$('#footer').html(response);
 			});
 		</script>
@@ -25,10 +28,10 @@
 			<div class="row">
 				<div class="col-md-12">
 
-					<h1>Home Page</h1>
-					<p>Welcome to the Bits and Bytes portal home page. Check back for future updates.</p>
+				<!-- This is where the body of the page goes -->
 
 				</div>
+
 			</div>
 
 			<div id="footer"></div>

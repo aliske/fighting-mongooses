@@ -18,257 +18,213 @@
     <script type="text/javascript" src="../js/delete_announcement.js"></script>
     <script type="text/javascript" src="../js/update_announcement.js"></script>
 
-
-    <!-- CSS things -->
-    <style>
-        .my-card-form {
-            color: black;
-        }
-        .my-card-title {
-            padding-top: 5px;
-        }
-        .form-label {
-            color: black;
-            font-weight: bold;
-        }
-        table {
-            width: 50%;
-        }
-        .td-title {
-            width: 20%;
-            border: 1px solid white;
-        }
-        .td-mssg {
-            width: 60%;
-            border: 1px solid white;
-        }
-        .td-time {
-            width: 18%;
-            border: 1px solid white;
-            text-align: center;
-        }
-        .td-other {
-            border: 1px solid white;
-        }
-    </style>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        $.get('../Templates/Header.html',function(response){
+            $('#header').html(response);
+        });
+        $.get('../Templates/Footer.html',function(response){
+            $('#footer').html(response);
+        });
+    </script>
 
     <title>Announcements Page</title>
 </head>
 
 <body onLoad='getAnnouncements("announcements")'>
+    <div class="container-fluid">
         <!-- Navigation bar -->
-        <ul class="nav">
-            <li>
-                <img src="../Assets/Bits_and_Bytes_Logo.png"
-                    alt="Bits and Bytes Logo"
-                    height = 100px>
-            </li>
+        <div id="header"></div>
 
-            <li class="nav-item">
-                <a class="nav-link active" href="../index.html">
-                    Home
-                </a>
-            </li>
+        <h1>Announcements</h1>
+        <hr>
 
-            <li class="nav-item">
-                <a class="nav-link active" href="Announcements.html">
-                    Announcements
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="upload_page.html">
-                    Uploads
-                </a>
-            </li>
-        </ul>
-
-    <h1>Announcements</h1>
-    <hr>
-
-    <!-- Announcement form -->
-    <div id="entry-form" class="my-card-form">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="my-card-title">Make An Announcement</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-label"
-                                for="title">
-                                Announcement Title
-                            </label>
-                            <input type="text"
-                                class="form-control"
-                                placeholder="Enter a title here."
-                                id="title"/>
+        <!-- Announcement form -->
+        <div id="entry-form" class="my-card-form">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="my-card-title">Make An Announcement</h3>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label"
-                                for="announcement">
-                                Announcement
-                            </label>
-                            <textarea class="form-control" placeholder="Enter an announcement here." rows=5 id="announcement"></textarea>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label"
+                                    for="title">
+                                    Announcement Title
+                                </label>
+                                <input type="text"
+                                    class="form-control"
+                                    placeholder="Enter a title here."
+                                    id="title"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"
+                                    for="announcement">
+                                    Announcement
+                                </label>
+                                <textarea class="form-control" placeholder="Enter an announcement here." rows=5 id="announcement"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button"
-                            class="btn btn-primary"
-                            onclick="submitAnnouncement()"
-                            id="submit-btn">
-                            Submit Announcement
-                        </button>
+                        <div class="card-footer">
+                            <button type="button"
+                                class="btn btn-primary"
+                                onclick="submitAnnouncement()"
+                                id="submit-btn">
+                                Submit Announcement
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div hidden id="edit-card" class="card">
-                    <div class="card-header">
-                        <h3 class="my-card-title">Edit An Announcement</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <input type=hidden id="edit-id">
-                            <label class="form-label"
-                                for="edit-title">
-                                New Announcement Title
-                            </label>
-                            <input type="text"
-                                class="form-control"
-                                placeholder="Enter the new title here."
-                                id="edit-title"/>
+                <div class="col-md-3">
+                    <div hidden id="edit-card" class="card">
+                        <div class="card-header">
+                            <h3 class="my-card-title">Edit An Announcement</h3>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label"
-                                for="edit-announcement">
-                                New Announcement
-                            </label>
-                            <textarea class="form-control" placeholder="Enter the new announcement here." rows=5 id="edit-announcement"></textarea>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type=hidden id="edit-id">
+                                <label class="form-label"
+                                    for="edit-title">
+                                    New Announcement Title
+                                </label>
+                                <input type="text"
+                                    class="form-control"
+                                    placeholder="Enter the new title here."
+                                    id="edit-title"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"
+                                    for="edit-announcement">
+                                    New Announcement
+                                </label>
+                                <textarea class="form-control" placeholder="Enter the new announcement here." rows=5 id="edit-announcement"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button"
-                            class="btn btn-primary"
-                            onclick="editAnnouncement()"
-                            id="edit-submit-btn">
-                            Change Announcement
-                        </button>
+                        <div class="card-footer">
+                            <button type="button"
+                                class="btn btn-primary"
+                                onclick="editAnnouncement()"
+                                id="edit-submit-btn">
+                                Change Announcement
+                            </button>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <br>
+        <br>
 
-    <!-- Announcement table -->
-    <h3>Announcements:</h3>
-    <table id="announcement-table">
+        <!-- Announcement table -->
+        <h3>Announcements:</h3>
+        <table id="announcement-table">
 
-        <thead>
-            <tr>
-                <th>
+            <thead>
+                <tr>
+                    <th>
 
-                </th>
-                <th>
-                    Title
-                </th>
-                <th>
-                    Announcement
-                </th>
-                <th>
-                    Timestamp
-                </th>
-                <th colspan=2>
-                    Management
-                </th>
-        </thead>
-        <tbody id="announcement-tbody">
-        </tbody>
-    </table>
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Announcement
+                    </th>
+                    <th>
+                        Timestamp
+                    </th>
+                    <th colspan=2>
+                        Management
+                    </th>
+            </thead>
+            <tbody id="announcement-tbody">
+            </tbody>
+        </table>
 
-    <!-- JavaScript things -->
-    <script>
-        // it would be nice to, at some point, refactor
-        // away this global variable once i get the hang
-        // of this better
-        var global_ctl = null;
-        // returns the time and date as a string
-        function timestamp() {
-            const now = new Date();
-            const time = now.toLocaleTimeString("en-US");
-            const date = now.toLocaleDateString("en-US");
-            return date + " at " + time;
-        }
-        // submit an announcement that has been entered on the page
-        function submitAnnouncement() {
+        <div id="footer"></div>
 
-            // INSERT ANNOUNCEMENT INTO DATABASE HERE
-            insertAnnouncement("announcements");
-            getAnnouncements("announcements");
-            // clear form areas
-            $("#title").val("");
-            $("#announcement").val("");
-
-        }
-
-
-        // "un-hides" the edit form, and stashes a
-        // reference to the row which will be edited
-        function showEditCard(ctl) {
-            const row = $(ctl).parents("tr");
-            const col = row.children("td");
-            $("#edit-id").val($(col[0]).text());
-            $("#edit-title").val($(col[1]).text());
-            $("#edit-announcement").val($(col[2]).text());
-            $("#edit-card").removeAttr("hidden");
-            global_ctl = ctl;
-        }
-        // edit an announcement that is displayed on the page
-        function editAnnouncement() {
-            // EDIT ANNOUNCEMENT IN DATABASE HERE
-            updateAnnouncement();
-
-            const row = $(global_ctl).parents("tr");
-            const col = row.children("td");
-            $(col[1]).text($("#edit-title").val());
-            $(col[2]).text($("#edit-announcement").val());
-            $("#edit-title").val("");
-            $("#edit-announcement").val("");
-            $("#edit-card").attr("hidden", "true");
-            // if(alert("Your edit has been made.")){}
-            // else window.location.reload();
-        }
-        // delete an announcement that is displayed on the page
-        function removeAnnouncement(ctl) {
-            // get user confirmation before deleting
-            const conf = confirm("Delete the announcement?");
-            if (conf) {
-                // DELETE ANNOUNCEMENT FROM DATABASE HERE
-                deleteAnnouncement(ctl);
-                getAnnouncements("announcements");
-                // delete the announcement from announcement table
-                $(ctl).parents("tr").remove();
+        <!-- JavaScript things -->
+        <script>
+            // it would be nice to, at some point, refactor
+            // away this global variable once i get the hang
+            // of this better
+            var global_ctl = null;
+            // returns the time and date as a string
+            function timestamp() {
+                const now = new Date();
+                const time = now.toLocaleTimeString("en-US");
+                const date = now.toLocaleDateString("en-US");
+                return date + " at " + time;
             }
-        }
-    </script>
+            // submit an announcement that has been entered on the page
+            function submitAnnouncement() {
 
-    <!-- jQuery things -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous">
-    </script>
+                // INSERT ANNOUNCEMENT INTO DATABASE HERE
+                insertAnnouncement("announcements");
+                getAnnouncements("announcements");
+                // clear form areas
+                $("#title").val("");
+                $("#announcement").val("");
+
+            }
+
+
+            // "un-hides" the edit form, and stashes a
+            // reference to the row which will be edited
+            function showEditCard(ctl) {
+                const row = $(ctl).parents("tr");
+                const col = row.children("td");
+                $("#edit-id").val($(col[0]).text());
+                $("#edit-title").val($(col[1]).text());
+                $("#edit-announcement").val($(col[2]).text());
+                $("#edit-card").removeAttr("hidden");
+                global_ctl = ctl;
+            }
+            // edit an announcement that is displayed on the page
+            function editAnnouncement() {
+                // EDIT ANNOUNCEMENT IN DATABASE HERE
+                updateAnnouncement();
+
+                const row = $(global_ctl).parents("tr");
+                const col = row.children("td");
+                $(col[1]).text($("#edit-title").val());
+                $(col[2]).text($("#edit-announcement").val());
+                $("#edit-title").val("");
+                $("#edit-announcement").val("");
+                $("#edit-card").attr("hidden", "true");
+                // if(alert("Your edit has been made.")){}
+                // else window.location.reload();
+            }
+            // delete an announcement that is displayed on the page
+            function removeAnnouncement(ctl) {
+                // get user confirmation before deleting
+                const conf = confirm("Delete the announcement?");
+                if (conf) {
+                    // DELETE ANNOUNCEMENT FROM DATABASE HERE
+                    deleteAnnouncement(ctl);
+                    getAnnouncements("announcements");
+                    // delete the announcement from announcement table
+                    $(ctl).parents("tr").remove();
+                }
+            }
+        </script>
+
+        <!-- jQuery things -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous">
+        </script>
+    </div>
 </body>
 
 </html>
