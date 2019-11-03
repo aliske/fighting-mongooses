@@ -41,7 +41,11 @@ async function getUploads(public = true) {
       return `<td>${row[header.internal_name] || ''}</td>` 
     }).join('')
 
-    return `<tr>${row_data}<td class='delete-icon' onclick='deleteAnnouncement(${row['id']})'>&times;</td></tr>`
+    return `
+    <tr>${row_data}
+      <td class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#fileModal" onclick='viewUpload("${row['file_url']}", "${row['filetype']}")'>View</td>
+      <td class='delete-icon' onclick='deleteUpload(${row['id']})'>&times;</td>
+    </tr>`
   }).join('') 
 
   console.log(data_HTML)
@@ -49,4 +53,11 @@ async function getUploads(public = true) {
 
   $('#uploads-table').html(headers_HTML + data_HTML)
   
+}
+
+
+
+
+function deleteUpload(id) {
+  alert(id)
 }
