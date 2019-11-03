@@ -2,7 +2,6 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const fs = require('fs')
 const app = express()
 const port = process.env.PORT || 3000
 require('dotenv').config()
@@ -40,6 +39,8 @@ const users_routes = require('./backend/api/users')
 app.use('/api/users/', users_routes)
 const announcements_routes = require('./backend/api/announcements')
 app.use('/api/announcements/', announcements_routes)
+const storage_routes = require('./backend/api/storage')
+app.use('/api/storage/', storage_routes)
 
 
 // route to frontend static pages

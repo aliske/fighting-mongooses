@@ -15,6 +15,7 @@
     "gulp-nodemon": "^2.4.2"
   },
   "dependencies": {
+    "@google-cloud/storage": "^4.0.1",
     "body-parser": "^1.19.0",
     "connect-pg-simple": "^6.0.1",
     "cookie-parser": "^1.4.4",
@@ -25,6 +26,8 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.1.1",
     "fs": "0.0.1-security",
-    "mysql2": "^1.7.0"
+    "multer": "^1.4.2",
+    "mysql2": "^1.7.0",
+    "request": "^2.88.0"
   }
 }
