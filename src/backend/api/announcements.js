@@ -11,7 +11,7 @@ function encodeHTML(s) {
 
 // get all announcements, with optional LIMIT and OFFSET
 router.get('/', (req, res) => {
-  var query = `SELECT * FROM announcements`
+  var query = `SELECT * FROM announcements ORDER BY id DESC`
   //if(req.query.limit !== "undefined")
   //{
   //  query = query + ' LIMIT ' + req.query.limit
