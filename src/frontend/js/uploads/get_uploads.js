@@ -44,7 +44,7 @@ async function getUploads(public = true) {
     return `
     <tr>${row_data}
       <td>
-        <button class='btn btn-secondary btn-sm' onclick='viewUpload("${row['uuid']}", "${row['filetype']}", "${row['isPublic'].data[0]}")'>
+        <button class='btn btn-secondary btn-sm' onclick='viewUpload("${row['uuid']}", "${row['filename']}", "${row['filetype']}", "${row['isPublic'].data[0]}")'>
           View
         </button>
       </td>

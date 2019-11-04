@@ -20,17 +20,13 @@
 
 	<script>
       function showImage() {
-        var preview = document.querySelector('#dispimage');
         var file    = document.querySelector('#impfile').files[0];
         var reader  = new FileReader();
 
         reader.addEventListener("load", function () {
-          preview.data = reader.result;
-          preview.style.height = '500px'
-          preview.style.width = '100%'
-
           // prints base64 to screen
           // this reader.result value can be uploaded to db
+          setModal('[Preview] ' + file.name, reader.result, file.type)
           console.log(reader.result)
         }, false);
 
@@ -39,8 +35,26 @@
         }
     }
 
+    function setModal(title, url, filetype) {
+      // remove old modal content and create new one
+      // must do this for .pdf as the #document gets stale and immutable
+      const obj = document.createElement('object')
+      obj.id = 'modal-image'
+      obj.style.minHeight = '40em'
+      obj.style.height = '100%'
+      obj.style.width = '100%'
+      obj.data = url
+      obj.type = filetype
 
-    async function viewUpload(file_uuid, filetype, isPublic) {
+      $('#modal-image').remove()
+      document.querySelector('.modal-body').appendChild(obj)
+      $('#fileModal').modal('show')
+
+      $('.modal-title').text(title) 
+    }
+
+
+    async function viewUpload(file_uuid, filename, filetype, isPublic) {
       let file_url
       if (isPublic === '1')
         file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
@@ -59,19 +73,8 @@
       console.log(isPublic)
 
       // update modal properties
-      // remove old modal content and create new one
-      // must do this for .pdf as the #document gets stale and immutable
       $('#modal-image').remove()
-
-      const obj = document.createElement('object')
-      obj.id = 'modal-image'
-      obj.style.minHeight = '40em'
-      obj.style.height = '100%'
-      obj.style.width = '100%'
-      obj.data = file_url
-      obj.type = filetype
-
-      document.querySelector('.modal-body').appendChild(obj)
+      setModal(filename, file_url, filetype)
       $('#fileModal').modal('show')
     }
 
@@ -128,7 +131,7 @@
 
         <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
-        <input class='btn btn-primary btn-large' type="submit">
+        <input class='btn btn-primary btn-lg' type="submit">
 
         <div class="form-check">
           <input class="form-check-input" type="radio" name="isPublic" id="publicRadios_true" value="true">
@@ -143,38 +146,25 @@
           </label>
         </div>
 
-        <button type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
+        <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
 
 
       </form>
     <br>
 
-    <!-- Preview Content -->
-    <object id="dispimage"></object>
-
-
-
 
     <hr>
-    <button type=button onclick='getUploads(true)'>public uploads</button>
-    <button type=button onclick='getUploads(false)'>My uploads</button>
+    <button class='btn btn-info' type=button onclick='getUploads(true)'>public uploads</button>
+    <button class='btn btn-info' type=button onclick='getUploads(false)'>My uploads</button>
     <table id='uploads-table'></table>
 
-
-
-
-
-      <!-- Button trigger modal
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
-      Launch demo modal
-    </button> -->
 
     <!-- Modal -->
     <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="fileModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="fileModalLabel"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
