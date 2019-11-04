@@ -59,9 +59,19 @@
       console.log(isPublic)
 
       // update modal properties
-      // $('#modal-image')[0].html()
-      $('#modal-image')[0].data = file_url
-      $('#modal-image')[0].type = filetype
+      // remove old modal content and create new one
+      // must do this for .pdf as the #document gets stale and immutable
+      $('#modal-image').remove()
+
+      const obj = document.createElement('object')
+      obj.id = 'modal-image'
+      obj.style.minHeight = '40em'
+      obj.style.height = '100%'
+      obj.style.width = '100%'
+      obj.data = file_url
+      obj.type = filetype
+
+      document.querySelector('.modal-body').appendChild(obj)
       $('#fileModal').modal('show')
     }
 
