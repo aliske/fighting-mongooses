@@ -40,10 +40,29 @@
     }
 
 
-    function viewUpload(file_url, filetype) {
+    async function viewUpload(file_uuid, filetype, isPublic) {
+      let file_url
+      if (isPublic === '1')
+        file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
+      else {
+        const data = await fetch(`${ROOT_URI}/api/storage/${file_uuid}`)
+          .then(resp => { return resp.json() })
+          .then(data => { return data })
+          .catch(err => alert('error'))
+
+        console.log(data.url)
+        file_url = data.url
+      }
+
+      console.log(file_uuid)
+      console.log(filetype)
+      console.log(isPublic)
+
       // update modal properties
+      // $('#modal-image')[0].html()
       $('#modal-image')[0].data = file_url
       $('#modal-image')[0].type = filetype
+      $('#fileModal').modal('show')
     }
 
 
@@ -102,13 +121,13 @@
         <input class='btn btn-primary btn-large' type="submit">
 
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="public" id="publicRadios_true" value="true">
+          <input class="form-check-input" type="radio" name="isPublic" id="publicRadios_true" value="true">
           <label class="form-check-label" for="publicRadios_true">
             public
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="public" id="publicRadios_false" value="false" checked>
+          <input class="form-check-input" type="radio" name="isPublic" id="publicRadios_false" value="false" checked>
           <label class="form-check-label" for="publicRadios_false">
             private
           </label>
@@ -142,7 +161,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="fileModalLabel">Modal title</h5>
@@ -150,8 +169,8 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-              <object id='modal-image' height="100%" width="100%" data='https://storage.googleapis.com/fighting-mongooses-storage-dev/oly_testwow_stage.jpg' type='image/jpeg'>
+          <div class="modal-body modal-lg">
+              <object id='modal-image' style='min-height: 40em' height='100%' width='100%' data='' type=''>
                 <!-- <embed  height="800em" width="100%" src="https://storage.googleapis.com/fighting-mongooses-storage-dev/oly_testwow_stage.jpg" type="image/jpeg" /> -->
               </object>
           </div>

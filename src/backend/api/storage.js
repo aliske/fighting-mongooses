@@ -52,7 +52,7 @@ const files_table_name = 'files_TEST'
 
 // get all public files
 router.get('/public', (req, res) => {
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
+  db_functions.query(`SELECT * FROM ${files_table_name} WHERE isPublic = 1`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -72,9 +72,13 @@ router.get('/:uuid', util_functions.validate_user_permissions, async (req, res) 
   // TODO: validate user
   const file_uuid = req.params['uuid']
 
+  // note, this may cause issues with timezones
+  const minutes_to_expire = 5
+  const exp_date = new Date((new Date()).getTime() + minutes_to_expire*60000)
+
   var config = {
     action: 'read',
-    expires: '03-17-2025' // TO DO: update expire date/time
+    expires: exp_date  // TO DO: update expire date/time
   };
 
 
@@ -88,9 +92,12 @@ router.get('/:uuid', util_functions.validate_user_permissions, async (req, res) 
 
     // The file is now available to read from this URL.
     request(url, function(err, resp) {
+      if (err) 
+        res.status(500).json({'msg': 'Internal Server Error'})
+
       // resp.statusCode = 200
       console.log(url)
-      res.send(url)
+      res.json({'url': url})
     });
   });
 })
@@ -125,7 +132,7 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
     const filetype = req.file.mimetype
     const filename = req.file.originalname || null;
     const file_url = publicUrl || null;
-    const public = req.body['public'] === 'true' ? 1 : 0;
+    const isPublic = req.body['isPublic'] === 'true' ? 1 : 0;
 
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
@@ -140,7 +147,7 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
     blob.setMetadata(metadata, function(err, apiResponse) {
       // make public
       // conditional if public image vs. private .pdf
-      if (public === 1)
+      if (isPublic === 1)
         blob.makePublic(function(err, apiResponse) {});
 
     });
@@ -148,7 +155,7 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
 
 
     // update database
-    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, uuid, filename, file_url, filetype, public) VALUES (?, ?, ?, ?, ?, ?)`, [author, file_uuid, filename, file_url, filetype, public]);
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, uuid, filename, file_url, filetype, isPublic) VALUES (?, ?, ?, ?, ?, ?)`, [author, file_uuid, filename, file_url, filetype, isPublic]);
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})

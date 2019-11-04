@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS files_TEST(
 	filename VARCHAR(100),
 	file_url VARCHAR(255),
   filetype VARCHAR(25),
-  public BIT NOT NULL,
+  isPublic BIT NOT NULL,
 	cdate DATETIME DEFAULT CURRENT_TIMESTAMP,
 	key(id)
 );

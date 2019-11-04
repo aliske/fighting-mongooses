@@ -24,7 +24,7 @@ async function getUploads(public = true) {
       'display_name': 'File URL'
     },
     {
-      'internal_name': 'public',
+      'internal_name': 'isPublic',
       'display_name': 'public?'
     },
     {
@@ -44,7 +44,7 @@ async function getUploads(public = true) {
     return `
     <tr>${row_data}
       <td>
-        <button class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#fileModal" onclick='viewUpload("${row['file_url']}", "${row['filetype']}")'>
+        <button class='btn btn-secondary btn-sm' onclick='viewUpload("${row['uuid']}", "${row['filetype']}", "${row['isPublic'].data[0]}")'>
           View
         </button>
       </td>
@@ -55,6 +55,7 @@ async function getUploads(public = true) {
       </td>
     </tr>`
   }).join('') 
+
 
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
