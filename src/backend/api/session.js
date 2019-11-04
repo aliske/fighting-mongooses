@@ -8,11 +8,14 @@ router = express.Router()
 
 
 function checkLogin(req, res, next) {
+  console.log(req.session)
+
     if (req.session.user != null) {
+      // you are logged in
         console.log("Session Set: " + req.session.user + " " + req.session.name + " " + req.session.type + " " + req.session.parent)
-        res.redirect('../../index.html');
+       next()
     } else {
-        next()
+      res.redirect('../../index.html');
     }    
 }
 

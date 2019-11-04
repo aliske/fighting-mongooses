@@ -33,6 +33,7 @@ gulp.task('browser-sync', gulp.series('nodemon', () => {
         files: ["src/**/*.*"],
         browser: "chrome",
         port: 8080,
+        ghostMode: false
 	});
 }));
 
