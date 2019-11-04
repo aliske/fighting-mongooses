@@ -2,7 +2,6 @@ const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
 
-
 const announcements_table_name = 'announcements'
 
 function encodeHTML(s) {

@@ -12,7 +12,7 @@
 const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
-
+const uuid = require('uuid4')
 
 // my variables
 const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
@@ -68,18 +68,17 @@ router.get('/me', (req, res) => {
 })
 
 // get file: works for pdfs
-router.get('/:filename', util_functions.validate_user_permissions, async (req, res) => {
-  // TODO: validate input
-  const filename = req.params['filename']
+router.get('/:uuid', util_functions.validate_user_permissions, async (req, res) => {
+  // TODO: validate user
+  const file_uuid = req.params['uuid']
 
   var config = {
     action: 'read',
-    expires: '03-17-2025'
+    expires: '03-17-2025' // TO DO: update expire date/time
   };
 
 
-  const file = await bucket.file(filename)
-  console.log(file.name)
+  const file = await bucket.file(file_uuid)
 
   file.getSignedUrl(config, function(err, url) {
     if (err) {
@@ -96,20 +95,6 @@ router.get('/:filename', util_functions.validate_user_permissions, async (req, r
   });
 })
 
-// get file: works for pdfs
-router.delete('/:filename', util_functions.validate_user_permissions, async (req, res) => {
-  // TODO: validate input
-  const filename = req.params['filename']
-
-
-  await bucket.file(filename).delete()
-    .then(() => { res.send('done') })
-    .err(err => { res.send('error') })
-
-})
-
-
-
 
 
 // Process the file upload and upload to Google Cloud Storage.
@@ -119,8 +104,9 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
     return;
   }
 
+  const file_uuid = uuid()
   // Create a new blob in the bucket and upload the file data.
-  const blob = bucket.file(req.file.originalname);
+  const blob = bucket.file(file_uuid) //.file(req.file.originalname);
   const blobStream = blob.createWriteStream();
 
   blobStream.on('error', err => {
@@ -136,20 +122,33 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
 
     // update database
     const author = 1; // TO DO: change to user logged in. session.user.id
+    const filetype = req.file.mimetype
     const filename = req.file.originalname || null;
     const file_url = publicUrl || null;
-    const filetype = filename.slice(filename.lastIndexOf('.'))
     const public = req.body['public'] === 'true' ? 1 : 0;
 
 
-    // make public
-    // conditional if public image vs. private .pdf
-    if (public === 1)
-      blob.makePublic(function(err, apiResponse) {});
-    // set metadata: content-type
-    // blob.setMetadata: (content-type: application/pdf, image/jpeg, image/png, application/octet-stream)
+    // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
+    var metadata = {
+      contentType: req.file.mimetype,
+      metadata: {
+        originalname: filename,
+        ownerID: author
+      }
+    };
 
-    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, filename, file_url, filetype, public) VALUES (?, ?, ?, ?, ?)`, [author, filename, file_url, filetype, public]);
+    blob.setMetadata(metadata, function(err, apiResponse) {
+      // make public
+      // conditional if public image vs. private .pdf
+      if (public === 1)
+        blob.makePublic(function(err, apiResponse) {});
+
+    });
+
+
+
+    // update database
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, uuid, filename, file_url, filetype, public) VALUES (?, ?, ?, ?, ?, ?)`, [author, file_uuid, filename, file_url, filetype, public]);
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})
@@ -163,6 +162,25 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
   blobStream.end(req.file.buffer);
 });
 
+
+
+// get file: works for pdfs
+router.delete('/:uuid', util_functions.validate_user_permissions, async (req, res) => {
+  // TODO: validate input
+  const user_id = 1 // TO DO: pull from session
+  const file_uuid = req.params['uuid']
+
+  console.log(`DELETE FROM ${files_table_name} WHERE author = ${user_id} AND uuid = ${file_uuid}`)
+
+  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE author = ? AND uuid = ?`, [user_id, file_uuid])
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+
+  await bucket.file(file_uuid).delete()
+    .then(() => { res.json({'msg': 'Complete'}) })
+    .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
+
+})
 
 
 

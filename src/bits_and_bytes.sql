@@ -47,9 +47,10 @@ CREATE TABLE IF NOT EXISTS images(
 CREATE TABLE IF NOT EXISTS files_TEST(
 	id INT AUTO_INCREMENT UNIQUE,
 	author INT,
+  uuid VARCHAR(36),
 	filename VARCHAR(100),
 	file_url VARCHAR(255),
-  filetype VARCHAR(10),
+  filetype VARCHAR(25),
   public BIT NOT NULL,
 	cdate DATETIME DEFAULT CURRENT_TIMESTAMP,
 	key(id)

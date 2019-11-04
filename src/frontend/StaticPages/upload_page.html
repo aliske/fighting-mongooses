@@ -17,7 +17,7 @@
 		background-color:green;
 		}
    </style>	
-   
+
 	<script>
       function showImage() {
         var preview = document.querySelector('#dispimage');
@@ -28,7 +28,7 @@
           preview.data = reader.result;
           preview.style.height = '500px'
           preview.style.width = '100%'
-          
+
           // prints base64 to screen
           // this reader.result value can be uploaded to db
           console.log(reader.result)
@@ -41,29 +41,9 @@
 
 
     function viewUpload(file_url, filetype) {
-      let contentType;
-      
-      switch(filetype) {
-        case ('.jpg' || '.jpeg'):
-          contentType = 'image/jpeg'
-          break;
-        case '.png':
-          contentType = 'image/png'
-          break;
-        case '.pdf':
-          contentType = 'application/pdf'
-          break;
-        default:
-          contentType = ''
-      }
-
-      console.log(file_url)
-      console.log(contentType)
-
-
+      // update modal properties
       $('#modal-image')[0].data = file_url
-      $('#modal-image')[0].type = contentType
-
+      $('#modal-image')[0].type = filetype
     }
 
   </script>
@@ -162,7 +142,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
