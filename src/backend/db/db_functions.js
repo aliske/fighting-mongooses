@@ -44,9 +44,6 @@ async function execute(sql, params) {
 
 
 module.exports = {
-  build_db: () => run_prebuilt_sql_query('build_TEST'),
-  seed_db: () => run_prebuilt_sql_query('seed_TEST'),
-  destroy_db: () => run_prebuilt_sql_query('destroy_TEST'),
   query: (sql) => query(sql),
   execute: (sql, params) => execute(sql, params)
 }

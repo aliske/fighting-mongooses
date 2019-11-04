@@ -2,6 +2,8 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 const fs = require('fs')
 const app = express()
 const port = process.env.PORT || 3000
@@ -15,6 +17,27 @@ app.use(cors())
 // parsers
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+
+var options = {
+    host: '104.155.184.169',
+    port: 3306,
+    user: 'app',
+    password: '#&sK@4w37tUgat',
+    database: 'db_bits_and_bytes'
+};
+ 
+var sessionStore = new MySQLStore(options);
+
+app.use(session({
+    key: 'bits_and_bytes',
+    secret: 'whoknowswhathtesecretshouldbeIsuredont',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
 
 
 // set headers
@@ -34,12 +57,12 @@ app.use(function(req, res, next) {
 
 
 // route to backend API
-const test_db_functions_routes = require('./backend/api/test_db_functions')
-app.use('/api/test_db_functions/', test_db_functions_routes)
 const users_routes = require('./backend/api/users')
 app.use('/api/users/', users_routes)
 const announcements_routes = require('./backend/api/announcements')
 app.use('/api/announcements/', announcements_routes)
+const session_routes = require('./backend/api/session')
+app.use('/api/session/', session_routes)
 
 
 // route to frontend static pages
