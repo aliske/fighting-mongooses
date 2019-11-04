@@ -33,7 +33,7 @@ async function getUploads(public = true) {
     }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
-  headers_HTML = `<tr>${headers_HTML}</tr>`
+  headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th></tr>`
 
   let data_HTML = data.map(row => {
     const row_data = headers.map(header => {
@@ -43,21 +43,35 @@ async function getUploads(public = true) {
 
     return `
     <tr>${row_data}
-      <td class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#fileModal" onclick='viewUpload("${row['file_url']}", "${row['filetype']}")'>View</td>
-      <td class='delete-icon' onclick='deleteUpload(${row['id']})'>&times;</td>
+      <td>
+        <button class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#fileModal" onclick='viewUpload("${row['file_url']}", "${row['filetype']}")'>
+          View
+        </button>
+      </td>
+      <td>
+        <button type=button class='btn btn-danger btn-sm' onclick='deleteUpload("${row['uuid']}")'>
+          Delete
+        </button>
+      </td>
     </tr>`
   }).join('') 
 
-  console.log(data_HTML)
-
-
   $('#uploads-table').html(headers_HTML + data_HTML)
-  
 }
 
 
 
-
-function deleteUpload(id) {
-  alert(id)
+async function deleteUpload(uuid){
+  const data = await fetch(`${ROOT_URI}/api/storage/${uuid}`, {
+    method: 'DELETE'
+  })
+    .then(resp => { 
+      if (resp.status === 200) {
+        displayAlert('record deleted successfully', 'alert-success')
+        getUploads()
+      }
+      else
+      displayAlert(data.msg, 'alert-danger');
+    })
 }
+

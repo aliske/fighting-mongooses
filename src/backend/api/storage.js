@@ -170,12 +170,11 @@ router.delete('/:uuid', util_functions.validate_user_permissions, async (req, re
   const user_id = 1 // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
-  console.log(`DELETE FROM ${files_table_name} WHERE author = ${user_id} AND uuid = ${file_uuid}`)
-
+  // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE author = ? AND uuid = ?`, [user_id, file_uuid])
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
-
+  // delete from Google cloud
   await bucket.file(file_uuid).delete()
     .then(() => { res.json({'msg': 'Complete'}) })
     .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
