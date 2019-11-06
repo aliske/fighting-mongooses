@@ -98,9 +98,7 @@
 
 
 
-	<head>
-    <title>file upload</title>
-  </head>
+
 
 
 	<body onLoad='getUploads(false)'>
@@ -113,26 +111,27 @@
           <h1>Upload forms to Bits and Bytes</h1>
           <hr class="half_horizontal_rule">
           <h2>Choose a file to upload.</h2>
+		  <div class="file_catagory">
+			<label for="file_cat"> Select what the file is for.</label>		 
+			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-perm">Permission Slip</label>
+			<label class="radio-inline"><input type="radio" name="file_cat" value="file-survey">Survey</label>
+			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-picture">Picture</label>	
+			<label class="radio-inline"><input type="radio" name="file_cat"  Value="file-other">Other</label>	
+		  </div>	
+          <div class="form-check">
+		    <label for "isPublic"> Is this file for Public or Private?</label>
+            <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_true" value="true">Public</label>
+			<Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_false" value="false">Private</label>
+          </div>
 
           <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
-          <input class='btn btn-primary btn-lg' type="submit">
+          <input class='btn btn-primary btn-lg' type="submit">  
 
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="isPublic" id="publicRadios_true" value="true">
-            <label class="form-check-label" for="publicRadios_true">
-              public
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="isPublic" id="publicRadios_false" value="false" checked>
-            <label class="form-check-label" for="publicRadios_false">
-              private
-            </label>
-          </div>
-
+ 
+<!--
           <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
-
+-->
 
         </form>
       <br>
