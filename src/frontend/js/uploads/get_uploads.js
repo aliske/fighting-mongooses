@@ -1,9 +1,9 @@
 async function getUploads(public = true) {
   let uri;
   if (public === true)
-    uri = `${ROOT_URI}/api/storage/public`
+    uri = `${ROOT_URI}/api/file/public`
   else 
-    uri = `${ROOT_URI}/api/storage/me`
+    uri = `${ROOT_URI}/api/file/me`
   // raw query
   const data = await fetch(uri)
                   .then(resp => { return resp.json() })
@@ -11,26 +11,26 @@ async function getUploads(public = true) {
 
 
   const headers = [
-  {
-      'internal_name': 'author',
+    {
+      'internal_name': 'user',
       'display_name': 'Author'
     },
     {
-      'internal_name': 'filename',
-      'display_name': 'Title'
+      'internal_name': 'uuid',
+      'display_name': 'uuid'
     },
+    // {
+    //   'internal_name': 'filename',
+    //   'display_name': 'Title'
+    // },
     {
-      'internal_name': 'file_url',
-      'display_name': 'File URL'
-    },
-    {
-      'internal_name': 'isPublic',
+      'internal_name': 'public',
       'display_name': 'public?'
-    },
-    {
-      'internal_name': 'cdate',
-      'display_name': 'Date'
     }
+    // {
+    //   'internal_name': 'cdate',
+    //   'display_name': 'Date'
+    // }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
   headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th></tr>`
@@ -44,7 +44,7 @@ async function getUploads(public = true) {
     return `
     <tr>${row_data}
       <td>
-        <button class='btn btn-secondary btn-sm' onclick='viewUpload("${row['uuid']}", "${row['filename']}", "${row['filetype']}", "${row['isPublic'].data[0]}")'>
+        <button class='btn btn-secondary btn-sm' onclick='viewUpload("${row['uuid']}", "${row['mimetype']}", "${row['public']}")'>
           View
         </button>
       </td>
@@ -63,7 +63,7 @@ async function getUploads(public = true) {
 
 
 async function deleteUpload(uuid){
-  const data = await fetch(`${ROOT_URI}/api/storage/${uuid}`, {
+  const data = await fetch(`${ROOT_URI}/api/file/${uuid}`, {
     method: 'DELETE'
   })
     .then(resp => { 

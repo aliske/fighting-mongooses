@@ -56,12 +56,12 @@
     }
 
 
-    async function viewUpload(file_uuid, filename, filetype, isPublic) {
+    async function viewUpload(file_uuid, filetype, isPublic) {
       let file_url
       if (isPublic === '1')
         file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
       else {
-        const data = await fetch(`${ROOT_URI}/api/storage/${file_uuid}`)
+        const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`)
           .then(resp => { return resp.json() })
           .then(data => { return data })
           .catch(err => alert('error'))
@@ -76,7 +76,7 @@
 
       // update modal properties
       $('#modal-image').remove()
-      setModal(filename, file_url, filetype)
+      setModal(file_uuid, file_url, filetype)
       $('#fileModal').modal('show')
     }
 
@@ -107,7 +107,7 @@
        <div id="header"></div>
 
 
-      <form method="POST" action="/api/storage/upload" enctype="multipart/form-data">
+      <form method="POST" action="/api/file/upload" enctype="multipart/form-data">
           <h1>Upload forms to Bits and Bytes</h1>
           <hr class="half_horizontal_rule">
           <h2>Choose a file to upload.</h2>

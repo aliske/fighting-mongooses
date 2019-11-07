@@ -70,8 +70,8 @@ const session_routes = require('./backend/api/session')
 app.use('/api/session/', session_routes)
 
 
-const storage_routes = require('./backend/api/storage')
-app.use('/api/storage/', storage_routes)
+const file_routes = require('./backend/api/file')
+app.use('/api/file/', file_routes)
 
 
 // route to frontend static pages

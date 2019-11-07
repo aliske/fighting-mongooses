@@ -32,6 +32,7 @@ CREATE TABLE `file` (
 
 CREATE TABLE `requiredfile` (
   `id` int(11) NOT NULL,
+  `uuid` varchar(64) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
   `title` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
