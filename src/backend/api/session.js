@@ -37,7 +37,7 @@ router.post('/login', function (req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
     console.log(username + " " + password)
-    var query = `SELECT * FROM users WHERE username='${username}' AND password=PASSWORD('${password}')`
+    var query = `SELECT * FROM user WHERE username='${username}' AND password=PASSWORD('${password}')`
     db_functions.query(query)
     .then(function(resp) {
         if(resp[0] != null)

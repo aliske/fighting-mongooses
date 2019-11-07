@@ -2,7 +2,7 @@ const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
 
-const announcements_table_name = 'announcements'
+const announcements_table_name = 'announcement'
 
 function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
   let announcement = encodeHTML(req.body['announcement']) || null;
   let author = req.body['author'] || 1;
 
-  const [rows, fields] = await db_functions.execute('INSERT INTO announcements(title, announcement, author) VALUES (?, ?, ?)', [title, announcement, author]);
+  const [rows, fields] = await db_functions.execute('INSERT INTO announcement(title, announcement, author) VALUES (?, ?, ?)', [title, announcement, author]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
@@ -71,7 +71,7 @@ router.patch('/:id', async (req, res) => {
 
   // update db
   const [rows, fields] = await db_functions.execute(`
-    UPDATE announcements
+    UPDATE announcement
     SET title=?, announcement=? 
     WHERE id=?`, [title, announcement, id]);
 
@@ -91,7 +91,7 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json({'msg': 'Please provide a valid ID to delete'})
 
 
-  db_functions.query(`DELETE FROM announcements WHERE id=${id}`)
+  db_functions.query(`DELETE FROM announcement WHERE id=${id}`)
     .then(resp => {
       if (resp.affectedRows > 0)
         res.json({'msg':'Announcement has been deleted'})
