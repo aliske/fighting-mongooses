@@ -48,11 +48,11 @@ const multer = Multer({
 
 
 
-const files_table_name = 'files_TEST'
+const files_table_name = 'file'
 
 // get all public files
 router.get('/public', (req, res) => {
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE isPublic = 1`)
+  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -62,7 +62,8 @@ router.get('/public', (req, res) => {
 router.get('/me', (req, res) => {
   const user_id = 1 // TO DO: update user ID to use session.user.id
 
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE author = ${user_id}`)
+
+  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -71,6 +72,7 @@ router.get('/me', (req, res) => {
 router.get('/:uuid', util_functions.validate_user_permissions, async (req, res) => {
   // TODO: validate user
   const file_uuid = req.params['uuid']
+
 
   // note, this may cause issues with timezones
   const minutes_to_expire = 5
@@ -128,11 +130,11 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
     );
 
     // update database
-    const author = 1; // TO DO: change to user logged in. session.user.id
-    const filetype = req.file.mimetype
+    const user = 1; // TO DO: change to user logged in. session.user.id
+    const mimetype = req.file.mimetype
     const filename = req.file.originalname || null;
-    const file_url = publicUrl || null;
-    const isPublic = req.body['isPublic'] === 'true' ? 1 : 0;
+    const public = req.body['isPublic'] === 'true' ? 1 : 0;
+    const requiredFile = 1
 
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
@@ -140,14 +142,14 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
       contentType: req.file.mimetype,
       metadata: {
         originalname: filename,
-        ownerID: author
+        ownerID: user
       }
     };
 
     blob.setMetadata(metadata, function(err, apiResponse) {
       // make public
       // conditional if public image vs. private .pdf
-      if (isPublic === 1)
+      if (public === 1)
         blob.makePublic(function(err, apiResponse) {});
 
     });
@@ -155,7 +157,7 @@ router.post('/upload', multer.single('file'), (req, res, next) => {
 
 
     // update database
-    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(author, uuid, filename, file_url, filetype, isPublic) VALUES (?, ?, ?, ?, ?, ?)`, [author, file_uuid, filename, file_url, filetype, isPublic]);
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(user, uuid, public, requiredfile, mimetype) VALUES (?, ?, ?, ?, ?)`, [user, file_uuid, public, requiredFile, mimetype]);
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})
@@ -178,7 +180,7 @@ router.delete('/:uuid', util_functions.validate_user_permissions, async (req, re
   const file_uuid = req.params['uuid']
 
   // delete from db
-  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE author = ? AND uuid = ?`, [user_id, file_uuid])
+  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // delete from Google cloud
