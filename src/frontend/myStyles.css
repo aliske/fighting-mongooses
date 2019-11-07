@@ -1,82 +1,84 @@
 
-		body {
-			background-color: #90ee90;
-		}
-		
-		div.bottom {
+body {
+	background-color: #90ee90;
+}
 
-			width: 100%;
-			position: absolute;
-			bottom: 0;
-		}
-		
-		img.center{
+div.bottom {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
 
-			position: relative;
-			display: block;
-			margin-left:auto;
-			margin-right:auto;
-		
-		}
-		
-		li.navbarRight{
+img.center{
+	position: relative;
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
 
-			float: right;
-			
-		}
+}
 
-		.my-card-form {
-			color: black;
-		}
+li.navbarRight{
+	float: right;
+}
 
-		.my-card-title {
-			padding-top: 5px;
-		}
+.my-card-form {
+	color: black;
+}
 
-		.form-label {
-			color: black;
-			font-weight: bold;
-		}
+.my-card-title {
+	padding-top: 5px;
+}
 
-		table {
-			width: 50%;
-		}
+.form-label {
+	color: black;
+	font-weight: bold;
+}
 
-		.td-title {
-			width: 20%;
-			border: 1px solid white;
-		}
+table {
+	width: 50%;
+}
 
-		.td-mssg {
-			width: 60%;
-			border: 1px solid white;
-		}
+.td-title {
+	width: 20%;
+	border: 1px solid white;
+}
 
-		.td-time {
-			width: 18%;
-			border: 1px solid white;
-			text-align: center;
-		}
+.td-mssg {
+	width: 60%;
+	border: 1px solid white;
+}
 
-		.td-other {
-			border: 1px solid white;
-		}
+.td-time {
+	width: 18%;
+	border: 1px solid white;
+	text-align: center;
+}
 
-		.center {
+.td-other {
+	border: 1px solid white;
+}
 
-			position: relative;
-			text-align: center;
-			margin-left: auto;
-			margin-right: auto;
+.center {
+	position: relative;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
 
-		}
-		td.left-align {
+td.left-align {
+	text-align: left;
+}
 
-			text-align: left;
+td.right-align {
+	text-align: left;
+}
 
-		}
-		td.right-align {
-
-			text-align: left;
-
-		}
+.footer-style {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #cccccc;
+	border: 5px solid #aaaaaa;
+}
