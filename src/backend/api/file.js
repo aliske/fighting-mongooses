@@ -183,8 +183,6 @@ router.delete('/:uuid', util_functions.checkLogin, async (req, res) => {
   const user_id = req.session.user // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
-  console.log(user_id)
-
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
