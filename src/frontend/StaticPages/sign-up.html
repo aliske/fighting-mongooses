@@ -26,21 +26,47 @@
 	</head>
 	
 	<script>
+		
+		var canSignUp = false;
 		function passwordCheck() {
-			var password = document.getElementById("password").value;
+			var password = document.getElementById("password-sign-up").value;
 			var passwordConfirm = document.getElementById("passwordConfirmation").value;
-			if(password != passwordConfirm) {
+			
+			
+			if(password.length < 5 ) {
+				document.getElementById("passwordSimilarity").style.color = "red";
+				document.getElementById("passwordSimilarity").innerHTML = "Password must contain at least 5 characters.";
+				canSignUp = false;
+				
+			}
+			else if(password != passwordConfirm) {
 				document.getElementById("passwordSimilarity").style.color = "red";
 				document.getElementById("passwordSimilarity").innerHTML = "Password does not match.";
+				canSignUp = false;
+
 			}
 			else {
 				document.getElementById("passwordSimilarity").style.color = "green";
 				document.getElementById("passwordSimilarity").innerHTML = "Password matches.";
+				canSignUp = true;
 			}
 		
 		}
-	
-	
+		
+		function signUpAttempt() {
+			
+			if(canSignUp){
+				
+				<!-- add sign up functionality here -->
+				
+			}
+			else {
+				
+				alert("Password doesn't match or is not long enough, please input a valid password and try again");
+				
+			}
+		}
+		
 	
 	</script>
 	
@@ -89,7 +115,7 @@
 						<tr>
 						
 							<td class="left-align">Password:</td>
-							<td class="right-align"><input id="password" type="password" placeholder="Password"></td>
+							<td class="right-align"><input id="password-sign-up" type="password" placeholder="Password"></td>
 						
 						</tr>
 						
@@ -102,12 +128,14 @@
 						
 						<tr>
 						
-							<td colspan="2"><p id="passwordSimilarity"></p>
+							<td><p id="passwordSimilarity"></p></td>
+							<td><button id="sign-up-button" onclick="signUpAttempt()">Sign Up</button></td>
+							
+							
 						
 						</tr>
-							
-					
-				
+
+
 				
 					</table>
 			
