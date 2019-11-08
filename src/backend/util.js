@@ -12,3 +12,14 @@ module.exports.validate_user_permissions = (req, res, next) => {
   }
 }
 
+module.exports.checkLogin = (req, res, next) => {
+  //console.log(req.session)
+    console.log(req.session.user)
+
+    if (req.session.user != null) {
+      //res.json({'msg': req.session.name + ' Logged In'})
+      next()
+    } else {
+      res.json({'msg':'You are not logged in'})
+    }
+}

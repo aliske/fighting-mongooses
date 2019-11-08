@@ -5,9 +5,9 @@ async function getUploads(public = true) {
   else 
     uri = `${ROOT_URI}/api/file/me`
   // raw query
-  const data = await fetch(uri)
+  
+  const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
-
 
 
   const headers = [
@@ -64,7 +64,8 @@ async function getUploads(public = true) {
 
 async function deleteUpload(uuid){
   const data = await fetch(`${ROOT_URI}/api/file/${uuid}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   })
     .then(resp => { 
       if (resp.status === 200) {
@@ -72,7 +73,7 @@ async function deleteUpload(uuid){
         getUploads()
       }
       else
-      displayAlert(data.msg, 'alert-danger');
+        displayAlert(data.msg, 'alert-danger');
     })
 }
 

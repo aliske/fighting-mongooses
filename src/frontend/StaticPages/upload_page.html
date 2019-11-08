@@ -61,7 +61,7 @@
       if (isPublic === '1')
         file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
       else {
-        const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`)
+        const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
           .then(resp => { return resp.json() })
           .then(data => { return data })
           .catch(err => alert('error'))

@@ -48,64 +48,15 @@ const multer = Multer({
 
 
 
-const files_table_name = 'file'
+const files_table_name = 'requiredfile'
 
 // get all public files
-router.get('/public', (req, res) => {
+router.get('/', (req, res) => {
   db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
-
-// get my files
-router.get('/me', util_functions.checkLogin, (req, res) => {
-  const user_id = req.session.user // TO DO: update user ID to use session.user.id
-
-
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
-    .then(resp => { res.json(resp) })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
-
-// get file: works for pdfs
-router.get('/:uuid', util_functions.checkLogin, async (req, res) => {
-  // TODO: validate user
-  const file_uuid = req.params['uuid']
-
-  // validate user permissions....
-  // check DB if they are the user is the owner of this file OR is an admin
-
-
-  // note, this may cause issues with timezones
-  const minutes_to_expire = 5
-  const exp_date = new Date((new Date()).getTime() + minutes_to_expire*60000)
-
-  var config = {
-    action: 'read',
-    expires: exp_date  // TO DO: update expire date/time
-  };
-
-
-  const file = await bucket.file(file_uuid)
-
-  file.getSignedUrl(config, function(err, url) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    // The file is now available to read from this URL.
-    request(url, function(err, resp) {
-      if (err) 
-        res.status(500).json({'msg': 'Internal Server Error'})
-
-      // resp.statusCode = 200
-      console.log(url)
-      res.json({'url': url})
-    });
-  });
-})
 
 
 
@@ -177,13 +128,10 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
 
 
 // get file: works for pdfs
-// TO DO: allow admin delete?
-router.delete('/:uuid', util_functions.checkLogin, async (req, res) => {
+router.delete('/:uuid', util_functions.validate_user_permissions, async (req, res) => {
   // TODO: validate input
-  const user_id = req.session.user // TO DO: pull from session
+  const user_id = 1 // TO DO: pull from session
   const file_uuid = req.params['uuid']
-
-  console.log(user_id)
 
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
