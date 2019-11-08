@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-<!-- Fighting mongoose  file load  -->
 
 <head>
 	<meta charset="UTF-8">
@@ -11,6 +10,7 @@
 	<link rel="shortcut icon" type="image/ico" href="../Assets/Bits_and_Bytes_Logo.ico" />
 
 	<title>Form Upload</title>
+
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
 	<script type='text/javascript'>
 		$.get('../Templates/Header.html', function (response) {
@@ -20,6 +20,7 @@
 			$('#footer').html(response);
 		});
 	</script>
+
 	<script>
 		function ParentformSubmit() {
 			document.forms["Parent_form"].submit();
@@ -28,10 +29,10 @@
 </head>
 
 <body>
+	<!-- Insert the header. -->
+	<div class="header-style" id="header"></div>
+
 	<div class="container-fluid">
-
-		<div id="header"></div>
-
 		<h1>Register</h1>
 		<p>Please fill in this form to Register as a Parent</p>
 
@@ -47,12 +48,9 @@
 		</form>
 	</div>
 
+	<!-- Insert the footer. -->
+	<footer id="footer"></footer>
 
-	</form>
-
-
-	<div class="footer-style" id="footer"></div>
-	</div>
 	<!-- jQuery things -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">

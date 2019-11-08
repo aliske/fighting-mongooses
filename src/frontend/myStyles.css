@@ -1,6 +1,27 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
 
+/* CSS FOR BODY TEMPLATE */
 body {
-	background-color: #90ee90;
+	background-image: linear-gradient(to top right, #90ee90, white);
+	margin-bottom: 120px;
+}
+
+/* CSS FOR FOOTER TEMPLATE */
+.footer {
+	/* Colors */
+	background-color: #f5f5f5;
+	border-top: 3px solid #555555;
+	/* Position */
+	position: absolute;
+	bottom: 0;
+	/* Size */
+	width: 100%;
+	height: 100px;
+	/* Content Spacing */
+	line-height: 100px;
 }
 
 div.bottom {
@@ -14,7 +35,6 @@ img.center{
 	display: block;
 	margin-left:auto;
 	margin-right:auto;
-
 }
 
 li.navbarRight{
@@ -79,6 +99,6 @@ td.right-align {
 	width: 100%;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	background-color: #cccccc;
-	border: 5px solid #aaaaaa;
+	background-color: #dddddd;
+	border: 5px solid #999999;
 }
