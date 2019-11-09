@@ -33,9 +33,11 @@
 </head>
 
 <body onLoad='getAnnouncements("announcements")'>
+
+    <!-- Insert the header. -->
+	<header id="header"></header>
+
     <div class="container-fluid">
-        <!-- Navigation bar -->
-        <div id="header"></div>
 
         <h1>Announcements</h1>
         <hr>
@@ -144,8 +146,6 @@
             </tbody>
         </table>
 
-        <div id="footer"></div>
-
         <!-- JavaScript things -->
         <script>
             // it would be nice to, at some point, refactor
@@ -226,6 +226,10 @@
                 crossorigin="anonymous">
         </script>
     </div>
+
+    <!-- Insert the footer. -->
+    <footer id="footer"></footer>
+
 </body>
 
 </html>

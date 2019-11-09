@@ -1,31 +1,32 @@
-<div class="row">
+<nav class="navbar navbar-expand-md navbar-light bg-light mb-4 nav-border no-padding">
+    <!-- Bits & Bytes logo. -->
+    <img class="bb-logo-img" src="../Assets/Bits_and_Bytes_Logo2.png" alt="Bits and Bytes Logo">
 
-    <div class="col-md-2">
-        <img src="../Assets/Bits_and_Bytes_Logo.png" alt="Bits and Bytes Logo" height = "100px">
-    </div>
+    <!-- Link list. -->
+    <ul class="navbar-nav mr-auto nav-links">
+        <!-- Homepage link. -->
+        <li class="nav-item">
+            <a class="nav-link nav-link-text text-dark" href="../index.html">Home</a>
+        </li>
 
-    <div class ="col-md-10">
-        <nav class="navbar navbar-default">
+        <!-- Announcements page link. -->
+        <li class="nav-item">
+            <a class="nav-link nav-link-text text-dark" href="../StaticPages/Announcements.html">Announcements</a>
+        </li>
 
-            <div class="container-fluid">
+        <!-- Uploads page link. -->
+        <li class="nav-item">
+            <a class="nav-link nav-link-text text-dark" href="../StaticPages/upload_page.html">Uploads</a>
+        </li>
+    </ul>
 
-                <ul class="nav ">
+    <!-- Login form. -->
+    <form class="form-inline mt-2 mt-md-0 nav-login-form">
+        <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username">
+        <input class="form-control mr-sm-2" type="text" placeholder="Password" aria-label="Password">
+        <button class="btn btn-dark my-2 my-sm-0" type="submit">Login</button>
+    </form>
 
-                    <li class="active nav-item"><a class="nav-link active" href="../index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="../StaticPages/Announcements.html">Announcements</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="../StaticPages/upload_page.html">Uploads</a></li>
-
-                </ul>
-
-                <ul class="nav navbar-right">
-
-                    <li><input id="username" name="username" placeholder="Username" type="text"></li>
-                    <li><input id="password" name="password" placeholder="Password" type="password"></li>
-                    <li><a class="btn navbar-btn" href='/StaticPages/login_form.html'>Login</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/StaticPages/sign-up.html">Sign Up</a></li>
-
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
+    <!-- Signup button. -->
+    <button class="btn btn-dark my-2 my-sm-0 nav-register-btn" type="submit">Register</button>
+</nav>
