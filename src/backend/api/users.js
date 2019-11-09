@@ -3,19 +3,34 @@ const express = require('express')
 const router = express.Router()
 
 
-const users_table_name = 'users_TEST'
-
+const users_table_name = 'user'
+const util_functions = require('../util');
 
 
 // get all users
-router.get('/', (req, res) => {
+router.get('/', util_functions.isAdmin, (req, res) => {
   db_functions.query(`SELECT * FROM ${users_table_name}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+
+
+
+// get my profile
+router.get('/me', util_functions.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
+
+  console.log(user_id)
+  db_functions.query(`SELECT id, username, type FROM ${users_table_name} WHERE id = ${user_id}`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+
 // get individual user
-router.get('/:id', (req, res) => {
+router.get('/:id', util_functions.isAdmin, (req, res) => {
   const id = req.params['id']
   db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
     .then(resp => { res.json(resp) })
@@ -25,7 +40,7 @@ router.get('/:id', (req, res) => {
 
 
 // insert user
-router.post('/', async (req, res) => {
+router.post('/', util_functions.isAdmin, async (req, res) => {
   // param name, default value
   let name = req.body['name'] || null;
   let age = req.body['age'] || null;
@@ -43,8 +58,8 @@ router.post('/', async (req, res) => {
 // .patch   == update
 
 
-// insert user
-router.patch('/:id', async (req, res) => {
+// edit user
+router.patch('/:id', util_functions.isAdmin,async (req, res) => {
   // param name, default value
   const id = req.params['id']
   if (!id)
@@ -76,7 +91,7 @@ router.patch('/:id', async (req, res) => {
 
 
 // delete user
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', util_functions.isAdmin, async (req, res) => {
   // param name, default value
   const id = req.params['id']
   if (!id)

@@ -7,6 +7,21 @@
 
   if (getCookie('type') === 'Admin')
     $('.admin-link').removeAttr('hidden')
+
+  // check if logged in
+  async function isLoggedIn() {
+    fetch('http://localhost:8080/api/users/me', { credentials: 'include' })
+    .then(resp => {
+      if (resp.status !== 200)
+        return false
+      else
+        return true
+    })
+
+  }
+
+  if (isLoggedIn()) 
+    // $('.hide-if-logged-in').attr('hidden', true)
 </script>
 
 
@@ -26,11 +41,11 @@
                     <li class="active nav-item"><a class="nav-link active" href="../index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="../StaticPages/Announcements.html">Announcements</a></li>
                     <li class="nav-item"><a class="nav-link active" href="../StaticPages/upload_page.html">Uploads</a></li>
-                    <li class="nav-item admin-link" hidden><a class="nav-link active" href="../StaticPages/required_files.html">Admin</a></li>
+                    <li class="nav-item admin-link" hidden><a class="nav-link active" href="../StaticPages/admin_required_files.html">Admin</a></li>
 
                 </ul>
 
-                <ul class="nav navbar-right">
+                <ul class="nav navbar-right hide-if-logged-in">
 
                     <li><input id="username" name="username" placeholder="Username" type="text"></li>
                     <li><input id="password" name="password" placeholder="Password" type="password"></li>

@@ -2,8 +2,9 @@ async function getUploads(public = true) {
   let uri;
   if (public === true)
     uri = `${ROOT_URI}/api/file/public`
-  else 
+  else
     uri = `${ROOT_URI}/api/file/me`
+
   // raw query
 
   populateRequiredFileDropdown()
