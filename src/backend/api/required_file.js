@@ -51,17 +51,42 @@ const multer = Multer({
 const files_table_name = 'requiredfile'
 
 // get all public files
-router.get('/', (req, res) => {
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
+router.get('/', util_functions.checkLogin, (req, res) => {
+  db_functions.query(`SELECT * FROM ${files_table_name}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
 
 
+// get my completed files
+router.get('/me', util_functions.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
+  console.log(user_id)
+  db_functions.query(`SELECT id, title
+    FROM requiredfile
+    WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+// get my not-complete files
+router.get('/me/todo', util_functions.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
+
+  db_functions.query(`SELECT id, title
+      FROM requiredfile
+      WHERE id NOT IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)
+          `)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, res, next) => {
+router.post('/upload', util_functions.isAdmin, multer.single('file'), (req, res, next) => {
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
@@ -86,17 +111,18 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
     // update database
     const user = req.session.user; // TO DO: change to user logged in. session.user.id
     const mimetype = req.file.mimetype
-    const filename = req.file.originalname || null;
-    const public = req.body['isPublic'] === 'true' ? 1 : 0;
-    const requiredFile = 1
+    const title = req.body['title'] || req.file.originalname
+    const description = req.body['description'] || ''
+    const public = 1
 
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
     var metadata = {
       contentType: req.file.mimetype,
       metadata: {
-        originalname: filename,
-        ownerID: user
+        type: 'requiredfile',
+        title: title,
+        description: description
       }
     };
 
@@ -111,11 +137,11 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
 
 
     // update database
-    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(user, uuid, public, requiredfile, mimetype) VALUES (?, ?, ?, ?, ?)`, [user, file_uuid, public, requiredFile, mimetype]);
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(uuid, title, description, mimetype) VALUES (?, ?, ?, ?)`, [file_uuid, title, description, mimetype]);
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})
-      res.redirect('/StaticPages/upload_page.html')
+      res.redirect('/StaticPages/admin_required_files.html')
     else
       res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 
@@ -128,13 +154,12 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
 
 
 // get file: works for pdfs
-router.delete('/:uuid', util_functions.validate_user_permissions, async (req, res) => {
+router.delete('/:uuid', util_functions.isAdmin, async (req, res) => {
   // TODO: validate input
-  const user_id = 1 // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
   // delete from db
-  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
+  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE uuid = ?`, [file_uuid])
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // delete from Google cloud

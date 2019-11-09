@@ -5,7 +5,9 @@ async function getUploads(public = true) {
   else 
     uri = `${ROOT_URI}/api/file/me`
   // raw query
-  
+
+  populateRequiredFileDropdown()
+
   const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
 
@@ -26,6 +28,10 @@ async function getUploads(public = true) {
     {
       'internal_name': 'public',
       'display_name': 'public?'
+    },
+    {
+      'internal_name': 'requiredfile',
+      'display_name': 'requiredfile'
     }
     // {
     //   'internal_name': 'cdate',

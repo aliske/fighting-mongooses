@@ -20,6 +20,18 @@ module.exports.checkLogin = (req, res, next) => {
       //res.json({'msg': req.session.name + ' Logged In'})
       next()
     } else {
-      res.json({'msg':'You are not logged in'})
+      res.status(502).json({'msg':'You are not logged in'})
+    }
+}
+
+
+module.exports.isAdmin = (req, res, next) => {
+  //console.log(req.session)
+
+    if (req.session.type === 'Admin') {
+      //res.json({'msg': req.session.name + ' Logged In'})
+      next()
+    } else {
+      res.status(502).json({'msg':'You are not logged in as an admin'})
     }
 }

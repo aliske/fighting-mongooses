@@ -46,11 +46,13 @@ router.post('/login', function (req, res, next) {
             req.session.name = resp[0].fname + " " + resp[0].lname
             req.session.type = resp[0].type
             req.session.parent = resp[0].parent
-            res.status(200).json({'msg': 'Logged In'})
+            // res.status(200).json({'msg': 'Logged In'})
+            res.cookie('type',req.session.type, { maxAge: 900000 });
+            res.redirect('/')
         }
         else
         {
-            res.end()
+            res.redirect('/StaticPages/login_form.html')
         }
     })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))

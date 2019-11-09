@@ -34,7 +34,8 @@ CREATE TABLE `requiredfile` (
   `id` int(11) NOT NULL,
   `uuid` varchar(64) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
-  `title` varchar(256) DEFAULT NULL
+  `title` varchar(256) DEFAULT NULL,
+  `mimetype` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `sessions` (

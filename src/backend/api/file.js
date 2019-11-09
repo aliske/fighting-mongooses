@@ -137,7 +137,7 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
     const mimetype = req.file.mimetype
     const filename = req.file.originalname || null;
     const public = req.body['isPublic'] === 'true' ? 1 : 0;
-    const requiredFile = 1
+    const requiredFile = req.body['requiredFile'] || null
 
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
