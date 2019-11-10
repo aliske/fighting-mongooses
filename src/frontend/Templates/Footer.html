@@ -1,6 +1,32 @@
-<div class="row">
+<footer class="footer">
+    <!-- Aspire IT logo link. -->
+    <a href="https://www.aspirations.org/aspireit">
+        <img class="footer-img" src="../Assets/aspire_it_logo2.png">
+    </a>
 
-    <div class="col-md-12">
-        <img class="center" src="../Assets/Bits_and_Bytes_Back_Shirt.png" alt="Bits and Bytes Shirt Back" height = 200px>
-    </div>
-</div>
+    <!-- Eastern Michigan logo link. -->
+    <a href="https://www.emich.edu/">
+        <img class="footer-img" src="../Assets/eastern_logo2.png">
+    </a>
+</footer>
+<script type="text/javascript" src="../js/root_uri.js"></script>
+<script type="text/javascript" src="../js/login.js"></script>
+<script>
+	$(document).ready(function(){
+		tryLogin();
+		$("body").on("click", "#login", function(e){
+			e.preventDefault();
+			$.ajax({
+				url: "../api/session/login",
+				type: "POST",
+				data: {username: $("#username").val(), password: $("#password").val()},
+        dataType: "JSON",
+			}).done(function(data){
+				tryLogin();
+			})
+		});
+		$("body").on("click", "#register", function(e){
+			window.location.href="../StaticPages/Registration.html"
+		});
+	});
+</script>

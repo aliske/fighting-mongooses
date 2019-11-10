@@ -1,82 +1,154 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
 
-		body {
-			background-color: #90ee90;
-		}
-		
-		div.bottom {
+.no-padding {
+	padding: 0px;
+	margin: 0px;
+}
 
-			width: 100%;
-			position: absolute;
-			bottom: 0;
-		}
-		
-		img.center{
+/* CSS FOR HEADER TEMPLATE */
+.header {
+	background-color: #f5f5f5;
+	border-bottom: 3px solid #555555;
+	width: 100%;
+	height: 100px;
+}
+.bb-logo-img {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 40px;
+	width: 160px;
+}
+.nav-border {
+	border-bottom: 3px solid #555555;
+}
+.nav-links {
+	padding-left: 40px;
+}
+.nav-link-text {
+	font-weight: bold;
+}
+.nav-login-form {
+	padding-right: 8px;
+}
+.nav-register-btn {
+	margin-right: 40px;
+}
 
-			position: relative;
-			display: block;
-			margin-left:auto;
-			margin-right:auto;
-		
-		}
-		
-		li.navbarRight{
+/* CSS FOR BODY TEMPLATE */
+body {
+	background-image: linear-gradient(to top right, #046535, white);
+	margin-bottom: 100px;
+}
 
-			float: right;
-			
-		}
+/* CSS FOR FOOTER TEMPLATE */
+.footer {
+	/* Colors */
+	background-color: #f8f9fa;
+	border-top: 3px solid #555555;
+	/* Position */
+	position: absolute;
+	bottom: 0;
+	/* Size */
+	width: 100%;
+	height: 100px;
+	/* Content Spacing */
+	line-height: 100px;
+}
+.footer-img {
+	width: 210px;
+	padding-left: 40px;
+}
 
-		.my-card-form {
-			color: black;
-		}
 
-		.my-card-title {
-			padding-top: 5px;
-		}
 
-		.form-label {
-			color: black;
-			font-weight: bold;
-		}
+.registration-card {
+	width: 400px;
+	margin: 0 auto;
+}
 
-		table {
-			width: 50%;
-		}
+.grade-btn {
+	background-color: #eeeeee;
+}
 
-		.td-title {
-			width: 20%;
-			border: 1px solid white;
-		}
+div.bottom {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
 
-		.td-mssg {
-			width: 60%;
-			border: 1px solid white;
-		}
+img.center{
+	position: relative;
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
+}
 
-		.td-time {
-			width: 18%;
-			border: 1px solid white;
-			text-align: center;
-		}
+li.navbarRight{
+	float: right;
+}
 
-		.td-other {
-			border: 1px solid white;
-		}
+.my-card-form {
+	color: black;
+}
 
-		.center {
+.my-card-title {
+	padding-top: 5px;
 
-			position: relative;
-			text-align: center;
-			margin-left: auto;
-			margin-right: auto;
+}
 
-		}
-		td.left-align {
+.form-label {
+	color: black;
+	font-weight: bold;
+}
 
-			text-align: left;
+table {
+	width: 50%;
+}
 
-		}
-		td.right-align {
+.td-title {
+	width: 20%;
+	border: 1px solid white;
+}
 
-			text-align: left;
+.td-mssg {
+	width: 60%;
+	border: 1px solid white;
+}
 
-		}
+.td-time {
+	width: 18%;
+	border: 1px solid white;
+	text-align: center;
+}
+
+.td-other {
+	border: 1px solid white;
+}
+
+.center {
+	position: relative;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.left-align {
+	text-align: left;
+}
+
+td.right-align {
+	text-align: left;
+}
+
+.footer-style {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #dddddd;
+	border: 5px solid #999999;
+}

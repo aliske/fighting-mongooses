@@ -5,7 +5,9 @@ db_functions = require('../db/db_functions')
 
 router = express.Router()
 
-
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
 
 function checkLogin(req, res, next) {
   //console.log(req.session)
@@ -23,7 +25,7 @@ router.get('/seeIfLoggedIn', checkLogin, function(req, res)
 {
     if(req.session.user)
     {
-        res.json({'msg': 'Logged In', 'user': req.session.user, 'name': req.session.name, 'type': req.session.type, 'parent': req.session.parent})
+        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.type, 'parent': req.session.parent})
     }
     else
     {
@@ -31,8 +33,7 @@ router.get('/seeIfLoggedIn', checkLogin, function(req, res)
     }
 })
 
-router.post('/login', function (req, res, next) {
-
+router.post('/login', function (req, res) {
     console.log("got here")
     let username = req.body.username;
     let password = req.body.password;
@@ -43,17 +44,31 @@ router.post('/login', function (req, res, next) {
         if(resp[0] != null)
         { 
             req.session.user = resp[0].id
-            req.session.name = resp[0].fname + " " + resp[0].lname
+            req.session.fname = resp[0].fname
+            req.session.lname = resp[0].lname
             req.session.type = resp[0].type
             req.session.parent = resp[0].parent
-            // res.status(200).json({'msg': 'Logged In'})
-            res.cookie('type',req.session.type, { maxAge: 900000 });
-            res.redirect('/')
+            res.status(200).json({'msg': 'Logged In'})
         }
         else
         {
-            res.redirect('/StaticPages/login_form.html')
+            res.end()
         }
+    })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+router.post('/register', function (req, res) {
+    let fname = encodeHTML(req.body.fname);
+    let lname = encodeHTML(req.body.lname);
+    let email = encodeHTML(req.body.email);
+    let type = encodeHTML(req.body.type);
+    let school = encodeHTML(req.body.school);
+    let grade = req.body.grade;
+    var query = `INSERT INTO user(username, password, fname, lname, email, type, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${school}','${grade}')`
+    db_functions.query(query)
+    .then(function(resp) {
+        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname})
     })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
