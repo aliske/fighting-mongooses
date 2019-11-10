@@ -17,7 +17,7 @@
 		$("body").on("click", "#login", function(e){
 			e.preventDefault();
 			$.ajax({
-				url: "api/session/login",
+				url: "../api/session/login",
 				type: "POST",
 				data: {username: $("#username").val(), password: $("#password").val()},
 				dataType: "JSON"

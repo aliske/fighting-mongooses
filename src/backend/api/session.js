@@ -62,9 +62,10 @@ router.post('/register', function (req, res) {
     let fname = encodeHTML(req.body.fname);
     let lname = encodeHTML(req.body.lname);
     let email = encodeHTML(req.body.email);
+    let type = encodeHTML(req.body.type);
     let school = encodeHTML(req.body.school);
     let grade = req.body.grade;
-    var query = `INSERT INTO user(username, password, fname, lname, email, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${school}','${grade}')`
+    var query = `INSERT INTO user(username, password, fname, lname, email, type, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${school}','${grade}')`
     db_functions.query(query)
     .then(function(resp) {
         res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname})
