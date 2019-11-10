@@ -1,67 +1,109 @@
 <!doctype html>
 <html lang="en">
-<!-- Fighting mongoose  file load  -->
 
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-			  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="../myStyles.css">
-		<link rel="shortcut icon" type="image/ico" href="../Assets/Bits_and_Bytes_Logo.ico"/>
-    <title>Form Upload</title>
-		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
-		<script type='text/javascript'>
-			$.get('../Templates/Header.html',function(response){
-				$('#header').html(response);
-			});
-			$.get('../Templates/Footer.html',function(response){
-				$('#footer').html(response);
-			});
-		</script>
-		<script>
-			function ParentformSubmit() {
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../myStyles.css">
+	<link rel="shortcut icon" type="image/ico" href="../Assets/Bits_and_Bytes_Logo.ico" />
+
+	<title>Form Upload</title>
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+	<script type='text/javascript'>
+		$.get('../Templates/Header.html', function (response) {
+			$('#header').html(response);
+		});
+		$.get('../Templates/Footer.html', function (response) {
+			$('#footer').html(response);
+		});
+	</script>
+
+	<script>
+		function ParentformSubmit() {
 			document.forms["Parent_form"].submit();
-}
-		</script>
-	</head>
-    <body>
-    <div class="container-fluid">
+		}
+	</script>
+</head>
 
-       <div id="header"></div>
+<body>
+	<!-- Insert the header. -->
+	<header id="header"></header>
 
-		<h1>Register</h1>
-			<p>Please fill in this form to Register as a Parent</p>
+	<!-- Registration form. -->
+	<div class="container">
+		<div class="card registration-card">
+			<div class="card-header">
+				<h3 class="my-card-title">Register a student</h3>
+			</div>
+			<div class="card-body">
+				<!-- Student first name. -->
+				<div class="form-group">
+					<label class="form-label" for="student-fname">First name</label>
+					<input type="text" class="form-control" id="student-fname" />
+				</div>
 
-      <form name="Parent_Form" action="/action_page.php" method="get">>
-		First name:	    <input type="text" name="Parent_fname"><br>
-		Last name:      <input type="text" name="Parent_lname"><br>
-		Street Address:	<input type="text" name="Parent_st_address"><br>
-		City:           <input type="text" name="Parent_city"><br>
-		State:          <input type="text" name="Parent_state"><br>
-		ZIP:            <input type="text" name="Parent_Zip"><br>
-		Email:          <input type="text" name="Parent_email"><br>
-	<input type="button" onclick="formSubmit()" value="Send form data!">
-</form>
-  </div>
+				<!-- Student last name. -->
+				<div class="form-group">
+					<label class="form-label" for="student-lname">Last name</label>
+					<input type="text" class="form-control" id="student-lname" />
+				</div>
 
+				<!-- Student email address. -->
+				<div class="form-group">
+					<label class="form-label" for="student-email">Email address</label>
+					<input type="text" class="form-control" id="student-email" />
+				</div>
 
-</form>
+				<!-- School name. -->
+				<div class="form-group">
+					<label class="form-label" for="student-school">School name</label>
+					<input type="text" class="form-control" id="student-school" />
+				</div>
 
-
-			<div id="footer"></div>
+				<!-- Student grade. -->
+				<div class="form-group">
+					<label class="form-label" for="student-grade">Grade</label>
+					<div class="dropdown">
+						<button class="btn grade-btn dropdown-toggle" type="button" id="dropdownMenuButton"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Select Grade
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="#">7</a>
+							<a class="dropdown-item" href="#">8</a>
+							<a class="dropdown-item" href="#">9</a>
+							<a class="dropdown-item" href="#">10</a>
+							<a class="dropdown-item" href="#">11</a>
+							<a class="dropdown-item" href="#">12</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<!-- Register button. -->
+				<button type="button" class="btn btn-dark" id="submit-btn">
+					Register
+				</button>
+			</div>
 		</div>
-    <!-- jQuery things -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous">
-    </script>
-	</body>
+	</div>
+
+	<!-- Insert the footer. -->
+	<footer id="footer"></footer>
+
+	<!-- jQuery things -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+		</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+		</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+		</script>
+</body>
+
 </html>
