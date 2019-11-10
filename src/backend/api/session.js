@@ -23,7 +23,7 @@ router.get('/seeIfLoggedIn', checkLogin, function(req, res)
 {
     if(req.session.user)
     {
-        res.json({'msg': 'Logged In', 'user': req.session.user, 'name': req.session.name, 'type': req.session.type, 'parent': req.session.parent})
+        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.type, 'parent': req.session.parent})
     }
     else
     {
@@ -31,7 +31,7 @@ router.get('/seeIfLoggedIn', checkLogin, function(req, res)
     }
 })
 
-router.post('/login', function (req, res, next) {
+router.post('/login', function (req, res) {
 
     console.log("got here")
     let username = req.body.username;
@@ -43,7 +43,8 @@ router.post('/login', function (req, res, next) {
         if(resp[0] != null)
         { 
             req.session.user = resp[0].id
-            req.session.name = resp[0].fname + " " + resp[0].lname
+            req.session.fname = resp[0].fname
+            req.session.lname = resp[0].lname
             req.session.type = resp[0].type
             req.session.parent = resp[0].parent
             res.status(200).json({'msg': 'Logged In'})

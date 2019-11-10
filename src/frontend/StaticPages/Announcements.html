@@ -18,6 +18,7 @@
     <script type="text/javascript" src="../js/insert_announcement.js"></script>
     <script type="text/javascript" src="../js/delete_announcement.js"></script>
     <script type="text/javascript" src="../js/update_announcement.js"></script>
+    <script type="text/javascript" src="../js/login.js"></script>
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
     <script type='text/javascript'>
@@ -151,6 +152,9 @@
             // it would be nice to, at some point, refactor
             // away this global variable once i get the hang
             // of this better
+
+            var data = tryLogin()
+
             var global_ctl = null;
             // returns the time and date as a string
             function timestamp() {
