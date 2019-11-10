@@ -72,4 +72,8 @@ function makeMenu(type){
    		menucode +="</ul>"
 	}
 	$("#menubar").html(menucode)
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 80f339b06aba828274140a309ee4933bfe857290

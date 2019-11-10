@@ -20,13 +20,24 @@
 				url: "../api/session/login",
 				type: "POST",
 				data: {username: $("#username").val(), password: $("#password").val()},
+<<<<<<< HEAD
         dataType: "JSON",
 			}).done(function(data){
 				tryLogin();
 			})
+=======
+				dataType: "JSON"
+			}).done(function(data){
+				tryLogin();
+			});
+>>>>>>> 80f339b06aba828274140a309ee4933bfe857290
 		});
 		$("body").on("click", "#register", function(e){
 			window.location.href="../StaticPages/Registration.html"
 		});
 	});
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> 80f339b06aba828274140a309ee4933bfe857290
