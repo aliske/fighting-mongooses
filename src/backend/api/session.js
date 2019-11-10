@@ -5,7 +5,9 @@ db_functions = require('../db/db_functions')
 
 router = express.Router()
 
-
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
 
 function checkLogin(req, res, next) {
   //console.log(req.session)
@@ -32,7 +34,6 @@ router.get('/seeIfLoggedIn', checkLogin, function(req, res)
 })
 
 router.post('/login', function (req, res) {
-
     console.log("got here")
     let username = req.body.username;
     let password = req.body.password;
@@ -53,6 +54,21 @@ router.post('/login', function (req, res) {
         {
             res.end()
         }
+    })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+router.post('/register', function (req, res) {
+    let fname = encodeHTML(req.body.fname);
+    let lname = encodeHTML(req.body.lname);
+    let email = encodeHTML(req.body.email);
+    let type = encodeHTML(req.body.type);
+    let school = encodeHTML(req.body.school);
+    let grade = req.body.grade;
+    var query = `INSERT INTO user(username, password, fname, lname, email, type, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${school}','${grade}')`
+    db_functions.query(query)
+    .then(function(resp) {
+        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname})
     })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
