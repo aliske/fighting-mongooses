@@ -158,6 +158,19 @@ router.delete('/:uuid', util_functions.isAdmin, async (req, res) => {
   // TODO: validate input
   const file_uuid = req.params['uuid']
 
+
+  await db_functions.execute(`
+    UPDATE file
+    SET requiredfile = NULL
+    WHERE requiredfile in (
+        SELECT id
+        FROM requiredfile
+        WHERE uuid = "${file_uuid}"
+    )
+  `, [file_uuid])
+
+  // handle error here
+
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE uuid = ?`, [file_uuid])
     .then(async () => {

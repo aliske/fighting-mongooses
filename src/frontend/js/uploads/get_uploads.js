@@ -33,11 +33,11 @@ async function getUploads(public = true) {
     {
       'internal_name': 'requiredfile',
       'display_name': 'requiredfile'
+    },
+    {
+      'internal_name': 'cdate',
+      'display_name': 'Created Date'
     }
-    // {
-    //   'internal_name': 'cdate',
-    //   'display_name': 'Date'
-    // }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
   headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th></tr>`

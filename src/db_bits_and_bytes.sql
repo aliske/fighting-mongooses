@@ -27,7 +27,8 @@ CREATE TABLE `file` (
   `uuid` varchar(64) DEFAULT NULL,
   `public` tinyint(1) DEFAULT '0',
   `requiredfile` int(11) DEFAULT '0' COMMENT 'Identifier from Required File List',
-  `mimetype` varchar(100) DEFAULT NULL
+  `mimetype` varchar(100) DEFAULT NULL,
+  `cdate` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `requiredfile` (
@@ -35,7 +36,8 @@ CREATE TABLE `requiredfile` (
   `uuid` varchar(64) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
   `title` varchar(256) DEFAULT NULL,
-  `mimetype` varchar(100) DEFAULT NULL
+  `mimetype` varchar(100) DEFAULT NULL,
+  `cdate` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `sessions` (
