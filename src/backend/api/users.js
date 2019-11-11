@@ -4,11 +4,11 @@ const router = express.Router()
 
 
 const users_table_name = 'user'
-const util_functions = require('../util');
+const middleware = require('../middleware');
 
 
 // get all users
-router.get('/', util_functions.isAdmin, (req, res) => {
+router.get('/', middleware.isAdmin, (req, res) => {
   db_functions.query(`SELECT * FROM ${users_table_name}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -18,7 +18,7 @@ router.get('/', util_functions.isAdmin, (req, res) => {
 
 
 // get my profile
-router.get('/me', util_functions.checkLogin, (req, res) => {
+router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
   console.log(user_id)
@@ -30,7 +30,7 @@ router.get('/me', util_functions.checkLogin, (req, res) => {
 
 
 // get individual user
-router.get('/:id', util_functions.isAdmin, (req, res) => {
+router.get('/:id', middleware.isAdmin, (req, res) => {
   const id = req.params['id']
   db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
     .then(resp => { res.json(resp) })
@@ -40,7 +40,7 @@ router.get('/:id', util_functions.isAdmin, (req, res) => {
 
 
 // insert user
-router.post('/', util_functions.isAdmin, async (req, res) => {
+router.post('/', middleware.isAdmin, async (req, res) => {
   // param name, default value
   let name = req.body['name'] || null;
   let age = req.body['age'] || null;
@@ -59,7 +59,7 @@ router.post('/', util_functions.isAdmin, async (req, res) => {
 
 
 // edit user
-router.patch('/:id', util_functions.isAdmin,async (req, res) => {
+router.patch('/:id', middleware.isAdmin,async (req, res) => {
   // param name, default value
   const id = req.params['id']
   if (!id)
@@ -91,7 +91,7 @@ router.patch('/:id', util_functions.isAdmin,async (req, res) => {
 
 
 // delete user
-router.delete('/:id', util_functions.isAdmin, async (req, res) => {
+router.delete('/:id', middleware.isAdmin, async (req, res) => {
   // param name, default value
   const id = req.params['id']
   if (!id)

@@ -20,7 +20,7 @@ const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
 
 const {format} = require('util');
 const Multer = require('multer');
-const util_functions = require('../util');
+const middleware = require('../middleware');
 
 // By default, the client will authenticate using the service account file
 // specified by the GOOGLE_APPLICATION_CREDENTIALS environment variable and use
@@ -59,7 +59,7 @@ router.get('/public', (req, res) => {
 
 
 // get my files
-router.get('/me', util_functions.checkLogin, (req, res) => {
+router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
 
@@ -69,7 +69,7 @@ router.get('/me', util_functions.checkLogin, (req, res) => {
 })
 
 // get file: works for pdfs
-router.get('/:uuid', util_functions.checkLogin, async (req, res) => {
+router.get('/:uuid', middleware.checkLogin, async (req, res) => {
   // TODO: validate user
   const file_uuid = req.params['uuid']
 
@@ -110,7 +110,7 @@ router.get('/:uuid', util_functions.checkLogin, async (req, res) => {
 
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, res, next) => {
+router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, next) => {
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
@@ -178,20 +178,22 @@ router.post('/upload', util_functions.checkLogin, multer.single('file'), (req, r
 
 // get file: works for pdfs
 // TO DO: allow admin delete?
-router.delete('/:uuid', util_functions.checkLogin, async (req, res) => {
+router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
   // TODO: validate input
   const user_id = req.session.user // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
-    .then(async() => {
+    .then(async(qry_output) => {
+      if (qry_output[0].affectedRows > 0)
+        throw 'No file was deleted, user does not have permissions or file does not exist'
         // delete from Google cloud
       await bucket.file(file_uuid).delete()
-      .then(() => { res.json({'msg': 'Complete'}) })
+      .then(() => { res.status(500).json({'msg': 'Complete' + file_uuid}) })
       .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
     })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+    .catch(err => res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}))
 
 
 })

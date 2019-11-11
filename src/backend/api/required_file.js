@@ -20,7 +20,7 @@ const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
 
 const {format} = require('util');
 const Multer = require('multer');
-const util_functions = require('../util');
+const middleware = require('../middleware');
 
 // By default, the client will authenticate using the service account file
 // specified by the GOOGLE_APPLICATION_CREDENTIALS environment variable and use
@@ -51,7 +51,7 @@ const multer = Multer({
 const files_table_name = 'requiredfile'
 
 // get all public files
-router.get('/', util_functions.checkLogin, (req, res) => {
+router.get('/', middleware.checkLogin, (req, res) => {
   db_functions.query(`SELECT * FROM ${files_table_name}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -60,7 +60,7 @@ router.get('/', util_functions.checkLogin, (req, res) => {
 
 
 // get my completed files
-router.get('/me', util_functions.checkLogin, (req, res) => {
+router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
   console.log(user_id)
   db_functions.query(`SELECT id, title, uuid, mimetype, description
@@ -72,7 +72,7 @@ router.get('/me', util_functions.checkLogin, (req, res) => {
 
 
 // get my not-complete files
-router.get('/me/todo', util_functions.checkLogin, (req, res) => {
+router.get('/me/todo', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
   db_functions.query(`SELECT id, title, uuid, mimetype, description
@@ -86,7 +86,7 @@ router.get('/me/todo', util_functions.checkLogin, (req, res) => {
 
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post('/upload', util_functions.isAdmin, multer.single('file'), (req, res, next) => {
+router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, next) => {
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
@@ -126,12 +126,11 @@ router.post('/upload', util_functions.isAdmin, multer.single('file'), (req, res,
       }
     };
 
-    blob.setMetadata(metadata, function(err, apiResponse) {
+    await blob.setMetadata(metadata, function(err, apiResponse) {
       // make public
       // conditional if public image vs. private .pdf
       if (public === 1)
         blob.makePublic(function(err, apiResponse) {});
-
     });
 
 
@@ -154,7 +153,7 @@ router.post('/upload', util_functions.isAdmin, multer.single('file'), (req, res,
 
 
 // get file: works for pdfs
-router.delete('/:uuid', util_functions.isAdmin, async (req, res) => {
+router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
   // TODO: validate input
   const file_uuid = req.params['uuid']
 
