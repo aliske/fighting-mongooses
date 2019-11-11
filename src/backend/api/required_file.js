@@ -63,7 +63,7 @@ router.get('/', util_functions.checkLogin, (req, res) => {
 router.get('/me', util_functions.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
   console.log(user_id)
-  db_functions.query(`SELECT id, title
+  db_functions.query(`SELECT id, title, uuid, mimetype, description
     FROM requiredfile
     WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
     .then(resp => { res.json(resp) })
@@ -75,7 +75,7 @@ router.get('/me', util_functions.checkLogin, (req, res) => {
 router.get('/me/todo', util_functions.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
-  db_functions.query(`SELECT id, title
+  db_functions.query(`SELECT id, title, uuid, mimetype, description
       FROM requiredfile
       WHERE id NOT IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)
           `)

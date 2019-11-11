@@ -93,11 +93,26 @@
       console.log(data)
 
       const options = data.reduce((str, value, index) => {
-        return str+`<option value='${value.id}'>${value.title}</option>`
+        console.log(value)
+        return str+`<option name='${value.uuid}:${value.mimetype}' value='${value.id}' description='${value.description}'>${value.title}</option>`
       }, '')
 
       $('#requiredFile').html(options); //replace the selection's html with the new options
+      updateRequriedFileDescription()
     }
+
+    function viewRequiredFile() {
+      const uuid = $("#requiredFile option:selected").attr('name').split(':')[0]
+      const mimetype = $("#requiredFile option:selected").attr('name').split(':')[1]
+      viewUpload(uuid, mimetype, '1')
+    }
+
+    function updateRequriedFileDescription() {
+      const description = $("#requiredFile option:selected").attr('description')
+      $('#requiredFile-description').text(description);
+    }
+
+    setModal()
 
 
   </script>
@@ -129,9 +144,12 @@
           <label for="file_cat"> Select what the file is for.</label>
           <!-- category TEST EXAMPLE -->
           <div class="col-md-4" >
-            <select id="requiredFile" name='requiredFile'>
+            <select id="requiredFile" name='requiredFile' onchange='updateRequriedFileDescription()'>
               <option value=''><strong>Form Type</strong></option>
             </select>
+            <button type=button id='requiredFile-link' onclick='viewRequiredFile()'>View File</button>
+            <br>
+            <span id='requiredFile-description'></span>
           </div>
         </div>
         <br>
