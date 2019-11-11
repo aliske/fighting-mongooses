@@ -57,6 +57,9 @@ function makeMenu(type){
         menucode +="<li class='nav-item'>"
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>"
         menucode +="</li>"
+        menucode +="<li class='nav-item'>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Registration.html'>Register Student</a>"
+        menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Child"){
 		menucode +="<ul class='navbar-nav mr-auto nav-links'>"

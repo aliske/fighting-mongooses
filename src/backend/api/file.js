@@ -194,8 +194,8 @@ router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
         throw 'No file was deleted, user does not have permissions or file does not exist'
         // delete from Google cloud
       await bucket.file(file_uuid).delete()
-      .then(() => { res.status(200).json({'msg': 'File deleted successfully'}) })
-      .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
+        .then(() => { res.status(200).json({'msg': 'File deleted successfully'}) })
+        .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
     })
     .catch(err => res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}))
 
