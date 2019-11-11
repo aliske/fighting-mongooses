@@ -3,9 +3,12 @@ async function getFiles() {
 
   // raw query
   const data = await fetch(uri, { credentials: 'include' })
-                  .then(resp => { 
-                    return resp.json() 
-                  })
+                .then(resp => { 
+                  return resp.json() 
+                })
+                .catch(err => {
+                  displayAlert("No connection, please sign in again if needed", 'alert-danger');
+                })
 
   const headers = [
     {

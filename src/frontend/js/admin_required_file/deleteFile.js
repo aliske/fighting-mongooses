@@ -16,5 +16,8 @@ async function deleteFile(uuid){
         displayAlert(data.msg, 'alert-danger');
       }
     })
+    .catch(err => {
+      displayAlert("No connection, please sign in again if needed", 'alert-danger');
+    })
 }
 
