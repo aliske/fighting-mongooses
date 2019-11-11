@@ -45,6 +45,9 @@ function makeMenu(type){
         menucode +="<li class='nav-item'>"
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>"
         menucode +="</li>"
+        menucode +="<li class='nav-item'>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_required_files.html'>[Admin] Manage Required Files</a>"
+        menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Parent"){
 		menucode +="<ul class='navbar-nav mr-auto nav-links'>"
@@ -72,8 +75,4 @@ function makeMenu(type){
    		menucode +="</ul>"
 	}
 	$("#menubar").html(menucode)
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 80f339b06aba828274140a309ee4933bfe857290

@@ -185,12 +185,14 @@ router.delete('/:uuid', util_functions.checkLogin, async (req, res) => {
 
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
+    .then(async() => {
+        // delete from Google cloud
+      await bucket.file(file_uuid).delete()
+      .then(() => { res.json({'msg': 'Complete'}) })
+      .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
+    })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
-  // delete from Google cloud
-  await bucket.file(file_uuid).delete()
-    .then(() => { res.json({'msg': 'Complete'}) })
-    .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
 
 })
 

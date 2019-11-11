@@ -81,17 +81,6 @@
     }
 
 
-    var alert_close_timer
-    function displayAlert(msg, classes) {
-      // reset alert if currently being displayed
-      window.clearTimeout(alert_close_timer)
-      $('.alert').removeClass('alert-success alert-warning alert-danger')
-
-      // set alert
-      $('#alert_text').html(msg)
-      $('.alert').addClass(classes).show()
-      alert_close_timer = setTimeout(() => {$('.alert').hide().removeClass(classes)}, 2000);
-    }
   </script>
   <script type="text/javascript" src="../js/root_uri.js"></script>
   <script type="text/javascript" src="../js/uploads/get_uploads.js"></script>
@@ -102,10 +91,13 @@
 
 
 	<body onLoad='getUploads(false)'>
+    <div id="header"></div>
+    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+      <span id='alert_text'></span>
+    </div>
+    
     <div class="container-fluid">
-
-       <div id="header"></div>
-
 
       <form method="POST" action="/api/storage/upload" enctype="multipart/form-data">
           <h1>Upload forms to Bits and Bytes</h1>

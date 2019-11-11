@@ -63,24 +63,28 @@ async function getUploads(public = true) {
     </tr>`
   }).join('') 
 
-
+  console.log('update table')
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
 
 
 
 async function deleteUpload(uuid){
-  const data = await fetch(`${ROOT_URI}/api/file/${uuid}`, {
+  await fetch(`${ROOT_URI}/api/file/${uuid}`, {
     method: 'DELETE',
     credentials: 'include'
   })
-    .then(resp => { 
+    .then(async resp => {
+
       if (resp.status === 200) {
-        displayAlert('record deleted successfully', 'alert-success')
-        getUploads()
+        getUploads(false)
+        displayAlert('File deleted successfully', 'alert-success')
       }
-      else
+      else {
+        const data = await resp.json()
         displayAlert(data.msg, 'alert-danger');
+      }
     })
+
 }
 

@@ -160,12 +160,17 @@ router.delete('/:uuid', util_functions.isAdmin, async (req, res) => {
 
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE uuid = ?`, [file_uuid])
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+    .then(async () => {
+      // delete from Google cloud
+      await bucket.file(file_uuid).delete()
+      .then(() => { res.json({'msg': 'Complete'}) })
+      .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
+    })
+    .catch(err => { 
+      res.status(500).json({'msg': 'Failed to delete, the document may be failing due to foreign key.'})
+    })
 
-  // delete from Google cloud
-  await bucket.file(file_uuid).delete()
-    .then(() => { res.json({'msg': 'Complete'}) })
-    .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
+
 
 })
 

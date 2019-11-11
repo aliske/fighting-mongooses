@@ -1,16 +1,20 @@
 
 async function deleteFile(uuid){
-  const data = await fetch(`${ROOT_URI}/api/required_file/${uuid}`, {
+  await fetch(`${ROOT_URI}/api/required_file/${uuid}`, {
     method: 'DELETE',
     credentials: 'include'
   })
-    .then(resp => { 
+    .then(async resp => { 
       if (resp.status === 200) {
-        displayAlert('record deleted successfully', 'alert-success')
         getFiles()
+        displayAlert('File deleted successfully', 'alert-success')
       }
-      else
-        displayAlert('Error deleting file', 'alert-danger');
+      else {
+        const data = await resp.json()
+        console.log(data)
+        
+        displayAlert(data.msg, 'alert-danger');
+      }
     })
 }
 

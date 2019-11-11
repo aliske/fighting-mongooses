@@ -80,31 +80,26 @@
       $('#fileModal').modal('show')
     }
 
-
-
-    var alert_close_timer
-    function displayAlert(msg, classes) {
-      // reset alert if currently being displayed
-      window.clearTimeout(alert_close_timer)
-      $('.alert').removeClass('alert-success alert-warning alert-danger')
-
-      // set alert
-      $('#alert_text').html(msg)
-      $('.alert').addClass(classes).show()
-      alert_close_timer = setTimeout(() => {$('.alert').hide().removeClass(classes)}, 2000);
-    }
   </script>
   <script type="text/javascript" src="../js/root_uri.js"></script>
   <script type="text/javascript" src="../js/admin_required_file/getFiles.js"></script>
   <script type="text/javascript" src="../js/admin_required_file/deleteFile.js"></script>
+  <script type="text/javascript" src="../js/display_alert.js"></script>
 
 
 
 
 	<body onLoad='getFiles()'>
     <header id="header"></header>
-    <div class="container-fluid">
 
+
+    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+      <span id='alert_text'></span>
+    </div>
+
+
+    <div class="container-fluid">
 
       <form method="POST" action="/api/required_file/upload" enctype="multipart/form-data">
           <h1>Upload required forms to Bits and Bytes</h1>
@@ -129,12 +124,9 @@
         <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
         <input class='btn btn-primary btn-lg' type="submit">  
-
-
-<!--
+        <!--
           <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
--->
-
+        -->
         </form>
       <br>
       <hr>
