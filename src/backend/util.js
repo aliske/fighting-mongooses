@@ -35,3 +35,29 @@ module.exports.isAdmin = (req, res, next) => {
     res.status(502).json({'msg':'You are not logged in as an admin'})
   }
 }
+
+
+
+module.exports.isParent = (req, res, next) => {
+  //console.log(req.session)
+
+  if (req.session.type === 'Parent') {
+    //res.json({'msg': req.session.name + ' Logged In'})
+    next()
+  } else {
+    res.status(502).json({'msg':'You are not logged in as a parent'})
+  }
+}
+
+
+
+module.exports.isStudent = (req, res, next) => {
+  //console.log(req.session)
+
+  if (req.session.type === 'Student') {
+    //res.json({'msg': req.session.name + ' Logged In'})
+    next()
+  } else {
+    res.status(502).json({'msg':'You are not logged in as a student'})
+  }
+}

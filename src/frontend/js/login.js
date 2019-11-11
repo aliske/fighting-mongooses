@@ -10,7 +10,7 @@ async function tryLogin(req, res){
 	{
 		console.log("tryLogin: Yes Login")
 		var fname = data.fname
-		var message = "<strong>Welcome, " + fname + "!<strong>"
+		var message = "<strong>Welcome, " + fname + `! (<a href='${ROOT_URI}/api/session/logout'>logout</a>)<strong>`
 		makeMenu(data.type)
 		$("#loginform").html(message)
 		
