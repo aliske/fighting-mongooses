@@ -176,6 +176,8 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
 
 
 
+
+
 // get file: works for pdfs
 // TO DO: allow admin delete?
 router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
@@ -183,14 +185,16 @@ router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
   const user_id = req.session.user // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
+
+
   // delete from db
   await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
     .then(async(qry_output) => {
-      if (qry_output[0].affectedRows > 0)
+      if (parseInt(qry_output[0].affectedRows) == 0)
         throw 'No file was deleted, user does not have permissions or file does not exist'
         // delete from Google cloud
       await bucket.file(file_uuid).delete()
-      .then(() => { res.status(500).json({'msg': 'Complete' + file_uuid}) })
+      .then(() => { res.status(200).json({'msg': 'File deleted successfully'}) })
       .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
     })
     .catch(err => res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}))
