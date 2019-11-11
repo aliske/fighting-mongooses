@@ -167,7 +167,6 @@ router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
         WHERE uuid = "${file_uuid}"
     )
   `, [file_uuid])
-
   // handle error here
 
   // delete from db
