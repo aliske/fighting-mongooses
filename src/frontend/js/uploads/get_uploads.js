@@ -11,7 +11,7 @@ async function getUploads(public = true) {
 
   const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
-
+                  .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
   const headers = [
     {

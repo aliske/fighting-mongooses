@@ -64,7 +64,7 @@
         const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
           .then(resp => { return resp.json() })
           .then(data => { return data })
-          .catch(err => alert('error'))
+          .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
         console.log(data.url)
         file_url = data.url
@@ -88,6 +88,7 @@
                     .then(resp => {
                       return resp.json()
                     })
+                    .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
       console.log(data)
 
