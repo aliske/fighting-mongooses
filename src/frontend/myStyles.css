@@ -3,6 +3,10 @@ html {
 	min-height: 100%;
 }
 
+.navbar-nav .nav-link {
+  border-right: 1px solid grey;
+}
+
 .no-padding {
 	padding: 0px;
 	margin: 0px;

@@ -2,13 +2,16 @@ async function getUploads(public = true) {
   let uri;
   if (public === true)
     uri = `${ROOT_URI}/api/file/public`
-  else 
+  else
     uri = `${ROOT_URI}/api/file/me`
+
   // raw query
-  const data = await fetch(uri)
+
+  populateRequiredFileDropdown()
+
+  const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
-
-
+                  .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
   const headers = [
     {
@@ -26,11 +29,15 @@ async function getUploads(public = true) {
     {
       'internal_name': 'public',
       'display_name': 'public?'
+    },
+    {
+      'internal_name': 'requiredfile',
+      'display_name': 'requiredfile'
+    },
+    {
+      'internal_name': 'cdate',
+      'display_name': 'Created Date'
     }
-    // {
-    //   'internal_name': 'cdate',
-    //   'display_name': 'Date'
-    // }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
   headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th></tr>`
@@ -56,23 +63,31 @@ async function getUploads(public = true) {
     </tr>`
   }).join('') 
 
-
+  console.log('update table')
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
 
 
 
 async function deleteUpload(uuid){
-  const data = await fetch(`${ROOT_URI}/api/file/${uuid}`, {
-    method: 'DELETE'
+  await fetch(`${ROOT_URI}/api/file/${uuid}`, {
+    method: 'DELETE',
+    credentials: 'include'
   })
-    .then(resp => { 
+    .then(async resp => {
+
       if (resp.status === 200) {
-        displayAlert('record deleted successfully', 'alert-success')
-        getUploads()
+        getUploads(false)
+        displayAlert('File deleted successfully', 'alert-success')
       }
-      else
-      displayAlert(data.msg, 'alert-danger');
+      else {
+        const data = await resp.json()
+        displayAlert(data.msg, 'alert-danger');
+      }
     })
+    .catch(err => {
+      displayAlert("No connection, please sign in again if needed", 'alert-danger');
+    })
+
 }
 

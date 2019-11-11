@@ -10,7 +10,7 @@ async function tryLogin(req, res){
 	{
 		console.log("tryLogin: Yes Login")
 		var fname = data.fname
-		var message = "<strong>Welcome, " + fname + "!<strong>"
+		var message = "<strong>Welcome, " + fname + `! (<a href='${ROOT_URI}/api/session/logout'>logout</a>)<strong>`
 		makeMenu(data.type)
 		$("#loginform").html(message)
 		
@@ -45,6 +45,9 @@ function makeMenu(type){
         menucode +="<li class='nav-item'>"
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>"
         menucode +="</li>"
+        menucode +="<li class='nav-item'>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_required_files.html'>[Admin] Manage Required Files</a>"
+        menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Parent"){
 		menucode +="<ul class='navbar-nav mr-auto nav-links'>"
@@ -53,6 +56,9 @@ function makeMenu(type){
         menucode +="</li>"
         menucode +="<li class='nav-item'>"
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>"
+        menucode +="</li>"
+        menucode +="<li class='nav-item'>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Registration.html'>Register Student</a>"
         menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Child"){

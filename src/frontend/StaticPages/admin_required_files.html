@@ -56,19 +56,19 @@
     }
 
 
-    async function viewUpload(file_uuid, filename, filetype, isPublic) {
+    async function viewUpload(file_uuid, filetype, isPublic) {
       let file_url
-      if (isPublic === '1')
+      // if (isPublic === '1')
         file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
-      else {
-        const data = await fetch(`${ROOT_URI}/api/storage/${file_uuid}`)
-          .then(resp => { return resp.json() })
-          .then(data => { return data })
-          .catch(err => alert('error'))
+      // else {
+      //   const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
+      //     .then(resp => { return resp.json() })
+      //     .then(data => { return data })
+      //     .catch(err => alert('error'))
 
-        console.log(data.url)
-        file_url = data.url
-      }
+      //   console.log(data.url)
+      //   file_url = data.url
+      // }
 
       console.log(file_uuid)
       console.log(filetype)
@@ -76,70 +76,65 @@
 
       // update modal properties
       $('#modal-image').remove()
-      setModal(filename, file_url, filetype)
+      setModal(file_uuid, file_url, filetype)
       $('#fileModal').modal('show')
     }
 
-
-    var alert_close_timer
-    function displayAlert(msg, classes) {
-      // reset alert if currently being displayed
-      window.clearTimeout(alert_close_timer)
-      $('.alert').removeClass('alert-success alert-warning alert-danger')
-
-      // set alert
-      $('#alert_text').html(msg)
-      $('.alert').addClass(classes).show()
-      alert_close_timer = setTimeout(() => {$('.alert').hide().removeClass(classes)}, 2000);
-    }
   </script>
   <script type="text/javascript" src="../js/root_uri.js"></script>
-  <script type="text/javascript" src="../js/uploads/get_uploads.js"></script>
+  <script type="text/javascript" src="../js/admin_required_file/getFiles.js"></script>
+  <script type="text/javascript" src="../js/admin_required_file/deleteFile.js"></script>
+  <script type="text/javascript" src="../js/display_alert.js"></script>
 
 
 
 
+	<body onLoad='getFiles()'>
+    <header id="header"></header>
 
 
-	<body onLoad='getUploads(false)'>
+    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+      <span id='alert_text'></span>
+    </div>
+
+
     <div class="container-fluid">
 
-       <div id="header"></div>
-
-
-      <form method="POST" action="/api/storage/upload" enctype="multipart/form-data">
-          <h1>Upload forms to Bits and Bytes</h1>
+      <form method="POST" action="/api/required_file/upload" enctype="multipart/form-data">
+          <h1>Upload required forms to Bits and Bytes</h1>
           <hr class="half_horizontal_rule">
           <h2>Choose a file to upload.</h2>
-		  <div class="file_catagory">
-			<label for="file_cat"> Select what the file is for.</label>		 
-			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-perm">Permission Slip</label>
-			<label class="radio-inline"><input type="radio" name="file_cat" value="file-survey">Survey</label>
-			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-picture">Picture</label>	
-			<label class="radio-inline"><input type="radio" name="file_cat"  Value="file-other">Other</label>	
-		  </div>	
-          <div class="form-check">
-		    <label for "isPublic"> Is this file for Public or Private?</label>
-            <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_true" value="true">Public</label>
-			<Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_false" value="false">Private</label>
+
+
+        <div class="input-group mb-3 col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="title">Title</span>
           </div>
+          <input id="title" name="title" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
 
-          <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
+        <div class="input-group mb-3 col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="description">Description</span>
+          </div>
+          <input id="description" name="description" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
 
-          <input class='btn btn-primary btn-lg' type="submit">  
+        <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
- 
-<!--
+        <input class='btn btn-primary btn-lg' type="submit" onclick="setModal('Please wait while your file is uploaded', 'alert-info')">  
+        <!--
           <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
--->
-
+        -->
         </form>
       <br>
-
-
       <hr>
-      <button class='btn btn-info' type=button onclick='getUploads(true)'>public uploads</button>
-      <button class='btn btn-info' type=button onclick='getUploads(false)'>My uploads</button>
+
+      <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me'>My Completed Files</a>
+      <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me/todo'>My Incomplete Files</a>
+
+
       <table id='uploads-table'></table>
 
 
@@ -166,13 +161,11 @@
       </div>
 
 
-			<div id="footer"></div>
-		</div>
+      <footer id="footer"></footre>
+    </div>
+
     <!-- jQuery things -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous">

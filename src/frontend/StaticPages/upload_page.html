@@ -61,10 +61,10 @@
       if (isPublic === '1')
         file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
       else {
-        const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`)
+        const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
           .then(resp => { return resp.json() })
           .then(data => { return data })
-          .catch(err => alert('error'))
+          .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
         console.log(data.url)
         file_url = data.url
@@ -80,21 +80,45 @@
       $('#fileModal').modal('show')
     }
 
+    async function populateRequiredFileDropdown() {
+      const uri = `${ROOT_URI}/api/required_file/me/todo`
 
-    var alert_close_timer
-    function displayAlert(msg, classes) {
-      // reset alert if currently being displayed
-      window.clearTimeout(alert_close_timer)
-      $('.alert').removeClass('alert-success alert-warning alert-danger')
+      // raw query
+      const data = await fetch(uri, { credentials: 'include' })
+                    .then(resp => {
+                      return resp.json()
+                    })
+                    .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
-      // set alert
-      $('#alert_text').html(msg)
-      $('.alert').addClass(classes).show()
-      alert_close_timer = setTimeout(() => {$('.alert').hide().removeClass(classes)}, 2000);
+      console.log(data)
+
+      const options = data.reduce((str, value, index) => {
+        console.log(value)
+        return str+`<option name='${value.uuid}:${value.mimetype}' value='${value.id}' description='${value.description}'>${value.title}</option>`
+      }, '')
+
+      $('#requiredFile').html(options); //replace the selection's html with the new options
+      updateRequriedFileDescription()
     }
+
+    function viewRequiredFile() {
+      const uuid = $("#requiredFile option:selected").attr('name').split(':')[0]
+      const mimetype = $("#requiredFile option:selected").attr('name').split(':')[1]
+      viewUpload(uuid, mimetype, '1')
+    }
+
+    function updateRequriedFileDescription() {
+      const description = $("#requiredFile option:selected").attr('description')
+      $('#requiredFile-description').text(description);
+    }
+
+    setModal()
+
+
   </script>
-  <script type="text/javascript" src="../js/root_uri.js"></script>
   <script type="text/javascript" src="../js/uploads/get_uploads.js"></script>
+  <script type="text/javascript" src="../js/root_uri.js"></script>
+  <script type="text/javascript" src="../js/display_alert.js"></script>
 
 
 
@@ -102,34 +126,45 @@
 
 
 	<body onLoad='getUploads(false)'>
-
     <!-- Insert the header. -->
 	  <header id="header"></header>
 
+    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+        <span id='alert_text'></span>
+      </div>
+
     <div class="container-fluid">
-
       <form method="POST" action="/api/file/upload" enctype="multipart/form-data">
-          <h1>Upload forms to Bits and Bytes</h1>
-          <hr class="half_horizontal_rule">
-          <h2>Choose a file to upload.</h2>
-		  <div class="file_catagory">
-			<label for="file_cat"> Select what the file is for.</label>		 
-			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-perm">Permission Slip</label>
-			<label class="radio-inline"><input type="radio" name="file_cat" value="file-survey">Survey</label>
-			<label class="radio-inline"><input type="radio" name="file_cat" Value="file-picture">Picture</label>	
-			<label class="radio-inline"><input type="radio" name="file_cat"  Value="file-other">Other</label>	
-		  </div>	
-          <div class="form-check">
-		    <label for "isPublic"> Is this file for Public or Private?</label>
-            <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_true" value="true">Public</label>
-			<Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_false" value="false">Private</label>
+        <h1>Upload forms to Bits and Bytes</h1>
+        <hr class="half_horizontal_rule">
+        <h2>Choose a file to upload.</h2>
+
+        <div class="file_catagory">
+          <label for="file_cat"> Select what the file is for.</label>
+          <!-- category TEST EXAMPLE -->
+          <div class="col-md-4" >
+            <select id="requiredFile" name='requiredFile' onchange='updateRequriedFileDescription()'>
+              <option value=''><strong>Form Type</strong></option>
+            </select>
+            <button type=button id='requiredFile-link' onclick='viewRequiredFile()'>View File</button>
+            <br>
+            <span id='requiredFile-description'></span>
           </div>
+        </div>
+        <br>
 
-          <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
-          <input class='btn btn-primary btn-lg' type="submit">  
+        <div class="form-check">
+          <label for "isPublic"> Is this file for Public or Private?</label>
+              <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_true" value="true">Public</label>
+          <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_false" value="false">Private</label>
+        </div>
 
- 
+        <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
+
+        <input class='btn btn-primary btn-lg' type="submit" onclick="displayAlert('Please wait while your file is uploaded', 'alert-info')">
+
 <!--
           <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
 -->
@@ -141,6 +176,8 @@
       <hr>
       <button class='btn btn-info' type=button onclick='getUploads(true)'>public uploads</button>
       <button class='btn btn-info' type=button onclick='getUploads(false)'>My uploads</button>
+      <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me'>My Completed Required Files</a>
+      <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me/todo'>My Incomplete Required Files</a>
       <table id='uploads-table'></table>
 
 
@@ -165,16 +202,14 @@
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Insert the footer. -->
-    <footer id="footer"></footer>
 
+
+			
+      <!-- Insert the footer. -->
+      <footer id="footer"></footer>
+		</div>
     <!-- jQuery things -->
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous">

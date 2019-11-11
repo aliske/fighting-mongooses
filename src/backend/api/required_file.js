@@ -48,69 +48,45 @@ const multer = Multer({
 
 
 
-const files_table_name = 'file'
+const files_table_name = 'requiredfile'
 
 // get all public files
-router.get('/public', (req, res) => {
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
+router.get('/', middleware.checkLogin, (req, res) => {
+  db_functions.query(`SELECT * FROM ${files_table_name}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
 
-// get my files
+
+// get my completed files
 router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
-
-
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
+  console.log(user_id)
+  db_functions.query(`SELECT id, title, uuid, mimetype, description
+    FROM requiredfile
+    WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
-// get file: works for pdfs
-router.get('/:uuid', middleware.checkLogin, async (req, res) => {
-  // TODO: validate user
-  const file_uuid = req.params['uuid']
 
-  // validate user permissions....
-  // check DB if they are the user is the owner of this file OR is an admin
+// get my not-complete files
+router.get('/me/todo', middleware.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
-
-  // note, this may cause issues with timezones
-  const minutes_to_expire = 5
-  const exp_date = new Date((new Date()).getTime() + minutes_to_expire*60000)
-
-  var config = {
-    action: 'read',
-    expires: exp_date  // TO DO: update expire date/time
-  };
-
-
-  const file = await bucket.file(file_uuid)
-
-  file.getSignedUrl(config, function(err, url) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    // The file is now available to read from this URL.
-    request(url, function(err, resp) {
-      if (err) 
-        res.status(500).json({'msg': 'Internal Server Error'})
-
-      // resp.statusCode = 200
-      console.log(url)
-      res.json({'url': url})
-    });
-  });
+  db_functions.query(`SELECT id, title, uuid, mimetype, description
+      FROM requiredfile
+      WHERE id NOT IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)
+          `)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
 
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, next) => {
+router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, next) => {
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
@@ -135,36 +111,36 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
     // update database
     const user = req.session.user; // TO DO: change to user logged in. session.user.id
     const mimetype = req.file.mimetype
-    const filename = req.file.originalname || null;
-    const public = req.body['isPublic'] === 'true' ? 1 : 0;
-    const requiredFile = req.body['requiredFile'] || null
+    const title = req.body['title'] || req.file.originalname
+    const description = req.body['description'] || ''
+    const public = 1
 
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
     var metadata = {
       contentType: req.file.mimetype,
       metadata: {
-        originalname: filename,
-        ownerID: user
+        type: 'requiredfile',
+        title: title,
+        description: description
       }
     };
 
-    blob.setMetadata(metadata, function(err, apiResponse) {
+    await blob.setMetadata(metadata, function(err, apiResponse) {
       // make public
       // conditional if public image vs. private .pdf
       if (public === 1)
         blob.makePublic(function(err, apiResponse) {});
-
     });
 
 
 
     // update database
-    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(user, uuid, public, requiredfile, mimetype) VALUES (?, ?, ?, ?, ?)`, [user, file_uuid, public, requiredFile, mimetype]);
+    const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(uuid, title, description, mimetype) VALUES (?, ?, ?, ?)`, [file_uuid, title, description, mimetype]);
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})
-      res.redirect('/StaticPages/upload_page.html')
+      res.redirect('/StaticPages/admin_required_files.html')
     else
       res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 
@@ -176,28 +152,35 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
 
 
 
-
-
 // get file: works for pdfs
-// TO DO: allow admin delete?
-router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
+router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
   // TODO: validate input
-  const user_id = req.session.user // TO DO: pull from session
   const file_uuid = req.params['uuid']
 
 
+  await db_functions.execute(`
+    UPDATE file
+    SET requiredfile = NULL
+    WHERE requiredfile in (
+        SELECT id
+        FROM requiredfile
+        WHERE uuid = "${file_uuid}"
+    )
+  `, [file_uuid])
+  // handle error here
 
   // delete from db
-  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE user = ? AND uuid = ?`, [user_id, file_uuid])
-    .then(async(qry_output) => {
-      if (parseInt(qry_output[0].affectedRows) == 0)
-        throw 'No file was deleted, user does not have permissions or file does not exist'
-        // delete from Google cloud
+  await db_functions.execute(`DELETE FROM ${files_table_name} WHERE uuid = ?`, [file_uuid])
+    .then(async () => {
+      // delete from Google cloud
       await bucket.file(file_uuid).delete()
-        .then(() => { res.status(200).json({'msg': 'File deleted successfully'}) })
-        .catch(err => { res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}) })
+      .then(() => { res.json({'msg': 'Complete'}) })
+      .catch(err => { res.status(500).json({'msg': 'Internal Server Error'}) })
     })
-    .catch(err => res.status(500).json({'msg': 'Failed to delete file, you may not have permissions.'}))
+    .catch(err => { 
+      res.status(500).json({'msg': 'Failed to delete, the document may be failing due to foreign key.'})
+    })
+
 
 
 })

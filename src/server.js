@@ -9,17 +9,16 @@ const port = process.env.PORT || 3000
 require('dotenv').config()
 
 
+
 app.set('port', port)
 app.use(cors())
 // app.set('view engine', 'html')
+
 
 // parsers
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
 
 var options = {
     host: '104.155.184.169',
@@ -43,19 +42,19 @@ app.use(session({
 }));
 
 
+
 // set headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', 'http://localhost:8080'); // req.get('host')); || http://fightingmongooses.com
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   if ('OPTIONS' == req.method) {
       res.send(200);
   } else {
-      next();
-    }
+    next();
+  }
 });
-
 
 
 
@@ -72,6 +71,8 @@ app.use('/api/session/', session_routes)
 
 const file_routes = require('./backend/api/file')
 app.use('/api/file/', file_routes)
+const requiredFile_routes = require('./backend/api/required_file')
+app.use('/api/required_file/', requiredFile_routes)
 
 
 // route to frontend static pages
