@@ -4,15 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 
+	<script type="text/javascript" src="../js/root_uri.js"></script>
+	<script type="text/javascript" src="../js/get_my_students.js"></script>
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="../myStyles.css">
 	<link rel="shortcut icon" type="image/ico" href="../Assets/Bits_and_Bytes_Logo.ico" />
 
-	<script type="text/javascript" src="../js/root_uri.js"></script>
-	<script type="text/javascript" src="../js/get_my_students.js"></script>
-
-	<title>Form Upload</title>
+	<title>Register a student</title>
 
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
 	<script type='text/javascript'>
@@ -31,7 +31,7 @@
 	</script>
 </head>
 
-<body onLoad='getMyStudents("registration")'>
+<body onLoad='getMyStudents()'>
 	<!-- Insert the header. -->
 	<header id="header"></header>
 
@@ -90,10 +90,7 @@
 		</div>
 	</div>
 
-	<table>
-		<tbody id="registration-tbody">
-		</tbody>
-	</table>
+	<table id="registration-table"></table>
 
 	<!-- Insert the footer. -->
 	<footer id="footer"></footer>

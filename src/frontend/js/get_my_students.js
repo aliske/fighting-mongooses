@@ -3,34 +3,28 @@
 
 // also...getting "json bad parse" error
 
-async function getMyStudents(page) {
+async function getMyStudents() {
 
-    // can't figure out why i'm getting "redeclaration of const ROOT_URI",
-    // i import the script "root_uri.js" in "Registration.html" but i don't
-    // redeclare ROOT_URI anywhere (that i know of)
     const data = await fetch(`${ROOT_URI}/api/registered_students`)
         .then(resp => { return resp.json() })
 
-    if (page == "registration") {
+    const headers = [
+        { 'internal': 'fname', 'display': 'First Name' },
+        { 'internal': 'lname', 'display': 'Last Name' },
+    ]
 
-        const headers = [
-            { 'internal': 'fname', 'display': 'First Name' },
-            { 'internal': 'lname', 'display': 'Last Name' },
-        ]
+    let headers_HTML = headers.map(header => {
+        return `<th>${header.display}</th>`
+    }).join('')
 
-        let headers_HTML = headers.map(header => {
-            return `<th>${header.display}</th>`
+    let data_HTML = data.map(row => {
+
+        const row_data = headers.map(header => {
+            return `<td class="td-other>${row[header.internal] || ''}</td>`
         }).join('')
 
-        let data_HTML = data.map(row => {
+        return `<tr>${row_data}</tr>`
+    }).join('')
 
-            const row_data = headers.map(header => {
-                return `<td class="td-other>${row[header.internal] || ''}</td>`
-            }).join('')
-
-            return `<tr>${row_data}</tr>`
-        }).join('')
-
-        $('#registration-tbody').html(data_HTML)
-    }
+    $('#registration-table').html(headers_HTML + data_HTML)
 }
