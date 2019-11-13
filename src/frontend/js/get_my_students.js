@@ -11,11 +11,12 @@ async function getMyStudents() {
     let headers_HTML = headers.map(header => {
         return `<th>${header.display}</th>`
     }).join('')
+    headers_HTML = `<tr>${headers_HTML}</tr>`
 
     let data_HTML = data.map(row => {
 
         const row_data = headers.map(header => {
-            return `<td class="td-other>${row[header.internal] || ''}</td>`
+            return `<td>${row[header.internal] || ''}</td>`
         }).join('')
 
         return `<tr>${row_data}</tr>`
