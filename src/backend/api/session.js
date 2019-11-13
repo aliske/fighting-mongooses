@@ -73,6 +73,20 @@ router.post('/register', function (req, res) {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+router.post('/register_parent', function (req, res) {
+    let fname = encodeHTML(req.body.fname);
+    let lname = encodeHTML(req.body.lname);
+    let email = encodeHTML(req.body.email);
+    let type = "Parent";
+	let password = encodeHTML(req.body.password);
+    var query = `INSERT INTO user(username, password, fname, lname, email, type) VALUES('${email}',PASSWORD('${password}'),'${fname}','${lname}','${email}','${type}')`
+    db_functions.query(query)
+    .then(function(resp) {
+        res.status(200).json({'msg': 'Registered', 'username': email, 'password': password})
+    })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
 router.get('/logout', function(req, res, next) {
   if (req.session) {
     // delete session object
