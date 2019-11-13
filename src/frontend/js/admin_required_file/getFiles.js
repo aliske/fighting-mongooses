@@ -1,5 +1,5 @@
 async function getFiles() {
-  const uri = `${ROOT_URI}/api/required_file`
+  const uri = `${ROOT_URI}/api/required_file/`
 
   // raw query
   const data = await fetch(uri, { credentials: 'include' })
