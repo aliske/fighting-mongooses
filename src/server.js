@@ -75,6 +75,8 @@ app.use('/api/file/', file_routes)
 const requiredFile_routes = require('./backend/api/required_file')
 app.use('/api/required_file/', requiredFile_routes)
 
+const registered_student_routes = require('./backend/api/registered_students')
+app.use('/api/registered_students/', registered_student_routes)
 
 // route to frontend static pages
 //app.use(express.static('src/frontend'))

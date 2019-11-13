@@ -10,7 +10,13 @@ router.get('/', middleware.isParent, (req, res) => {
 
     const user_id = req.session.user
 
+    console.log("GETTING STUDENTS")
+
     db_functions.query(`SELECT * FROM ${users_table_name} WHERE parent = ${user_id}`)
         .then(resp => { res.json(resp) })
         .catch(err => res.status(500).json({ 'msg': 'Internal Server Error' }))
+
+    console.log(res)
 })
+
+module.exports = router

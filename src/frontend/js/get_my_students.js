@@ -1,11 +1,6 @@
-// logging in on the login_form doesn't seem to be working for me.
-// how do i login as a parent so i can test this functionality?
-
-// also...getting "json bad parse" error
-
 async function getMyStudents() {
 
-    const data = await fetch(`${ROOT_URI}/api/registered_students`)
+    const data = await fetch(`${ROOT_URI}/api/registered_students/`)
         .then(resp => { return resp.json() })
 
     const headers = [

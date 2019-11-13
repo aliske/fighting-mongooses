@@ -120,7 +120,7 @@
 				$.ajax({
 					url: "../api/session/register",
 					type: "POST",
-					data: { fname: $("#student-fname").val(), lname: $("#student-lname").val(), email: $("#student-email").val(), type: 'Parent', school: $("#student-school").val(), grade: $("#student-grade").val() },
+					data: { fname: $("#student-fname").val(), lname: $("#student-lname").val(), email: $("#student-email").val(), type: 'Student', school: $("#student-school").val(), grade: $("#student-grade").val() },
 					dataType: "JSON"
 				}).done(function (data) {
 					alert(data.msg + " Username: " + data.username + " Password: " + data.password)
