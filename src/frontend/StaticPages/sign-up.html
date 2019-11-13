@@ -57,13 +57,13 @@
 			
 			if(canSignUp){
 				
-				// <!-- add sign up functionality here -->
+				return true;
 				
 			}
 			else {
 				
 				alert("Password doesn't match or is not long enough, please input a valid password and try again");
-				
+				return false;
 			}
 		}
 		
@@ -92,14 +92,14 @@
 						<tr>
 					
 							<td class="left-align">First Name:</td>
-							<td class="right-align"><input id="firstName" type="text" placeholder="First Name"></td>
+							<td class="right-align"><input id="fname" name="fname" type="text" placeholder="First Name"></td>
 							
 						</tr>
 						
 						<tr>
 						
 							<td class="left-align">Last Name:</td>
-							<td class="right-align"><input id="lastName" type="text" placeholder="Last Name"></td>
+							<td class="right-align"><input id="lname" name="lname" type="text" placeholder="Last Name"></td>
 							
 							
 						</tr>
@@ -107,7 +107,7 @@
 						<tr>
 						
 							<td class="left-align">E-mail:</td>
-							<td class="right-align"><input id="email" size="40" type="email" placeholder="Email"></td>
+							<td class="right-align"><input id="email" size="40" name="email" type="email" placeholder="Email"></td>
 							
 						
 						</tr>
@@ -115,7 +115,7 @@
 						<tr>
 						
 							<td class="left-align">Password:</td>
-							<td class="right-align"><input id="password-sign-up" type="password" placeholder="Password"></td>
+							<td class="right-align"><input id="password-sign-up" type="password" name="password-sign-up" placeholder="Password"></td>
 						
 						</tr>
 						
@@ -129,7 +129,7 @@
 						<tr>
 						
 							<td><p id="passwordSimilarity"></p></td>
-							<td><button id="sign-up-button" onclick="signUpAttempt()">Sign Up</button></td>
+							<td><button id="sign-up-button">Sign Up</button></td>
 							
 							
 						
@@ -148,15 +148,47 @@
 		
 	</div>
 	
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+<script>
+	function signUpAttempt() {
+			
+				if(canSignUp){
+				
+					return true;
+				
+				}
+				else {
+				
+					alert("Password doesn't match or is not long enough, please input a valid password and try again");
+					return false;
+				}
+			}
+		
+
+			$(document).ready(function(){
+				$("#sign-up-button").on("click", function(e){
+					e.preventDefault();
+					if(signUpAttempt()){
+						$.ajax({
+							url: "../api/session/register_parent",
+							type: "POST",
+							data: {fname: $("#fname").val(), lname: $("#lname").val(), email: $("#email").val(), password: $("#password-sign-up").val()},
+							dataType: "JSON"
+						}).done(function(data){
+							alert(data.msg + " Username: " + data.username + " Password: " + data.password)
+						});
+					}
+				});
+			});
+		</script>
+
 
 	</body>
 </html>
