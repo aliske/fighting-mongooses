@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 var session = require('express-session');
+var path = require('path');
 var MySQLStore = require('express-mysql-session')(session);
 const app = express()
 const port = process.env.PORT || 3000
@@ -76,7 +77,57 @@ app.use('/api/required_file/', requiredFile_routes)
 
 
 // route to frontend static pages
-app.use(express.static('src/frontend'))
+//app.use(express.static('src/frontend'))
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/frontend/index.html'));
+})
+
+app.get('/index.html', function(req, res) {
+    res.sendFile(path.join(__dirname + '/frontend/index.html'));
+})
+
+app.get('/StaticPages/:name', function(req, res) {
+    var page = req.params.name;
+    var type = "none";
+    if(req.session.type)
+      type = req.session.type;
+    var allow = 1;
+    //restrict access here
+    if(page == "Announcements.html" && type != "Admin")
+      allow = 0;
+    if(page == "upload_page.html" && type != "Admin")
+      allow = 0;
+    if(page == "admin_required_files.html" && type != "Admin")
+      allow = 0;
+    if(page == "Registration.html" && type != "Parent")
+      allow = 0;
+
+    if(allow == 0) 
+      res.redirect('/');
+    else
+      res.sendFile(path.join(__dirname + '/frontend/StaticPages/' + page));
+})
+
+app.get('/Templates/:name', function(req, res) {
+    var page = req.params.name;
+    res.sendFile(path.join(__dirname + '/frontend/Templates/' + page));
+})
+
+app.get('/Assets/:name', function(req, res) {
+    var page = req.params.name;
+    res.sendFile(path.join(__dirname + '/frontend/Assets/' + page));
+})
+
+app.get('/js/:name', function(req, res) {
+    var page = req.params.name;
+    res.sendFile(path.join(__dirname + '/frontend/js/' + page));
+})
+
+app.get('/js/:folder/:name', function(req, res) {
+    var page = req.params.name;
+    var folder = req.params.folder;
+    res.sendFile(path.join(__dirname + '/frontend/js/' + folder + '/' + page));
+})
 
 
 
