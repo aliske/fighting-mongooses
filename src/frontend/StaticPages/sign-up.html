@@ -29,7 +29,7 @@
 		
 		var canSignUp = false;
 		function passwordCheck() {
-			var password = document.getElementById("password-sign-up").value;
+			var password = document.getElementById("password_sign_up").value;
 			var passwordConfirm = document.getElementById("passwordConfirmation").value;
 			
 			
@@ -115,7 +115,7 @@
 						<tr>
 						
 							<td class="left-align">Password:</td>
-							<td class="right-align"><input id="password-sign-up" type="password" name="password-sign-up" placeholder="Password"></td>
+							<td class="right-align"><input id="password_sign_up" type="password" name="password_sign_up" placeholder="Password"></td>
 						
 						</tr>
 						
@@ -179,7 +179,7 @@
 						$.ajax({
 							url: "../api/session/register_parent",
 							type: "POST",
-							data: {fname: $("#fname").val(), lname: $("#lname").val(), email: $("#email").val(), password: $("#password-sign-up").val()},
+							data: {fname: $("#fname").val(), lname: $("#lname").val(), email: $("#email").val(), password: $("#password_sign_up").val()},
 							dataType: "JSON"
 						}).done(function(data){
 							alert(data.msg + " Username: " + data.username + " Password: " + data.password)
