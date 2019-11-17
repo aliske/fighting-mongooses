@@ -18,16 +18,17 @@ async function tryLogin(){
 	else
 	{
 		makeMenu("none");
-		let formcode = "";
+		let formcode = "<div style='padding-left: 10px'>";
     	formcode += "<form class='form-inline mt-2 mt-md-0 nav-login-form'>";
         formcode += "<input class='form-control mr-sm-2' type='text' placeholder='Username' id='username' aria-label='Username'>";
         formcode += "<input class='form-control mr-sm-2' type='password' placeholder='Password' id='password' aria-label='Password'>";
         formcode += "<button class='btn btn-dark my-2 my-sm-0' type='submit' id='login'>Login</button>";
     	formcode += "</form>";
-    	formcode += "<button class='btn btn-dark my-2 my-sm-0 nav-register-btn' type='submit' id='register'>Register</button>";
+    	formcode += "<p>Parents, new to Bits & Bytes? <a href='../StaticPages/sign-up.html' id='signup'>Sign Up!</a></p>";
+    	formcode += "</div>";
 		$("#loginform").html(formcode);
 		console.log("tryLogin: No Login");
-		
+
 	}
 }
 
@@ -39,7 +40,7 @@ function makeMenu(type){
 	menucode +="<a class='nav-link nav-link-text text-dark' href='../index.html'>Home</a>";
 	menucode +="</li>";
 	menucode +="<li class='nav-item'>";
-	if(type != null){
+	if(type != null && type !== "none"){
 		menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
 		menucode +="</li>";
 		menucode +="<li class='nav-item'>";
