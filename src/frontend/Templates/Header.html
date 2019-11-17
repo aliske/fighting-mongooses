@@ -5,8 +5,7 @@
     <script>
         $(document).ready(function(){
             tryLogin();
-            let body = $("body");
-            body.on("click", "#login", function(e){
+            $("body").on("click", "#login", function(e){
                 e.preventDefault();
                 $.ajax({
                     url: "../api/session/login",
@@ -16,9 +15,6 @@
                 }).done(function(){
                     tryLogin();
                 });
-            });
-            body.on("click", "#register", function(){
-                window.location.href="../StaticPages/sign-up.html"
             });
         });
     </script>
