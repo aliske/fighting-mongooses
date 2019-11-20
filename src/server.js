@@ -69,6 +69,9 @@ app.use('/api/announcements/', announcements_routes)
 const session_routes = require('./backend/api/session')
 app.use('/api/session/', session_routes)
 
+const attendance_logs_routes = require('./backend/api/attendancelogs')
+app.use('/api/attendancelogs/', attendance_logs_routes)
+
 
 const file_routes = require('./backend/api/file')
 app.use('/api/file/', file_routes)
@@ -100,6 +103,8 @@ app.get('/StaticPages/:name', function(req, res) {
     if(page == "upload_page.html" && type != "Admin")
       allow = 0;
     if(page == "admin_required_files.html" && type != "Admin")
+      allow = 0;
+    if(page == "admin_attendance_status.html" && type != "Admin")
       allow = 0;
     if(page == "Registration.html" && type != "Parent")
       allow = 0;
