@@ -77,6 +77,8 @@ const file_routes = require('./backend/api/file')
 app.use('/api/file/', file_routes)
 const requiredFile_routes = require('./backend/api/required_file')
 app.use('/api/required_file/', requiredFile_routes)
+const surveys_routes = require('./backend/api/surveys')
+app.use('/api/surveys/', surveys_routes)
 
 const registered_student_routes = require('./backend/api/registered_students')
 app.use('/api/registered_students/', registered_student_routes)
@@ -99,6 +101,8 @@ app.get('/StaticPages/:name', function(req, res) {
     var allow = 1;
     //restrict access here
     if(page == "Announcements.html" && type != "Admin")
+      allow = 0;
+    if((page == "surveys.html" || page == "survey_questions.html") && type != "Admin")
       allow = 0;
     if(page == "upload_page.html" && type != "Admin")
       allow = 0;
