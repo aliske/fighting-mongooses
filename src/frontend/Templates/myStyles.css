@@ -67,6 +67,9 @@ body {
 }
 
 
+.white-text {
+	color: white;
+}
 
 .registration-card {
 	width: 400px;
