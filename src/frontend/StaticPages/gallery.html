@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Don't forget to change title and add navbar links as needed -->
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous>
+		<link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
+		<title>Bits and Bytes Template page</title>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+		
+		<script type='text/javascript'>
+			// These are relative paths
+			$.get('../templates/Header.html',function(response){
+				$('#header').html(response);
+			});
+			$.get('../templates/Footer.html',function(response){
+				$('#footer').html(response);
+      });
+      
+
+      async function getPublicContent() {
+        const width = '150px',
+              height = '150px',
+              padding = '5px',
+              num_col = '3';
+
+
+        const data = await fetch(`${ROOT_URI}/api/file/content/public`, { credentials: 'include' })
+          .then(resp => { return resp.json() })
+          .then(data => { return data })
+          .catch(er => displayAlert('Failed to connect', 'alert-danger'))
+
+        const num_rows = Math.ceil(data.length/num_col);
+
+        // build rows
+        for (let i = 0; i < num_rows; i++) {
+          const obj = document.createElement('div')
+          obj.id = `row${i}`
+          obj.classList = 'row'
+          document.querySelector('#content').appendChild(obj)
+        }
+
+        // set content
+        data.forEach((file, i) => {
+          const obj = document.createElement('object')
+          obj.style.height = height
+          obj.style.width = width
+          obj.style.padding = padding
+          obj.data = file.url
+          obj.type = file.mimetype
+
+
+          currRow = Math.floor(i/num_col)
+          document.querySelector(`#row${currRow}`).appendChild(obj)
+        })
+        console.log(data)
+      }
+    </script>
+    <script type="text/javascript" src="../js/root_uri.js"></script>
+	</head>
+	
+	<body onload="getPublicContent()">
+	    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+      <span id='alert_text'></span>
+    </div>
+
+		<div class="container-fluid">
+			<div id="header"></div>
+
+      <div id='content'></div>
+
+
+			<div class="row">
+				<div class="col-md-12">
+				<!-- This is where the body of the page goes -->
+				</div>
+			</div>
+
+			<div id="footer"></div>
+
+		</div>
+
+		<script  src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"></script>
+
+	</body>
+</html>

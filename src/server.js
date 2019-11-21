@@ -102,9 +102,12 @@ app.get('/StaticPages/:name', function(req, res) {
     //restrict access here
     if(page == "Announcements.html" && type != "Admin")
       allow = 0;
+    // restrict Gallery based on if user is registered
+    // if(page == "gallery.html" && type != "none")
+    //   allow = 0;
     if((page == "surveys.html" || page == "survey_questions.html") && type != "Admin")
       allow = 0;
-    if(page == "upload_page.html" && type != "Admin")
+    if(page == "upload_page.html" && type === "Student")
       allow = 0;
     if(page == "admin_required_files.html" && type != "Admin")
       allow = 0;
