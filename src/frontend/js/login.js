@@ -55,6 +55,9 @@ function makeMenu(type){
         menucode +="<li class='nav-item'>"
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>"
         menucode +="</li>"
+        menucode +="<li class='nav-item'>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>"
+        menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Parent"){
 		menucode +="<ul class='navbar-nav mr-auto nav-links'>"

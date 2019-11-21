@@ -113,6 +113,8 @@ app.get('/StaticPages/:name', function(req, res) {
       allow = 0;
     if(page == "admin_files.html" && type != "Admin")
       allow = 0;
+    if(page == "admin_email.html" && type != "Admin")
+    allow = 0;
     if(page == "admin_attendance_status.html" && type != "Admin")
       allow = 0;
     if(page == "Registration.html" && type != "Parent")

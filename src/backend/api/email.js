@@ -23,6 +23,8 @@ router.post('/', middleware.isAdmin, async (req, res) => {
   const subject = req.body['subject']
   const body = req.body['body']
 
+  // console.log(req.body)
+
 
   const mailOptions = {
     from: email, //process.env.EMAIL, // sender address
@@ -31,24 +33,19 @@ router.post('/', middleware.isAdmin, async (req, res) => {
     text: body // plain text body
   };
 
-
-  // send email
-  transporter.sendMail(mailOptions, function (err, info) {
-    if(err)
-      console.log(err)
-    else
-      console.log(info);
-  });
-
-
-
 // ?emailAddress=alecjmaly@gmail.com&emailPassword=....
   try {
-    html = await getDataHTML();
-    sendEmail(html, req.body.emailAddress, req.body.emailPassword);
-    res.send('success')
+    // send email
+    transporter.sendMail(mailOptions, function (err, info) {
+      if(err)
+        console.log(err)
+      else
+        console.log(info);
+    });
+
+    res.status(200).json({'msg': 'success'})
   } catch {
-    res.send('failed')
+    res.status(500).json({'msg': 'failed'})
   }
 })
 
