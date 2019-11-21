@@ -102,22 +102,19 @@ app.get('/StaticPages/:name', function(req, res) {
       type = req.session.type;
     var allow = 1;
     //restrict access here
-    if(page == "Announcements.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ANNOUNCEMENTS.HTML" && type != "Admin")
       allow = 0;
-    // restrict Gallery based on if user is registered
-    // if(page == "gallery.html" && type != "none")
-    //   allow = 0;
-    if((page == "surveys.html" || page == "survey_questions.html") && type != "Admin")
+    if((decodeURIComponent(page).toUpperCase() === "SURVEYS.HTML" || decodeURIComponent(page).toUpperCase() === "SURVEY_QUESTIONS.HTML") && type != "Admin")
       allow = 0;
-    if(page == "upload_page.html" && type === "Student")
+    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type != "Admin")
       allow = 0;
-    if(page == "admin_files.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_EMAIL.HTML" && type != "Admin")
       allow = 0;
-    if(page == "admin_email.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_FILES.HTML" && type != "Admin")
     allow = 0;
-    if(page == "admin_attendance_status.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_ATTENDANCE_STATUS.HTML" && type != "Admin")
       allow = 0;
-    if(page == "Registration.html" && type != "Parent")
+    if(decodeURIComponent(page).toUpperCase() === "REGISTRATION.HTML" && type != "Parent")
       allow = 0;
 
     if(allow == 0) 
