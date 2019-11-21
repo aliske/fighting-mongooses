@@ -44,6 +44,10 @@
 
         // set content
         data.forEach((file, i) => {
+          const link = document.createElement('a')
+          link.href = file.url
+          link.target = '_blank'
+
           const obj = document.createElement('object')
           obj.style.height = height
           obj.style.width = width
@@ -51,9 +55,11 @@
           obj.data = file.url
           obj.type = file.mimetype
 
+          link.appendChild(obj)
 
           currRow = Math.floor(i/num_col)
-          document.querySelector(`#row${currRow}`).appendChild(obj)
+          document.querySelector(`#row${currRow}`).appendChild(link)
+
         })
         console.log(data)
       }

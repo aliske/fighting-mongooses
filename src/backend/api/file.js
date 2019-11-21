@@ -187,6 +187,11 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
     const public = req.body['isPublic'] === 'true' && req.session.type === 'Admin' ? 1 : 0;
     const requiredFile = req.body['requiredFile'] || null
 
+    if (public === 1 && mimetype.split('/')[0] !== 'image') {
+      res.status(500).json({'msg': 'Please upload an image.'})
+      return
+    }
+
 
     // set metadata: content-type (content-type: application/pdf, image/jpeg, image/png...)
     var metadata = {
@@ -210,9 +215,10 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
     // update database
     const [rows, fields] = await db_functions.execute(`INSERT INTO ${files_table_name}(user, uuid, public, requiredfile, mimetype) VALUES (?, ?, ?, ?, ?)`, [user, file_uuid, public, requiredFile, mimetype]);
 
-    if (rows.insertId)
-      // res.status(200).json({'insertID': rows.insertId})
-      res.redirect('/StaticPages/upload_page.html')
+    if (rows.insertId) {
+      // res.status(200).json({''insertID': rows.insertId'})
+      res.redirect(req.header('Referer'))
+    }
     else
       res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 

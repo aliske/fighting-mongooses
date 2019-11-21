@@ -57,22 +57,18 @@
 
 
     async function viewUpload(file_uuid, filetype, isPublic) {
-      let file_url
-      // if (isPublic === '1')
-        file_url = `https://storage.googleapis.com/fighting-mongooses-storage-dev/${file_uuid}`
-      // else {
-      //   const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
-      //     .then(resp => { return resp.json() })
-      //     .then(data => { return data })
-      //     .catch(err => alert('error'))
+      const data = await fetch(`${ROOT_URI}/api/file/${file_uuid}`, { credentials: 'include' })
+        .then(resp => { return resp.json() })
+        .then(data => { return data })
+        .catch(err => alert('error'))
 
-      //   console.log(data.url)
-      //   file_url = data.url
-      // }
+      // console.log(data.url)
+      const file_url = data.url
 
-      console.log(file_uuid)
-      console.log(filetype)
-      console.log(isPublic)
+
+      // console.log(file_uuid)
+      // console.log(filetype)
+      // console.log(isPublic)
 
       // update modal properties
       $('#modal-image').remove()
@@ -89,7 +85,7 @@
 
 
 
-	<body onLoad='getFiles()'>
+	<body onLoad='getFiles("required_files")'>
     <header id="header"></header>
 
 
@@ -103,10 +99,10 @@
       <!-- TABS -->
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="required_files_tab" data-toggle="tab" href="#required_files" role="tab" aria-controls="required_files" aria-selected="true">Required Files</a>
+          <a class="nav-link active" id="required_files_tab" data-toggle="tab" href="#required_files" role="tab" aria-controls="required_files" aria-selected="true" onclick='getFiles("required_files")'>Required Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="public_images_tab" data-toggle="tab" href="#public_images" role="tab" aria-controls="public_images" aria-selected="false">Public Images</a>
+          <a class="nav-link" id="public_images_tab" data-toggle="tab" href="#public_images" role="tab" aria-controls="public_images" aria-selected="false" onclick='getFiles("public_files")'>Public Images</a>
         </li>
       </ul>
 
@@ -121,7 +117,7 @@
             <hr class="half_horizontal_rule">
             <h2>Choose a file to upload.</h2>
 
-
+  
             <div class="input-group mb-3 col-6">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default" for="title">Title</span>
@@ -138,28 +134,59 @@
 
             <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
 
-            <input class='btn btn-primary btn-lg' type="submit" onclick="setModal('Please wait while your file is uploaded', 'alert-info')">  
+            <input class='btn btn-primary btn-lg' type="submit" onclick="displayAlert('Please wait while your file is uploaded', 'alert-info')">  
             <!--
               <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
             -->
           </form>
-          <br>
-          <hr>
-
-          <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me'>My Completed Files</a>
-          <a class='btn btn-sm btn-outline-secondary' href='http://localhost:8080/api/required_file/me/todo'>My Incomplete Files</a>
-
-
-          <table id='uploads-table'></table>
         </div>
         <!-- END TAB REQ FILES -->
 
 
+        <!-- TAB PUBLIC IMAGES -->
+        <div class="tab-pane fade" id="public_images" role="tabpanel" aria-labelledby="public_images">
+          <form method="POST" action="/api/file/upload" enctype="multipart/form-data">
+            <h1>Upload photos to the public gallery!</h1>
+            <hr class="half_horizontal_rule">
+            <h2>Choose a file to upload.</h2>
 
-        <div class="tab-pane fade" id="public_images" role="tabpanel" aria-labelledby="public_images">PUBLIC IMAGES</div>
+            <!--
+            <div class="input-group mb-3 col-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default" for="title">Title</span>
+              </div>
+              <input id="title" name="title" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-3 col-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default" for="description">Description</span>
+              </div>
+              <input id="description" name="description" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            -->
+
+            
+            <div class="form-check" hidden>
+              <label for "isPublic"> Is this file for Public or Private?</label>
+                  <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_true" value="true" checked></label>
+              <!-- <Label class="radio-inline"><input type="radio" name="isPublic" id="publicRadios_false" value="false">Private</label> -->
+            </div>
+
+            <input type="file" name="file" size="75" id="impfile" onchange="showImage()" accept=".jpg, .pdf, .img, .png">
+
+            <input class='btn btn-primary btn-lg' type="submit" onclick="displayAlert('Please wait while your file is uploaded', 'alert-info')">  
+            <!--
+              <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
+            -->
+          </form>
+        </div>
+        <!-- END TAB PUBLIC IMAGES -->
       </div>
 
-
+      <br>
+      <hr>
+      <table id='uploads-table'></table>
 
 
       <!-- Modal -->
