@@ -106,7 +106,7 @@ app.get('/StaticPages/:name', function(req, res) {
       allow = 0;
     if((decodeURIComponent(page).toUpperCase() === "SURVEYS.HTML" || decodeURIComponent(page).toUpperCase() === "SURVEY_QUESTIONS.HTML") && type != "Admin")
       allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type != "Parent" && type != "Admin")
       allow = 0;
     if(decodeURIComponent(page).toUpperCase() === "ADMIN_EMAIL.HTML" && type != "Admin")
       allow = 0;
