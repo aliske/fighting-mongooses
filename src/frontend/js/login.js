@@ -53,7 +53,7 @@ function makeMenu(type){
         menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>"
         menucode +="</li>"
         menucode +="<li class='nav-item'>"
-        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_required_files.html'>[Admin] Manage Required Files</a>"
+        menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>"
         menucode +="</li>"
     	menucode +="</ul>"
 	} else if(type == "Parent"){

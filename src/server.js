@@ -79,6 +79,8 @@ const requiredFile_routes = require('./backend/api/required_file')
 app.use('/api/required_file/', requiredFile_routes)
 const surveys_routes = require('./backend/api/surveys')
 app.use('/api/surveys/', surveys_routes)
+const email_routes = require('./backend/api/email')
+app.use('/api/email/', email_routes)
 
 const registered_student_routes = require('./backend/api/registered_students')
 app.use('/api/registered_students/', registered_student_routes)
@@ -109,7 +111,7 @@ app.get('/StaticPages/:name', function(req, res) {
       allow = 0;
     if(page == "upload_page.html" && type === "Student")
       allow = 0;
-    if(page == "admin_required_files.html" && type != "Admin")
+    if(page == "admin_files.html" && type != "Admin")
       allow = 0;
     if(page == "admin_attendance_status.html" && type != "Admin")
       allow = 0;
