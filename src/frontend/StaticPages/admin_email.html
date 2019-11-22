@@ -40,9 +40,11 @@
           body: body
         })
       })
-        .then(resp => {
-          if (resp.status == 200)
-            displayAlert('Email is has been sent', 'alert-success')
+        .then(async resp => {
+          if (resp.status == 200) {
+            const data = await resp.json()
+            displayAlert('Email is has been sent to: ' + data['sentTo'].join('; '), 'alert-success')
+          }
           else
             displayAlert('Email has not been sent, an error has occured', 'alert-danger')
         })
@@ -93,12 +95,13 @@
         <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="3"></textarea>
       </div>
 
-      <button class='btn btn-primary btn-lg' onclick="sendEmail()">Send Email</button> 
       <!--
         <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
       -->
     </form>
     <!-- END TAB REQ FILES -->
+
+    <button class='btn btn-primary btn-lg' onclick="sendEmail()">Send Email</button> 
 
 
 

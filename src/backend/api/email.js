@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
 
 
 // send email post
-router.post('/', middleware.isAdmin, async (req, res) => {
+router.post('/',  async (req, res) => {
   const to = req.body['to']
   const subject = req.body['subject']
   const body = req.body['body']
@@ -38,12 +38,11 @@ router.post('/', middleware.isAdmin, async (req, res) => {
     // send email
     transporter.sendMail(mailOptions, function (err, info) {
       if(err)
-        console.log(err)
+        res.status(500).json({'msg': 'failed'})
       else
-        console.log(info);
+        res.status(200).json({'msg': 'success', sentTo: info.accepted})
     });
 
-    res.status(200).json({'msg': 'success'})
   } catch {
     res.status(500).json({'msg': 'failed'})
   }
