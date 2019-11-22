@@ -67,9 +67,6 @@ body {
 }
 
 
-.white-text {
-	color: white;
-}
 
 .registration-card {
 	width: 400px;
@@ -159,3 +156,30 @@ td.right-align {
 	background-color: #dddddd;
 	border: 5px solid #999999;
 }
+/*  for uploads and file formating */
+			#uploads-table td,.uploads-table th {
+			border: 1px solid black;
+			border-collapse: collapse
+			}	
+			#uploads-table tr:nth-child(odd) {
+				background-color:lightgrey;
+				color:black;
+			}
+			#uploads-table tr:nth-child(even) {
+			background-color:grey;
+			color:black;
+			}
+/*  announcements table */
+			#announcement-tbody td,.uploads-table th {
+			border: 1px solid black;
+			border-collapse: collapse
+			}	
+			#announcement-tbody tr:nth-child(odd) {
+				background-color:lightgrey;
+				color:black;
+			}
+			#announcement-tbody tr:nth-child(even) {
+			background-color:grey;
+			color:black;
+			}
+
