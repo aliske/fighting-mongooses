@@ -92,7 +92,18 @@ async function collectFileUrlsFromGoogle(resp) {
 
 // get all public files
 router.get('/public', middleware.checkLogin, (req, res) => {
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
+  db_functions.query(`SELECT ${files_table_name}.id,
+	user.username AS 'user',
+	${files_table_name}.uuid,
+	${files_table_name}.public,
+	requiredfile.title AS 'requiredfile',
+	${files_table_name}.mimetype,
+	${files_table_name}.cdate
+	FROM ${files_table_name}
+	LEFT JOIN requiredfile ON requiredfile.id=file.requiredfile
+	LEFT JOIN user ON user.id=file.user
+	WHERE public = 1`)
+//  db_functions.query(`SELECT * FROM ${files_table_name} WHERE public = 1`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -117,8 +128,19 @@ router.get('/content/public', middleware.checkLogin, async (req, res) => {
 // get my files
 router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
-
-  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
+// replace required number with description
+   db_functions.query (`SELECT ${files_table_name}.id,
+	user.username AS 'user',
+	${files_table_name}.uuid,
+	${files_table_name}.public,
+	requiredfile.title AS 'requiredfile',
+	${files_table_name}.mimetype,
+	${files_table_name}.cdate
+	FROM ${files_table_name}
+	LEFT JOIN requiredfile ON requiredfile.id=file.requiredfile
+	LEFT JOIN user ON user.id=file.user
+	WHERE ${files_table_name}.user = ${user_id}`)
+   //  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
