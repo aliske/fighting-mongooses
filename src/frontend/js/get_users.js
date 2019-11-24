@@ -6,16 +6,16 @@ async function getUsers(users_table) {
 
   const headers = [
   {
-      'internal_name': 'name',
-      'display_name': 'Name'
+      'internal_name': 'fname',
+      'display_name': 'First Name'
+    },
+	{
+      'internal_name': 'lname',
+      'display_name': 'Last Name'
     },
     {
-      'internal_name': 'age',
-      'display_name': 'Age'
-    },
-    {
-      'internal_name': 'bio',
-      'display_name': 'Bio'
+      'internal_name': 'registered',
+      'display_name': 'Registered?'
     }
   ]
 
