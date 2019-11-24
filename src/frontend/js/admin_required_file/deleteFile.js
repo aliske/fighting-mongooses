@@ -1,12 +1,20 @@
 
 async function deleteFile(uuid){
-  await fetch(`${ROOT_URI}/api/required_file/${uuid}`, {
+  let uri
+  if (document.currentTab === 'required_files')
+    uri = `${ROOT_URI}/api/required_file/${uuid}`
+  else if (document.currentTab === 'public_files')
+    uri = `${ROOT_URI}/api/file/${uuid}`
+
+
+  console.log(uri)
+  await fetch(uri, {
     method: 'DELETE',
     credentials: 'include'
   })
     .then(async resp => { 
       if (resp.status === 200) {
-        getFiles()
+        getFiles(document.currentTab)
         displayAlert('File deleted successfully', 'alert-success')
       }
       else {

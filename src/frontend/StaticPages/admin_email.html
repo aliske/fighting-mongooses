@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<!-- Fighting mongoose  file load  -->
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
+		<link rel="shortcut icon" type="image/ico" href="/Assets/Bits_and_Bytes_Logo.ico"/>
+    <title>Form Upload</title>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+		<script type='text/javascript'>
+			$.get('../Templates/Header.html',function(response){
+				$('#header').html(response);
+			});
+			$.get('../Templates/Footer.html',function(response){
+				$('#footer').html(response);
+			});
+		</script>
+	</head>
+
+	<script>
+    function sendEmail() {
+      displayAlert('Email is being sent', 'alert-info')
+      const to = $('#email_to').val()
+      const subject = $('#email_subject').val()
+      const body = $('#email_body').val()
+
+
+      fetch(`${ROOT_URI}/api/email`, {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          to: to,
+          subject: subject,
+          body: body
+        })
+      })
+        .then(async resp => {
+          if (resp.status == 200) {
+            const data = await resp.json()
+            displayAlert('Email is has been sent to: ' + data['sentTo'].join('; '), 'alert-success')
+          }
+          else
+            displayAlert('Email has not been sent, an error has occured', 'alert-danger')
+        })
+        .catch(err => {
+          displayAlert("No connection, please sign in again if needed", 'alert-danger');
+        })
+    }
+
+  </script>
+  <script type="text/javascript" src="/js/root_uri.js"></script>
+  <script type="text/javascript" src="/js/display_alert.js"></script>
+
+
+
+
+	<body>
+    <header id="header"></header>
+
+    <!-- Alert -->
+    <div class="alert alert-dismissible fade show fixed-top" role="alert">
+      <span id='alert_text'></span>
+    </div>
+
+
+    <form>
+      <h1>Send an email</h1>
+      <hr class="half_horizontal_rule">
+
+
+      <div class="input-group mb-3 col-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_to">To</span>
+        </div>
+        <input id="email_to" name="email_to" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3 col-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_subject">Subject</span>
+        </div>
+        <input id="email_subject" name="email_subject" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3 col-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_body">Body</span>
+        </div>
+        <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="3"></textarea>
+      </div>
+
+      <!--
+        <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
+      -->
+    </form>
+    <!-- END TAB REQ FILES -->
+
+    <button class='btn btn-primary btn-lg' onclick="sendEmail()">Send Email</button> 
+
+
+
+
+    <footer id="footer"></footer>
+
+
+
+    <!-- jQuery things -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
+	</body>
+</html>
