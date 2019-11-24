@@ -1,4 +1,24 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 nav-border no-padding">
+
+    <script type="text/javascript" src="../js/root_uri.js"></script>
+    <script type="text/javascript" src="../js/login.js"></script>
+    <script>
+        $(document).ready(function(){
+            tryLogin();
+            $("body").on("click", "#login", function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: "../api/session/login",
+                    type: "POST",
+                    data: {username: $("#username").val(), password: $("#password").val()},
+                    dataType: "JSON"
+                }).done(function(){
+                    tryLogin();
+                });
+            });
+        });
+    </script>
+
     <!-- Bits & Bytes logo. -->
     <img class="bb-logo-img" src="../Assets/Bits_and_Bytes_Logo2.png" alt="Bits and Bytes Logo">
 
