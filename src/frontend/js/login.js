@@ -44,12 +44,17 @@ function makeMenu(type){
 	    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/gallery.html'>Gallery</a>"
         menucode +="</li>";
         menucode +="<li class='nav-item'>";
-		menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
-		menucode +="</li>";
-		menucode +="<li class='nav-item'>";
-		if(type === "Parent"){
+		if(type === "Student"){
+		    menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkIn()'>Check In</button>"
+		} else if(type === "Parent"){
+		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
+            menucode +="</li>";
+            menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Registration.html'>Register Student</a>";
 		} else if(type === "Admin"){
+		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
+            menucode +="</li>";
+            menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Announcements.html'>Announcements</a>";
 			menucode +="</li>";
 			menucode +="<li class='nav-item'>";
