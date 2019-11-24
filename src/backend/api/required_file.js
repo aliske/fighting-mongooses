@@ -140,7 +140,7 @@ router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, nex
 
     if (rows.insertId)
       // res.status(200).json({'insertID': rows.insertId})
-      res.redirect('/StaticPages/admin_required_files.html')
+      res.redirect('/StaticPages/admin_files.html')
     else
       res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 
