@@ -41,6 +41,9 @@ function makeMenu(type){
 	menucode +="</li>";
 	menucode +="<li class='nav-item'>";
 	if(type != null && type !== "none"){
+	    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/gallery.html'>Gallery</a>"
+        menucode +="</li>";
+        menucode +="<li class='nav-item'>";
 		menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
 		menucode +="</li>";
 		menucode +="<li class='nav-item'>";
@@ -54,6 +57,15 @@ function makeMenu(type){
 			menucode +="</li>";
 			menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_attendance_status.html'>[Admin] Attendance Status</a>";
+            menucode +="</li>"
+            menucode +="<li class='nav-item'>"
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>"
+            menucode +="</li>"
+            menucode +="<li class='nav-item'>"
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>"
+            menucode +="</li>"
+            menucode +="<li class='nav-item'>"
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>"
 		}
 	}
 	menucode +="</li>";

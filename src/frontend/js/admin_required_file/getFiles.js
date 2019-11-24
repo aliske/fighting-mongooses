@@ -1,9 +1,21 @@
-async function getFiles() {
-  const uri = `${ROOT_URI}/api/required_file/`
+async function getFiles(option) {
+  document.currentTab = option
+  let uri;
+  switch (option) {
+    case 'required_files':
+      uri = `${ROOT_URI}/api/required_file/`
+      break;
+    case 'public_files':
+      uri = `${ROOT_URI}/api/file/public`
+      break;
+    default:
+      return;
+  }
+
 
   // raw query
   const data = await fetch(uri, { credentials: 'include' })
-                .then(resp => { 
+                .then(resp => {
                   return resp.json() 
                 })
                 .catch(err => {

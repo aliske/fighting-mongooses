@@ -77,7 +77,13 @@ const file_routes = require('./backend/api/file')
 app.use('/api/file/', file_routes)
 const requiredFile_routes = require('./backend/api/required_file')
 app.use('/api/required_file/', requiredFile_routes)
+const surveys_routes = require('./backend/api/surveys')
+app.use('/api/surveys/', surveys_routes)
+const email_routes = require('./backend/api/email')
+app.use('/api/email/', email_routes)
 
+const registered_student_routes = require('./backend/api/registered_students')
+app.use('/api/registered_students/', registered_student_routes)
 
 // route to frontend static pages
 //app.use(express.static('src/frontend'))
@@ -96,15 +102,19 @@ app.get('/StaticPages/:name', function(req, res) {
       type = req.session.type;
     var allow = 1;
     //restrict access here
-    if(page == "Announcements.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ANNOUNCEMENTS.HTML" && type != "Admin")
       allow = 0;
-    if(page == "upload_page.html" && type != "Admin")
+    if((decodeURIComponent(page).toUpperCase() === "SURVEYS.HTML" || decodeURIComponent(page).toUpperCase() === "SURVEY_QUESTIONS.HTML") && type != "Admin")
       allow = 0;
-    if(page == "admin_required_files.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type != "Parent" && type != "Admin")
       allow = 0;
-    if(page == "admin_attendance_status.html" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_EMAIL.HTML" && type != "Admin")
       allow = 0;
-    if(page == "Registration.html" && type != "Parent")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_FILES.HTML" && type != "Admin")
+    allow = 0;
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_ATTENDANCE_STATUS.HTML" && type != "Admin")
+      allow = 0;
+    if(decodeURIComponent(page).toUpperCase() === "REGISTRATION.HTML" && type != "Parent")
       allow = 0;
 
     if(allow == 0) 

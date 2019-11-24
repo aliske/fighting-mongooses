@@ -18,21 +18,21 @@ async function getUploads(public = true) {
       'internal_name': 'user',
       'display_name': 'Author'
     },
-    {
-      'internal_name': 'uuid',
-      'display_name': 'uuid'
-    },
+ //   {
+ //     'internal_name': 'uuid',
+ //     'display_name': 'uuid'
+ //   },
     // {
     //   'internal_name': 'filename',
     //   'display_name': 'Title'
     // },
-    {
-      'internal_name': 'public',
-      'display_name': 'public?'
-    },
+ //   {
+ //     'internal_name': 'public',
+ //     'display_name': 'public?'
+ //   },
     {
       'internal_name': 'requiredfile',
-      'display_name': 'requiredfile'
+      'display_name': 'required File'
     },
     {
       'internal_name': 'cdate',
