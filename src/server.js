@@ -69,8 +69,8 @@ app.use('/api/announcements/', announcements_routes)
 const session_routes = require('./backend/api/session')
 app.use('/api/session/', session_routes)
 
-const attendance_logs_routes = require('./backend/api/attendancelogs')
-app.use('/api/attendancelogs/', attendance_logs_routes)
+const attendance_routes = require('./backend/api/attendancelogging')
+app.use('/api/attendancelogging/', attendance_routes)
 
 
 const file_routes = require('./backend/api/file')
