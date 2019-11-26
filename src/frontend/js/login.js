@@ -11,13 +11,13 @@ async function tryLogin(){
 		console.log("tryLogin: Yes Login");
 		let fname = data.fname;
 		let message = "<strong>&nbsp;&nbsp;Welcome, " + fname + `! (<a href='${ROOT_URI}/api/session/logout'>logout</a>)<strong>`;
-		makeMenu(data.type);
+		makeMenu(data.type, data.user, data.status);
 		$("#loginform").html(message);
 		
 	}
 	else
 	{
-		makeMenu("none");
+		makeMenu("none", null, null);
 		let formcode = "<div style='padding-left: 10px'>";
     	formcode += "<form class='form-inline mt-2 mt-md-0 nav-login-form'>";
         formcode += "<input class='form-control mr-sm-2' type='text' placeholder='Username' id='username' aria-label='Username'>";
@@ -32,7 +32,7 @@ async function tryLogin(){
 	}
 }
 
-function makeMenu(type){
+function makeMenu(type, userId, status){
 	let menucode = "";
 	console.log(type);
 	menucode +="<ul class='navbar-nav mr-auto nav-links'>";
@@ -45,7 +45,11 @@ function makeMenu(type){
         menucode +="</li>";
         menucode +="<li class='nav-item'>";
 		if(type === "Student"){
-		    menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkIn()'>Check In</button>"
+		    if(status == 0){
+		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkInOut("+ userId +", 1)'>Check In</button>"
+		    } else {
+		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-out-button' onclick='checkInOut("+ userId +", 0)'>Check Out</button>"
+		    }
 		} else if(type === "Parent"){
 		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
             menucode +="</li>";

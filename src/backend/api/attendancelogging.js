@@ -20,4 +20,16 @@ router.get('/status', (req, res) => {
       .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+router.post('/checkinout', async (req, res) => {
+    let user = req.body['user'];
+    let status =  req.body['status'];
+
+    const [rows, fields] = await db_functions.execute('INSERT INTO attendancelog (user, status) VALUES (?, ?)', [user, status]);
+
+    if (rows.insertId)
+        res.json({'insertID': rows.insertId})
+    else
+        res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
+})
+
 module.exports = router
