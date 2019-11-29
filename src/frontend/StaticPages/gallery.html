@@ -24,7 +24,7 @@
         const width = '150px',
               height = '150px',
               padding = '5px',
-              num_col = '3';
+              num_col = '4';
 
 
         const data = await fetch(`${ROOT_URI}/api/file/content/public`, { credentials: 'include' })
@@ -47,10 +47,12 @@
           const link = document.createElement('a')
           link.href = file.url
           link.target = '_blank'
+          link.classList = `col-${Math.floor(12/num_col)}`
 
           const obj = document.createElement('object')
-          obj.style.height = height
-          obj.style.width = width
+          obj.classList = `col`
+          // obj.style.height = height
+          // obj.style.width = width
           obj.style.padding = padding
           obj.data = file.url
           obj.type = file.mimetype
