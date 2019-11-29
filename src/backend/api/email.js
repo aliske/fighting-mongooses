@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
 
 
 // get all users
-router.get('/groups',/* middleware.isAdmin,*/ (req, res) => {
+router.get('/groups', middleware.isAdmin, (req, res) => {
   db_functions.query(`SELECT DISTINCT type FROM user WHERE type <> 'null'`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -26,7 +26,7 @@ router.get('/groups',/* middleware.isAdmin,*/ (req, res) => {
 
 
 // get user emails
-router.get('/:group',/* middleware.isAdmin,*/ (req, res) => {
+router.get('/:group', middleware.isAdmin, (req, res) => {
   const type = req.params['group']
   console.log(type)
 
@@ -38,7 +38,7 @@ router.get('/:group',/* middleware.isAdmin,*/ (req, res) => {
 
 
 // send email post
-router.post('/sendEmail',  async (req, res) => {
+router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const to = req.body['to']
   const subject = req.body['subject']
   const body = req.body['body']
