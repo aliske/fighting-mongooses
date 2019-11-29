@@ -17,7 +17,7 @@
 			$.get('../Templates/Footer.html',function(response){
 				$('#footer').html(response);
 			});
-		</script>
+    </script>
 	</head>
 
 	<script>
@@ -102,7 +102,7 @@
       const to = $('#email_to').val()
       const subject = $('#email_subject').val()
       const body = $('#email_body').val()
-
+      const isHTML = $('#isHTML').is(":checked")
 
       fetch(`${ROOT_URI}/api/email/sendEmail`, {
         credentials: 'include',
@@ -113,7 +113,8 @@
         body: JSON.stringify({
           to: to,
           subject: subject,
-          body: body
+          body: body,
+          isHTML: isHTML
         })
       })
         .then(async resp => {
@@ -145,7 +146,7 @@
     </div>
 
 
-    <form class='text-center' onsubmit='event.preventDefault(); sendEmail()'>
+    <form onsubmit='event.preventDefault(); sendEmail()'>
       <h1>Send an email</h1>
       <hr class="half_horizontal_rule">
 
@@ -182,12 +183,23 @@
         <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="6"></textarea>
       </div>
 
+      <div class="input-group mb-3 col-4">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default" for="isHTML">
+            Send body as HTML
+          </span>
+        </div>
+        <input id="isHTML" name="isHTML" type="checkbox" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+
       <!--
         <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
       -->
 
-    
-    <button class='btn btn-primary btn-lg'>Send Email</button> 
+    <div class="text-center">
+      <button class='btn btn-primary btn-lg'>Send Email</button> 
+    </div>
 
     </form>
     <!-- END TAB REQ FILES -->

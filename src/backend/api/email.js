@@ -42,6 +42,8 @@ router.post('/sendEmail',  async (req, res) => {
   const to = req.body['to']
   const subject = req.body['subject']
   const body = req.body['body']
+  const isHTML= req.body['isHTML']
+
 
   // console.log(req.body)
 
@@ -50,8 +52,14 @@ router.post('/sendEmail',  async (req, res) => {
     from: email, //process.env.EMAIL, // sender address
     to: to, //process.env.EMAIL, // list of receivers
     subject: subject, // Subject line
-    text: body // plain text body
   };
+
+  if (isHTML)
+    mailOptions.html = body // plain text body
+  else
+    mailOptions.text = body
+
+
 
 // ?emailAddress=alecjmaly@gmail.com&emailPassword=....
   try {
