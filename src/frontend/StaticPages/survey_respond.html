@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
 
     <script type="text/javascript" src="../js/root_uri.js"></script>
-    <script type="text/javascript" src="../js/get_survey_names.js"></script>
+    <script type="text/javascript" src="../js/get_surveys_by_user.js"></script>
+    <script type="text/javascript" src="../js/put_survey_on_page.js"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -23,22 +24,9 @@
             $('#footer').html(response);
         });
     </script>
-
-    <script>
-        // function getSurveyNames() {
-        //     //const survey_list = getSurveyList("survey");
-        //     //console.log(survey_list);
-        //     const names = ["test1", "test2", "test3"];
-        //     const $names_choice = $("#survey-name");
-        //     $names_choice.empty();
-        //     $.each(names, function (idx, name) {
-        //         $names_choice.append("<option>" + name + "</option")
-        //     });
-        // }
-    </script>
 </head>
 
-<body onload="getSurveyNames()">
+<body onload="getSurveysByUser()">
     <!-- Insert the header. -->
     <header id="header"></header>
 
@@ -51,19 +39,28 @@
             <div class="card-body">
                 <!-- Survey name. -->
                 <div class="form-group">
-                    <label class="form-label" for="survey-name">Survey name</label>
                     <select id="survey-name" class="form-control">
                     </select>
                 </div>
             </div>
             <div class="card-footer">
                 <!-- "View Survey" button. -->
-                <button type="button" class="btn btn-dark" id="submit-btn">
+                <button type="button" class="btn btn-dark" id="submit-btn" onclick="putSurveyOnPage()">
                     View Survey
                 </button>
             </div>
         </div>
     </div>
+
+    <br>
+
+    <!-- Survey form. -->
+    <table>
+        <tbody id="survey-form-tbody">
+        </tbody>
+    </table>
+
+    <br>
 
     <!-- Insert the footer. -->
     <footer id="footer"></footer>
@@ -77,9 +74,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-
-    <script>
-    </script>
 </body>
 
 </html>
