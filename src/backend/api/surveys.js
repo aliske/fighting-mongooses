@@ -65,6 +65,11 @@ router.post('/', async (req, res) => {
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
+// // insert a user's survey response
+// router.post('/', async (req, res) => {
+
+// })
+
 router.post('/question', async (req, res) => {
   // param name, default value
   let survey = req.body['survey'];

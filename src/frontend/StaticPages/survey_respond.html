@@ -7,6 +7,7 @@
     <script type="text/javascript" src="../js/root_uri.js"></script>
     <script type="text/javascript" src="../js/get_surveys_by_user.js"></script>
     <script type="text/javascript" src="../js/put_survey_on_page.js"></script>
+    <script type="text/javascript" src="../js/put_survey_answers_in_db.js"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -54,12 +55,21 @@
 
     <br>
 
+    <!-- Survey title. -->
+    <h3 id="survey-title" hidden>Please fill out the survey:</h3>
+
+    <br>
+
     <!-- Survey form. -->
     <table>
         <tbody id="survey-form-tbody">
         </tbody>
     </table>
 
+    <!-- Survey submit button. -->
+    <button id="survey-submit" class="btn btn-dark" onclick="putSurveyAnswersInDb()" hidden>Submit Survey</button>
+
+    <br>
     <br>
 
     <!-- Insert the footer. -->
