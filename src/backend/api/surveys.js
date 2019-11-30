@@ -1,6 +1,7 @@
 const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
+const middleware = require('../middleware');
 
 const survey_table_name = 'survey'
 
@@ -8,10 +9,18 @@ function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
-// get all announcements, with optional LIMIT and OFFSET
+// get all surveys
 router.get('/', (req, res) => {
   var query = `SELECT * FROM ${survey_table_name} ORDER BY id DESC`
   db_functions.query(query)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+// get all surveys the current user can fill out
+router.get('/by_user', middleware.checkLogin, (req, res) => {
+  const user_type = req.session.type
+  db_functions.query(`SELECT * FROM ${survey_table_name} WHERE type='${user_type}'`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })

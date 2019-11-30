@@ -1,7 +1,7 @@
 async function getSurveyNames() {
 
     // get surveys from database
-    const data = await fetch(`${ROOT_URI}/api/surveys/`)
+    const data = await fetch(`${ROOT_URI}/api/surveys/by_user/`)
         .then(resp => { return resp.json() });
 
     // get an array of the survey names
