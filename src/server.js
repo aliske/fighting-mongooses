@@ -6,7 +6,7 @@ var session = require('express-session');
 var path = require('path');
 var MySQLStore = require('express-mysql-session')(session);
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 require('dotenv').config()
 
 
@@ -47,7 +47,7 @@ app.use(session({
 // set headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080'); // req.get('host')); || http://fightingmongooses.com
+  res.header('Access-Control-Allow-Origin', 'https://fighting-mongooses-dev-256623.appspot.com http://localhost:8080'); // req.get('host')); || http://fightingmongooses.com
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   if ('OPTIONS' == req.method) {

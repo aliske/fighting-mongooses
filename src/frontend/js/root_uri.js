@@ -1,1 +1,1 @@
-const ROOT_URI = 'http://localhost:8080'
+const ROOT_URI = window.location.origin || 'http://localhost:8080'

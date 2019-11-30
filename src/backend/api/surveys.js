@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+
 // get individual survey
 router.get('/:id', (req, res) => {
   const id = req.params['id']
@@ -23,6 +24,19 @@ router.get('/:id', (req, res) => {
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
+
+
+// .patch   == update
+router.get('/names', (req, res) => {
+  const user_type = req.session.type;
+  var query = `SELECT name FROM ${survey_table_name} WHERE type='${user_type}'`
+  console.log(query)
+  db_functions.query(query)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
 
 router.get('/questions/:id', (req, res) => {
   const id = req.params['id']
@@ -82,9 +96,6 @@ router.post('/question/options', async (req, res) => {
   else 
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
-
-// .patch   == update
-
 
 
 
