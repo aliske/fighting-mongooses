@@ -32,7 +32,7 @@ router.get('/me', middleware.checkLogin, (req, res) => {
 // get individual user
 router.get('/:id', middleware.isAdmin, (req, res) => {
   const id = req.params['id']
-  db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -47,7 +47,7 @@ router.post('/', middleware.isAdmin, async (req, res) => {
   let bio = req.body['bio'] || null;
 
 
-  const [rows, fields] = await db_functions.execute('INSERT INTO users_TEST (name, age, bio) VALUES (?, ?, ?)', [name, age, bio]);
+  const [rows, fields] = await db_functions.execute('INSERT INTO ${users_table_name} (name, age, bio) VALUES (?, ?, ?)', [name, age, bio]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
@@ -73,15 +73,14 @@ router.patch('/:id', middleware.isAdmin,async (req, res) => {
   // set update values
   let name = req.body['name'] || row.name
   let age = req.body['age'] || row.age
-  let bio = req.body['bio'] || row.bio
   let registered = req.body['registered'] || row.registered
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
     UPDATE ${users_table_name}
-    SET name=?, age=?, bio=? registered=?
-    WHERE id=?`, [name, age, bio, id, registered]);
+    SET name=?, age=?, registered=?
+    WHERE id=?`, [name, age, registered, id]);
 
 
   if (rows.affectedRows > 0)

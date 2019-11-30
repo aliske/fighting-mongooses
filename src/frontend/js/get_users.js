@@ -34,7 +34,7 @@ async function getUsers(users_table) {
       return `<td>${row[header.internal_name] || ''}</td>` 
     }).join('')
 
-    return `<tr id="${row[header.id] || ''}">${row_data}<td><button class='enroll_student_button' onclick="enroll_student()">Enroll</button><button class='unenroll_student'>Unenroll</button></td></tr>`
+    return `<tr>${row_data}<td><button class='enroll_student_button' onclick='enroll_student(${row['id']})'>Enroll</button><button class='unenroll_student'>Unenroll</button></td></tr>`
   }).join('') 
 
   $('#' + users_table).html(headers_HTML + data_HTML)

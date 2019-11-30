@@ -1,11 +1,21 @@
 async function enroll_student(id){
+	
+	var date = new Date();
+	var year = date.getFullYear();
     const body = {
-      'registered': getFullYear()
+      'registered': year
     }
-    await fetch(`${ROOT_URI}/api/users/$(id)`, {
+    const data = await fetch(`${ROOT_URI}/api/users/${id}`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
     })
-    window.location.reload(true);
+	.then(resp => { 
+		if (resp.status === 200) {
+			//alert('record updated successfully')
+		}
+		else 
+			alert(data.msg);
+	})
+
 }
