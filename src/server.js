@@ -6,7 +6,7 @@ var session = require('express-session');
 var path = require('path');
 var MySQLStore = require('express-mysql-session')(session);
 const app = express()
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3000
 require('dotenv').config()
 
 
