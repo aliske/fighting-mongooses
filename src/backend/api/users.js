@@ -66,7 +66,7 @@ router.patch('/:id', middleware.isAdmin,async (req, res) => {
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
-  const row = await db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => { return resp[0] })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
@@ -74,13 +74,14 @@ router.patch('/:id', middleware.isAdmin,async (req, res) => {
   let name = req.body['name'] || row.name
   let age = req.body['age'] || row.age
   let bio = req.body['bio'] || row.bio
+  let registered = req.body['registered'] || row.registered
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
-    UPDATE users_TEST
-    SET name=?, age=?, bio=?
-    WHERE id=?`, [name, age, bio, id]);
+    UPDATE ${users_table_name}
+    SET name=?, age=?, bio=? registered=?
+    WHERE id=?`, [name, age, bio, id, registered]);
 
 
   if (rows.affectedRows > 0)
