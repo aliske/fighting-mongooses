@@ -41,25 +41,25 @@ async function putSurveyOnPage() {
         if (questions[i].type == "Short Answer") {
 
             // short answer (textarea to input answer)
-            table_data += `<fieldset id='form-${questions[i]["id"]}'><legend>Write a short response:</legend>`;
-            table_data += `<textarea id='answer-${questions[i]["id"]}'></textarea>`;
+            table_data += `<fieldset class='text-fieldset'><legend>Write a short response:</legend>`;
+            table_data += `<textarea class='text-answer'></textarea>`;
             table_data += "</fieldset>";
 
         } else if (questions[i].type == "Single Choice") {
 
             // single choice (radio button for each option)
-            table_data += `<fieldset id='form-${questions[i]["id"]}'><legend>Choose one:</legend>`;
+            table_data += `<fieldset class='choice-fieldset'><legend>Choose one:</legend>`;
             for (const option of options[i]) {
-                table_data += `<input type='radio' name='answer-${questions[i]["id"]}' value='${option['option_value']}'> ${option['option_value']}<br>`
+                table_data += `<input class='choice-answer' type='radio' name='answer-${questions[i]["id"]}' value='${option['option_value']}'> ${option['option_value']}<br>`
             }
             table_data += "</fieldset>";
 
         } else if (questions[i].type == "Multiple Choice") {
 
             // multiple choice (checkbox for each option)
-            table_data += `<fieldset id='form-${questions[i]["id"]}'><legend>Choose one or more:</legend>`;
+            table_data += `<fieldset class='choice-fieldset'><legend>Choose one or more:</legend>`;
             for (const option of options[i]) {
-                table_data += `<input type='checkbox' name='answer-${questions[i]["id"]}' value='${option['option_value']}'> ${option['option_value']}<br>`
+                table_data += `<input class='choice-answer' type='checkbox' name='answer-${questions[i]["id"]}' value='${option['option_value']}'> ${option['option_value']}<br>`
             }
             table_data += "</fieldset>";
 

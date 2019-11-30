@@ -65,10 +65,22 @@ router.post('/', async (req, res) => {
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
-// // insert a user's survey response
-// router.post('/', async (req, res) => {
+// insert a user's survey response
+router.post('/response', async (req, res) => {
+  
+  console.log("IN THE ENDPOINT");
+  
+  let user = req.session.id;
+  let question = req.body['question'];
+  let answer = req.body['answer'];
 
-// })
+  const [rows, fields] = await db_functions.execute('INSERT INTO survey_answers(user, question, answer) VALUES (?, ?, ?)', [user, question, answer]);
+
+  if (rows.insertId)
+    res.json({'insertID': rows.insertId})
+  else 
+    res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
+})
 
 router.post('/question', async (req, res) => {
   // param name, default value
