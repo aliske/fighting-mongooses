@@ -83,6 +83,16 @@ div.bottom {
 	bottom: 0;
 }
 
+div.scroll {
+	margin:4px;
+	padding:4px;
+	width: 500px;
+	height: 300px;
+	overflow-x: hidden;
+	overflow-x: auto;
+	text-align:justify;
+}
+
 img.center{
 	position: relative;
 	display: block;
@@ -137,6 +147,10 @@ table {
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.minwidth {
+	min-width: 300px;
 }
 
 td.left-align {

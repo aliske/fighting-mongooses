@@ -9,7 +9,9 @@ function encodeHTML(s) {
 router.get('/history/:user', (req, res) => {
   const user = req.params['user']
   console.log("This is the user: " + user)
-  var query = `SELECT time, status FROM attendancelog WHERE user=${user} ORDER BY time DESC;`
+  var query = `SELECT a.time, a.status, u.fname, u.lname
+               FROM user u
+                        JOIN attendancelog a on u.id = a.user AND u.id=${user};`
 
     db_functions.query(query)
       .then(resp => { res.json(resp) })
@@ -17,7 +19,7 @@ router.get('/history/:user', (req, res) => {
 })
 
 router.get('/status', (req, res) => {
-  var query = `SELECT user.fname, user.lname, logs.time, logs.status
+  var query = `SELECT user.id, user.fname, user.lname, logs.time, logs.status
                FROM (
                    SELECT logs1.status, logs1.time, logs1.user
                    FROM attendancelog logs1 LEFT JOIN attendancelog logs2

@@ -10,7 +10,7 @@ async function getAttendanceStatus(){
             } else {
                 var status = 'Out'
             }
-            return `<tr><td class="td-other">${row['fname'] + ' ' + row['lname']}</td><td class="td-other">${status}</td><td class="td-other">${date}</td></tr>`
+           return `<tr><td class="td-other">${row['fname'] + ' ' + row['lname']}</td><td class="td-other">${status}</td><td class="td-other">${date}</td><td class="td-other"><button class='btn btn-primary' id='edit-btn' onclick="showAttendanceHistory(${row['id']})">Show History</button></td></tr>`
 
     }).join('')
 
@@ -28,9 +28,10 @@ async function getAttendanceHistory(user){
         } else {
             var status = 'Logged Out'
         }
-        return `<tr>><td class="td-other">${status}</td><td class="td-other">${date}</td></tr>`
+        return `<tr>><td class="td-other">${date}</td><td class="td-other">${status}</td></tr>`
     }).join('')
 
+    $('#attendance-history-title').html("Attendance Log History for " + data[0]['fname'] + " " + data[0]['lname'])
     $('#attendance-history-tbody').html(dataHTML)
 }
 

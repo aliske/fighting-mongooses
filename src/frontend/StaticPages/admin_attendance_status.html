@@ -57,6 +57,56 @@
 
     </div>
 
+    <div id="entry-form" class="my-card-form">
+        <div class="row">
+            <div>
+                <div hidden id="history-card" class="card">
+                    <div class="card-header">
+                        <h5 id ="attendance-history-title" class="my-card-title"></h5>
+                    </div>
+                    <div class="col-md-12 scroll">
+                        <!-- This is where the body of the page goes -->
+                        <table class="minwidth" id="attendance-history-table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    Event
+                                </th>
+                            </thead>
+                            <tbody id="attendance-history-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button"
+                                class="btn btn-primary"
+                                onclick="closeAttendanceHistory()"
+                                id="history-close-btn">
+                            Close History
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // "un-hides" the student attendance history
+        function showAttendanceHistory(user) {
+            console.log("user is: " + user);
+            getAttendanceHistory(user);
+            $("#history-card").removeAttr("hidden");
+        }
+
+        function closeAttendanceHistory(){
+            $("#history-card").attr("hidden", true);
+        }
+    </script>
+
     <div id="footer"></div>
 
 </div>
