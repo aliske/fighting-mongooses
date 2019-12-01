@@ -2,6 +2,7 @@
 <html lang="en">
 
 <!-- Don't forget to change title and add navbar links as needed -->
+<!-- THIS IS A PLACEHOLDER PAGE FOR TESTING; REMOVE IT PRIOR TO RELEASE -->
 
 <head>
     <meta charset="UTF-8">
@@ -22,7 +23,7 @@
     </script>
 </head>
 
-<body onLoad='getAttendanceStatus()'>
+<body onLoad='getAttendanceHistory(3)'>
 
 <div class="container-fluid">
     <div id="header"></div>
@@ -35,21 +36,18 @@
 
             <!-- This is where the body of the page goes -->
             <h3>Current Attendance Status:</h3>
-            <table id="current-attendance-status-table">
+            <table id="attendance-history-table">
 
                 <thead>
                 <tr>
                     <th>
-                        Name
-                    </th>
-                    <th>
-                        Current Status
+                        Event
                     </th>
                     <th>
                         Time
                     </th>
                 </thead>
-                <tbody id="current-attendance-status-tbody">
+                <tbody id="attendance-history-tbody">
                 </tbody>
             </table>
 

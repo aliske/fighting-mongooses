@@ -6,6 +6,16 @@ function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
+router.get('/history/:user', (req, res) => {
+  const user = req.params['user']
+  console.log("This is the user: " + user)
+  var query = `SELECT time, status FROM attendancelog WHERE user=${user} ORDER BY time DESC;`
+
+    db_functions.query(query)
+      .then(resp => { res.json(resp) })
+      .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
 router.get('/status', (req, res) => {
   var query = `SELECT user.fname, user.lname, logs.time, logs.status
                FROM (
