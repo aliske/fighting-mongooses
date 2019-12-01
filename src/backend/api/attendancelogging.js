@@ -2,6 +2,9 @@ const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
 
+const users_table_name = 'user'
+const middleware = require('../middleware');
+
 function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
@@ -11,22 +14,34 @@ router.get('/history/:user', (req, res) => {
   console.log("This is the user: " + user)
   var query = `SELECT a.time, a.status, u.fname, u.lname
                FROM user u
-                        JOIN attendancelog a on u.id = a.user AND u.id=${user};`
+                        JOIN attendancelog a on u.id = a.user AND u.id=${user} ORDER BY a.time DESC;`
 
     db_functions.query(query)
       .then(resp => { res.json(resp) })
       .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
-router.get('/status', (req, res) => {
-  var query = `SELECT user.id, user.fname, user.lname, logs.time, logs.status
-               FROM (
-                   SELECT logs1.status, logs1.time, logs1.user
-                   FROM attendancelog logs1 LEFT JOIN attendancelog logs2
-                       ON (logs1.user = logs2.user AND logs1.time < logs2.time)
-                   WHERE logs2.time IS NULL
-               ) AS logs
-               JOIN user on user.id = logs.user;`
+router.get('/status', middleware.checkLogin, (req, res) => {
+    switch(req.session.type) {
+        default:
+            var filter = ``;
+            break;
+        case 'Parent':
+            var filter = ` AND user.parent=${req.session.user}`;
+            break;
+        case 'Student':
+            var filter = ` AND user.id=${req.session.user}`;
+            break;
+    }
+    var query = `SELECT user.id, user.fname, user.lname, logs.time, logs.status
+                     FROM (
+                              SELECT logs1.status, logs1.time, logs1.user
+                              FROM attendancelog logs1
+                                       LEFT JOIN attendancelog logs2
+                                                 ON (logs1.user = logs2.user AND logs1.time < logs2.time)
+                              WHERE logs2.time IS NULL
+                          ) AS logs
+                              JOIN user on user.id = logs.user${filter};`
     db_functions.query(query)
       .then(resp => { res.json(resp) })
       .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))

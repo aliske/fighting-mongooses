@@ -112,7 +112,7 @@ app.get('/StaticPages/:name', function(req, res) {
       allow = 0;
     if(decodeURIComponent(page).toUpperCase() === "ADMIN_FILES.HTML" && type != "Admin")
     allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "ADMIN_ATTENDANCE_STATUS.HTML" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ATTENDANCE.HTML" && (type != "Admin" && type != "Parent" && type != "Student"))
       allow = 0;
     if(decodeURIComponent(page).toUpperCase() === "REGISTRATION.HTML" && type != "Parent")
       allow = 0;

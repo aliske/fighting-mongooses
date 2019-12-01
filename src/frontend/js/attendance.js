@@ -10,7 +10,7 @@ async function getAttendanceStatus(){
             } else {
                 var status = 'Out'
             }
-           return `<tr><td class="td-other">${row['fname'] + ' ' + row['lname']}</td><td class="td-other">${status}</td><td class="td-other">${date}</td><td class="td-other"><button class='btn btn-primary' id='edit-btn' onclick="showAttendanceHistory(${row['id']})">Show History</button></td></tr>`
+           return `<tr><td class="td-other">${row['fname'] + ' ' + row['lname']}</td><td class="td-other ${status.toLowerCase()}">${status}</td><td class="td-other">${date}</td><td class="td-other"><button class='btn btn-primary' id='history-btn' onclick="showAttendanceHistory(${row['id']})">Show History</button></td></tr>`
 
     }).join('')
 

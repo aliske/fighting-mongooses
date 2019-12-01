@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous>
     <link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
-    <title>Check In Status</title>
+    <title>Attendance</title>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
 
     <script type="text/javascript" src="/js/root_uri.js"></script>
@@ -28,13 +28,10 @@
     <div id="header"></div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
 
             <h1>Attendance Status</h1>
             <hr>
-
-            <!-- This is where the body of the page goes -->
-            <h3>Current Attendance Status:</h3>
             <table id="current-attendance-status-table">
 
                 <thead>
@@ -57,7 +54,7 @@
 
     </div>
 
-    <div id="entry-form" class="my-card-form">
+    <div id="history-form" class="my-card-form">
         <div class="row">
             <div>
                 <div hidden id="history-card" class="card">
@@ -104,6 +101,11 @@
 
         function closeAttendanceHistory(){
             $("#history-card").attr("hidden", true);
+        }
+        function cellStyle(value, row, index) {
+            return {
+                classes: value.trim() === 'In' ? 'in' : 'out'
+            };
         }
     </script>
 
