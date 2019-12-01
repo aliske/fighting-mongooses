@@ -4,7 +4,7 @@ async function getAttendanceStatus(){
                     .then(resp => { return resp.json() })
 
     let dataHTML = data.map(row => {
-            var date = new Date(row['time']).toLocaleString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3")
+            var date = new Date(row['time']).toString().replace(/^(.*?)GMT.*$/,"$1")
             if(row['status'] == 1){
                 var status = 'In'
             } else {
