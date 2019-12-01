@@ -113,10 +113,23 @@
 
 
   </script>
+
   <script type="text/javascript" src="../js/uploads/get_uploads.js"></script>
   <script type="text/javascript" src="../js/root_uri.js"></script>
   <script type="text/javascript" src="../js/display_alert.js"></script>
 
+  <script type="text/javascript">
+      function printChecked(){
+        var items=document.getElementsByClassName('print.checkbox');
+        var selectedItems="";
+        for(var i=0; i<items.length; i++){
+          if(items[i].type=='checkbox' && items[i].checked==true)
+            selectedItems+=items[i].name+"\n";
+//        <a href="javascript:window.print()"><img src=file_url></a>
+        }
+        alert(selectedItems);
+      }     
+    </script>
 
 
 
@@ -168,7 +181,7 @@
 
         </form>
       <br>
-
+      <button class='btn btn-info' type=button onclick='printChecked()'>Print Selected</button>
 
       <hr>
       <button class='btn btn-info' type=button onclick='getUploads(true)'>public uploads</button>
