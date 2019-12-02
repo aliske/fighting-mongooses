@@ -60,22 +60,22 @@ async function putSurveyAnswersInDb() {
             'answer': A
         };
 
-        // const data = await fetch(`${ROOT_URI}/api/surveys/response`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(body)
-        // })
-        // .then(resp => {
-        //     if (resp.status === 200) {
-        //         //alert("Survey submitted! Thank you for your feedback.");
-        //         console.log("Success.")
-        //     } else {
-        //         //alert(data.msg);
-        //         console.log("Fail.")
-        //     }
-        // });
+        const data = await fetch(`${ROOT_URI}/api/surveys/response`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then(resp => {
+            if (resp.status === 200) {
+                //alert("Survey submitted! Thank you for your feedback.");
+                console.log("Success.")
+            } else {
+                //alert(data.msg);
+                console.log("Fail.")
+            }
+        });
 
         console.log(body);
     }

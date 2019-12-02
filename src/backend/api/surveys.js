@@ -70,10 +70,10 @@ router.post('/response', async (req, res) => {
   
   console.log("IN THE ENDPOINT");
   
-  let user = req.session.id;
+  let user = req.session.user;
   let question = req.body['question'];
-  let answer = req.body['answer'];
-
+  let answer = req.body['answer'] || null;
+  
   const [rows, fields] = await db_functions.execute('INSERT INTO survey_answers(user, question, answer) VALUES (?, ?, ?)', [user, question, answer]);
 
   if (rows.insertId)
