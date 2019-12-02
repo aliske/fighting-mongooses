@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="../js/root_uri.js"></script>
+    <script type="text/javascript" src="../js/get_surveys_by_user.js"></script>
+    <script type="text/javascript" src="../js/put_survey_on_page.js"></script>
+    <script type="text/javascript" src="../js/put_survey_answers_in_db.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
+    <link rel="shortcut icon" type="image/ico" href="/Assets/Bits_and_Bytes_Logo.ico" />
+
+    <title>Complete a Survey</title>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        $.get('../Templates/Header.html', function (response) {
+            $('#header').html(response);
+        });
+        $.get('../Templates/Footer.html', function (response) {
+            $('#footer').html(response);
+        });
+    </script>
+</head>
+
+<body onload="getSurveysByUser()">
+    <!-- Insert the header. -->
+    <header id="header"></header>
+
+    <!-- Survey selection form. -->
+    <div class="container">
+        <div class="card registration-card">
+            <div class="card-header">
+                <h3 class="my-card-title">Select a survey</h3>
+            </div>
+            <div class="card-body">
+                <!-- Survey name. -->
+                <div class="form-group">
+                    <select id="survey-name" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="card-footer">
+                <!-- "View Survey" button. -->
+                <button type="button" class="btn btn-dark" id="submit-btn" onclick="putSurveyOnPage()">
+                    View Survey
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Survey title. -->
+    <h3 id="survey-title" hidden>Please fill out the survey:</h3>
+
+    <br>
+
+    <!-- Survey form. -->
+    <table>
+        <tbody id="survey-form-tbody">
+        </tbody>
+    </table>
+
+    <!-- Survey submit button. -->
+    <button id="survey-submit" class="btn btn-dark" onclick="putSurveyAnswersInDb()" hidden>Submit Survey</button>
+
+    <br>
+    <br>
+
+    <!-- Insert the footer. -->
+    <footer id="footer"></footer>
+
+    <!-- jQuery things -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>

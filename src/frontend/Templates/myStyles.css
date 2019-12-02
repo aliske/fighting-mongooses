@@ -186,15 +186,17 @@ td.right-align {
 			color:black;
 			}
 /*  announcements table */
-			#announcement-tbody td,.uploads-table th {
+			#announcement-tbody td,.uploads-table th, #survey-form-tbody td {
 			border: 1px solid black;
 			border-collapse: collapse
 			}	
-			#announcement-tbody tr:nth-child(odd) {
+			#announcement-tbody tr:nth-child(odd),
+			#survey-form-tbody tr:nth-child(odd){
 				background-color:lightgrey;
 				color:black;
 			}
-			#announcement-tbody tr:nth-child(even) {
+			#announcement-tbody tr:nth-child(even),
+			#survey-form-tbody tr:nth-child(even) {
 			background-color:grey;
 			color:black;
 			}
