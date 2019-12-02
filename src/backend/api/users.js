@@ -57,6 +57,64 @@ router.post('/', middleware.isAdmin, async (req, res) => {
 
 // .patch   == update
 
+// unenroll user
+router.patch('/unenroll/:id', middleware.isAdmin,async (req, res) => {
+  // param name, default value
+  const id = req.params['id']
+  if (!id)
+    res.status(400).json({'msg': 'Please provide a valid ID to modify'})
+
+  // get current values
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
+    .then(resp => { return resp[0] })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+  // set update values
+  let registered = req.body['registered']
+
+  // update db
+  const [rows, fields] = await db_functions.execute(`
+    UPDATE ${users_table_name}
+    SET registered=?
+    WHERE id=?`, [registered, id]);
+
+
+  if (rows.affectedRows > 0)
+    res.json({'msg': 'Your data has been updated.'})
+  else
+    res.status(500).json({'msg': 'No update.'})
+})
+
+
+
+// enroll user
+router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
+  // param name, default value
+  const id = req.params['id']
+  if (!id)
+    res.status(400).json({'msg': 'Please provide a valid ID to modify'})
+
+  // get current values
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
+    .then(resp => { return resp[0] })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+  // set update values
+  let registered = req.body['registered'] || row.registered
+
+  // update db
+  const [rows, fields] = await db_functions.execute(`
+    UPDATE ${users_table_name}
+    SET registered=?
+    WHERE id=?`, [registered, id]);
+
+
+  if (rows.affectedRows > 0)
+    res.json({'msg': 'Your data has been updated.'})
+  else
+    res.status(500).json({'msg': 'No update.'})
+})
+
 
 // edit user
 router.patch('/:id', middleware.isAdmin,async (req, res) => {

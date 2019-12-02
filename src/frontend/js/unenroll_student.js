@@ -1,11 +1,10 @@
-async function enroll_student(id){
+async function unenroll_student(id){
 	
-	var date = new Date();
-	var year = date.getFullYear();
+	var unregistered = 0;
     const body = {
-      'registered': year
+      'registered': unregistered
     }
-    const data = await fetch(`${ROOT_URI}/api/users/enroll/${id}`, {
+    const data = await fetch(`${ROOT_URI}/api/users/unenroll/${id}`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)

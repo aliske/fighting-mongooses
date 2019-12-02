@@ -70,6 +70,7 @@ CREATE TABLE `user` (
   `parent` int(11) DEFAULT '0',
   `school` varchar(256) DEFAULT NULL,
   `grade` int(11) DEFAULT NULL,
+  `registered` int(4) DEFAULT NULL,
   `cdate` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
