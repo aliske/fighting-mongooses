@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous>
     <link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
-    <title>Check In Status</title>
+    <title>Attendance</title>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
 
     <script type="text/javascript" src="/js/root_uri.js"></script>
@@ -28,13 +28,10 @@
     <div id="header"></div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
 
             <h1>Attendance Status</h1>
             <hr>
-
-            <!-- This is where the body of the page goes -->
-            <h3>Current Attendance Status:</h3>
             <table id="current-attendance-status-table">
 
                 <thead>
@@ -46,7 +43,7 @@
                         Current Status
                     </th>
                     <th>
-                        Timestamp
+                        Time
                     </th>
                 </thead>
                 <tbody id="current-attendance-status-tbody">
@@ -56,6 +53,61 @@
         </div>
 
     </div>
+
+    <div id="history-form" class="my-card-form">
+        <div class="col-md-5">
+            <div>
+                <div hidden id="history-card" class="card">
+                    <div class="card-header">
+                        <h5 id ="attendance-history-title" class="my-card-title"></h5>
+                    </div>
+                    <div class="scroll">
+                        <!-- This is where the body of the page goes -->
+                        <table class="minwidth" id="attendance-history-table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    Event
+                                </th>
+                            </thead>
+                            <tbody id="attendance-history-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button"
+                                class="btn btn-primary"
+                                onclick="closeAttendanceHistory()"
+                                id="history-close-btn">
+                            Close History
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // "un-hides" the student attendance history
+        function showAttendanceHistory(user) {
+            console.log("user is: " + user);
+            getAttendanceHistory(user);
+            $("#history-card").removeAttr("hidden");
+        }
+
+        function closeAttendanceHistory(){
+            $("#history-card").attr("hidden", true);
+        }
+        function cellStyle(value, row, index) {
+            return {
+                classes: value.trim() === 'In' ? 'in' : 'out'
+            };
+        }
+    </script>
 
     <div id="footer"></div>
 
