@@ -1,6 +1,7 @@
 const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
+const middleware = require('../middleware');
 
 const survey_table_name = 'survey'
 
@@ -8,7 +9,7 @@ function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
-// get all announcements, with optional LIMIT and OFFSET
+// get all surveys
 router.get('/', (req, res) => {
   var query = `SELECT * FROM ${survey_table_name} ORDER BY id DESC`
   db_functions.query(query)
@@ -16,6 +17,24 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+// get all surveys the current user can fill out
+router.get('/by_user', middleware.checkLogin, (req, res) => {
+  const user_type = req.session.type
+
+  // get the proper survey type name for each user type
+  var survey_type;
+  if (user_type == "Admin") {
+    survey_type = "Admin";
+  } else if (user_type == "Parent") {
+    survey_type = "Parent";
+  } else {
+    survey_type = "Child";
+  }
+
+  db_functions.query(`SELECT * FROM ${survey_table_name} WHERE type='${survey_type}'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
 
 // get individual survey
 router.get('/:id', (req, res) => {
@@ -63,6 +82,20 @@ router.post('/', async (req, res) => {
   let type = req.body['type'] || 'Parent';
 
   const [rows, fields] = await db_functions.execute('INSERT INTO survey(name, startdate, enddate, type) VALUES (?, ?, ?, ?)', [name, startdate, enddate, type]);
+
+  if (rows.insertId)
+    res.json({'insertID': rows.insertId})
+  else 
+    res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
+})
+
+// insert a user's survey response
+router.post('/response', async (req, res) => {
+  let user = req.session.user;
+  let question = req.body['question'];
+  let answer = req.body['answer'] || null;
+  
+  const [rows, fields] = await db_functions.execute('INSERT INTO survey_answers(user, question, answer) VALUES (?, ?, ?)', [user, question, answer]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})

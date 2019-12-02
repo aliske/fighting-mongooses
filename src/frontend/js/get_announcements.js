@@ -64,5 +64,31 @@ async function getAnnouncements(page) {
     }).join('') 
 
     $('#announcement-tbody').html(data_HTML)
+  } else if (page == "homepage") {
+    
+    const headers = [
+      {
+        'internal_name': 'title',
+        'display_name': 'Title'
+      },
+      {
+        'internal_name': 'announcement',
+        'display_name': 'Announcement'
+      },
+      {
+        'internal_name': 'cdate',
+        'display_name': 'Date'
+      }
+    ]
+
+    let data_HTML = data.map(row => {
+      const row_data = headers.map(header => {
+        // defaults to '' if null
+        return `<td class="td-other">${row[header.internal_name] || ''}</td>` 
+      }).join('')
+      return `<tr>${row_data}</tr>`
+    }).join('') 
+
+    $('#home-annc-tbody').html(data_HTML)
   }
 }

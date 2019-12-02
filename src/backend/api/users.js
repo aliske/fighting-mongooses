@@ -32,7 +32,7 @@ router.get('/me', middleware.checkLogin, (req, res) => {
 // get individual user
 router.get('/:id', middleware.isAdmin, (req, res) => {
   const id = req.params['id']
-  db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
@@ -47,7 +47,7 @@ router.post('/', middleware.isAdmin, async (req, res) => {
   let bio = req.body['bio'] || null;
 
 
-  const [rows, fields] = await db_functions.execute('INSERT INTO users_TEST (name, age, bio) VALUES (?, ?, ?)', [name, age, bio]);
+  const [rows, fields] = await db_functions.execute('INSERT INTO ${users_table_name} (name, age, bio) VALUES (?, ?, ?)', [name, age, bio]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
@@ -56,6 +56,64 @@ router.post('/', middleware.isAdmin, async (req, res) => {
 })
 
 // .patch   == update
+
+// unenroll user
+router.patch('/unenroll/:id', middleware.isAdmin,async (req, res) => {
+  // param name, default value
+  const id = req.params['id']
+  if (!id)
+    res.status(400).json({'msg': 'Please provide a valid ID to modify'})
+
+  // get current values
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
+    .then(resp => { return resp[0] })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+  // set update values
+  let registered = req.body['registered']
+
+  // update db
+  const [rows, fields] = await db_functions.execute(`
+    UPDATE ${users_table_name}
+    SET registered=?
+    WHERE id=?`, [registered, id]);
+
+
+  if (rows.affectedRows > 0)
+    res.json({'msg': 'Your data has been updated.'})
+  else
+    res.status(500).json({'msg': 'No update.'})
+})
+
+
+
+// enroll user
+router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
+  // param name, default value
+  const id = req.params['id']
+  if (!id)
+    res.status(400).json({'msg': 'Please provide a valid ID to modify'})
+
+  // get current values
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
+    .then(resp => { return resp[0] })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+  // set update values
+  let registered = req.body['registered'] || row.registered
+
+  // update db
+  const [rows, fields] = await db_functions.execute(`
+    UPDATE ${users_table_name}
+    SET registered=?
+    WHERE id=?`, [registered, id]);
+
+
+  if (rows.affectedRows > 0)
+    res.json({'msg': 'Your data has been updated.'})
+  else
+    res.status(500).json({'msg': 'No update.'})
+})
 
 
 // edit user
@@ -66,21 +124,21 @@ router.patch('/:id', middleware.isAdmin,async (req, res) => {
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
-  const row = await db_functions.query(`SELECT * FROM users_TEST WHERE id=${id}`)
+  const row = await db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => { return resp[0] })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // set update values
   let name = req.body['name'] || row.name
   let age = req.body['age'] || row.age
-  let bio = req.body['bio'] || row.bio
+  let registered = req.body['registered'] || row.registered
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
-    UPDATE users_TEST
-    SET name=?, age=?, bio=?
-    WHERE id=?`, [name, age, bio, id]);
+    UPDATE ${users_table_name}
+    SET name=?, age=?, registered=?
+    WHERE id=?`, [name, age, registered, id]);
 
 
   if (rows.affectedRows > 0)

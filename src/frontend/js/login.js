@@ -44,6 +44,9 @@ function makeMenu(type, userId, status){
 	    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/gallery.html'>Gallery</a>"
         menucode +="</li>";
         menucode +="<li class='nav-item'>";
+		menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Attendance.html'>Attendance</a>";
+		menucode +="</li>"
+		menucode +="<li class='nav-item'>";
 		if(type === "Student"){
 		    if(status == 0){
 		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkInOut("+ userId +", 1)'>Check In</button>"
@@ -61,9 +64,6 @@ function makeMenu(type, userId, status){
             menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Announcements.html'>Announcements</a>";
 			menucode +="</li>";
-			menucode +="<li class='nav-item'>";
-			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_attendance_status.html'>[Admin] Attendance Status</a>";
-            menucode +="</li>"
             menucode +="<li class='nav-item'>"
             menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>"
             menucode +="</li>"

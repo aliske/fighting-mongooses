@@ -83,6 +83,16 @@ div.bottom {
 	bottom: 0;
 }
 
+div.scroll {
+	margin:4px;
+	padding:4px;
+	width: 500px;
+	height: 300px;
+	overflow-x: hidden;
+	overflow-x: auto;
+	text-align:justify;
+}
+
 img.center{
 	position: relative;
 	display: block;
@@ -139,6 +149,10 @@ table {
 	margin-right: auto;
 }
 
+.minwidth {
+	min-width: 300px;
+}
+
 td.left-align {
 	text-align: left;
 }
@@ -170,16 +184,41 @@ td.right-align {
 			color:black;
 			}
 /*  announcements table */
-			#announcement-tbody td,.uploads-table th {
+			#announcement-tbody td,.uploads-table th, #survey-form-tbody td {
 			border: 1px solid black;
 			border-collapse: collapse
 			}	
-			#announcement-tbody tr:nth-child(odd) {
+			#announcement-tbody tr:nth-child(odd),
+			#survey-form-tbody tr:nth-child(odd){
 				background-color:lightgrey;
 				color:black;
 			}
-			#announcement-tbody tr:nth-child(even) {
+			#announcement-tbody tr:nth-child(even),
+			#survey-form-tbody tr:nth-child(even) {
 			background-color:grey;
 			color:black;
 			}
+/*  attendance table */
+            #current-attendance-status-tbody td,.uploads-table th,#home-annc-tbody td {
+                border: 1px solid black;
+                border-collapse: collapse
+            }
+            #current-attendance-status-tbody tr:nth-child(odd),
+            #home-annc-tbody tr:nth-child(odd) {
+                background-color:lightgrey;
+                color:black;
+            }
+            #current-attendance-status-tbody tr:nth-child(even),
+            #home-annc-tbody tr:nth-child(even) {
+                background-color:grey;
+                color:black;
+            }
+            #current-attendance-status-tbody td.in {
+                background-color: lightgreen;
+                color: darkgreen;
+            }
+            #current-attendance-status-tbody td.out {
+                background-color: lightcoral;
+                color: darkred;
+            }
 
