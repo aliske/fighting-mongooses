@@ -81,6 +81,7 @@ async function getUserRecord(user){
                     .then(resp => { return resp.json() })
 
     $('#student-record-title').html("Student Record for " + data[0]['fname'] + " " + data[0]['lname'])
+    $("#id").val(data[0]['id']);
     $("#fname").val(data[0]['fname']);
     $("#lname").val(data[0]['lname']);
     $("#email").val(data[0]['email']);
@@ -92,5 +93,4 @@ async function getUserRecord(user){
     $("#birthdate").val(data[0]['birthdate']);
     $("#school").val(data[0]['school']);
     $("#grade").val(data[0]['grade']);
-    console.log(data);
 }
