@@ -20,7 +20,18 @@ router.get('/', (req, res) => {
 // get all surveys the current user can fill out
 router.get('/by_user', middleware.checkLogin, (req, res) => {
   const user_type = req.session.type
-  db_functions.query(`SELECT * FROM ${survey_table_name} WHERE type='${user_type}'`)
+
+  // get the proper survey type name for each user type
+  var survey_type;
+  if (user_type == "Admin") {
+    survey_type = "Admin";
+  } else if (user_type == "Parent") {
+    survey_type = "Parent";
+  } else {
+    survey_type = "Child";
+  }
+
+  db_functions.query(`SELECT * FROM ${survey_table_name} WHERE type='${survey_type}'`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
