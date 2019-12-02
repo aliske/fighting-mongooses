@@ -153,8 +153,6 @@ table {
 	min-width: 300px;
 }
 
-td[]
-
 td.left-align {
 	text-align: left;
 }
@@ -201,15 +199,17 @@ td.right-align {
 			color:black;
 			}
 /*  attendance table */
-            #current-attendance-status-tbody td,.uploads-table th {
+            #current-attendance-status-tbody td,.uploads-table th,#home-annc-tbody td {
                 border: 1px solid black;
                 border-collapse: collapse
             }
-            #current-attendance-status-tbody tr:nth-child(odd) {
+            #current-attendance-status-tbody tr:nth-child(odd),
+            #home-annc-tbody tr:nth-child(odd) {
                 background-color:lightgrey;
                 color:black;
             }
-            #current-attendance-status-tbody tr:nth-child(even) {
+            #current-attendance-status-tbody tr:nth-child(even),
+            #home-annc-tbody tr:nth-child(even) {
                 background-color:grey;
                 color:black;
             }
