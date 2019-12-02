@@ -14,6 +14,14 @@ router.get('/', middleware.isAdmin, (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+// get a subset of users by type
+router.get('/byType/:type', middleware.isAdmin, (req, res) => {
+  const type = req.params['type']
+  db_functions.query(`SELECT * FROM ${users_table_name} WHERE type='${type.toLowerCase()}'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
 
 
 
@@ -117,7 +125,7 @@ router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
 
 
 // edit user
-router.patch('/:id', middleware.isAdmin,async (req, res) => {
+router.patch('/:id', middleware.isAdmin, async (req, res) => {
   // param name, default value
   const id = req.params['id']
   if (!id)
@@ -129,16 +137,24 @@ router.patch('/:id', middleware.isAdmin,async (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
   // set update values
-  let name = req.body['name'] || row.name
-  let age = req.body['age'] || row.age
-  let registered = req.body['registered'] || row.registered
+  let fname = req.body['fname'] || row.fname
+  let lname = req.body['lname'] || row.lname
+  let email = req.body['email'] || row.email
+  let addr_line1 = req.body['addr_line1'] || row.addr_line1
+  let addr_line2 = req.body['addr_line2'] || row.addr_line2
+  let addr_city = req.body['addr_city'] || row.addr_city
+  let addr_state = req.body['addr_state'] || row.addr_state
+  let addr_zip = req.body['addr_zip'] || row.addr_zip
+  let birthdate = req.body['birthdate'] || row.birthdate
+  let school = req.body['school'] || row.school
+  let grade = req.body['grade'] || row.grade
 
 
   // update db
   const [rows, fields] = await db_functions.execute(`
     UPDATE ${users_table_name}
-    SET name=?, age=?, registered=?
-    WHERE id=?`, [name, age, registered, id]);
+    SET fname=?, lname=?, email=?, addr_line1=?, addr_line2=?, addr_city=?, addr_state=?, addr_zip=?, birthdate=?, school=?, grade=?
+    WHERE id=?`, [fname, lname, email, addr_line1, addr_line2, addr_city, addr_state, addr_zip, birthdate, school, grade, id]);
 
 
   if (rows.affectedRows > 0)
