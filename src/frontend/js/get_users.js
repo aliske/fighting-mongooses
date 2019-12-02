@@ -13,6 +13,10 @@ async function getUsers(users_table) {
       'internal_name': 'lname',
       'display_name': 'Last Name'
     },
+	{
+      'internal_name': 'id',
+      'display_name': 'ID'
+    },
     {
       'internal_name': 'registered',
       'display_name': 'Registered?'
@@ -30,7 +34,7 @@ async function getUsers(users_table) {
       return `<td>${row[header.internal_name] || ''}</td>` 
     }).join('')
 
-    return `<tr>${row_data}<td class='delete-icon' onclick='deleteUser(${row['id']})'>&times;</td></tr>`
+    return `<tr>${row_data}<td><button class='enroll_student_button' onclick='enroll_student(${row['id']})'>Enroll</button><button class='unenroll_student' onclick='unenroll_student(${row['id']})'>Unenroll</button></td></tr>`
   }).join('') 
 
   $('#' + users_table).html(headers_HTML + data_HTML)
