@@ -14,6 +14,14 @@ router.get('/', middleware.isAdmin, (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+// get a subset of users by type
+router.get('/byType/:type', middleware.isAdmin, (req, res) => {
+  const type = req.params['type']
+  db_functions.query(`SELECT * FROM ${users_table_name} WHERE type='${type.toLowerCase()}'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
 
 
 
