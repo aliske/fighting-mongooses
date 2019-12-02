@@ -17,18 +17,94 @@
 			$.get('../Templates/Footer.html',function(response){
 				$('#footer').html(response);
 			});
-		</script>
+    </script>
 	</head>
 
 	<script>
+    async function createGroupButtons() {
+      const resp = await fetch(`${ROOT_URI}/api/email/groups`, {
+        credentials: 'include',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      })
+      .then(resp => { return resp.json() })
+      .then(data => { return data })
+      .catch(err => { 
+        displayAlert("Failed to collect emails. Please sign in again if needed", 'alert-danger')
+        return ''
+      })
+
+      // build buttons for each group
+      resp.forEach(group => {
+        const group_name = group['type']
+
+        const obj = document.createElement('button')
+        obj.type = 'button'
+        obj.name = 'group_name'
+        obj.classList = 'btn btn-small btn-info'
+        obj.setAttribute('data-toggle', 'button')
+        obj.onclick = (event) => setEmails(event, `${group_name}`)
+        obj.textContent = 'All ' + group_name + 's'
+
+        document.querySelector('#btns-container').appendChild(obj)
+      })
+
+    }
+
+    async function setEmails(evt, group) {
+      const action = evt.target.classList.contains('active') ? 'remove' : 'add'
+      const group_emails = await getEmails(group)
+      let current_emails = $('#email_to').val().toLowerCase().split(';')
+
+
+      // console.log(action)
+      // console.log(group)
+      console.log(current_emails)
+
+
+      if (action === 'add') {
+        current_emails = new Set(current_emails.concat(group_emails))
+      } else if (action === 'remove') {
+        current_emails = current_emails.filter(email => { return !group_emails.includes(email) })
+      }
+
+      // filter out blank emails and join with ';'
+      current_emails = Array.from(current_emails).filter(email => { return email !== '' }).join(';')
+      $('#email_to').val(current_emails)
+    }
+
+    async function getEmails(group) {
+      let uri = `${ROOT_URI}/api/email/${group}`
+      let emails = ''
+
+      const resp = await fetch(uri, {
+        credentials: 'include',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      })
+      .then(resp => { return resp.json() })
+      .then(data => { return data })
+      .catch(err => { 
+        displayAlert("Failed to collect emails. Please sign in again if needed", 'alert-danger')
+        return ''
+      })
+
+      return resp.map(ele => { return ele['email'].toLowerCase() })
+    }
+
+
+
+
     function sendEmail() {
       displayAlert('Email is being sent', 'alert-info')
       const to = $('#email_to').val()
       const subject = $('#email_subject').val()
       const body = $('#email_body').val()
+      const isHTML = $('#isHTML').is(":checked")
 
-
-      fetch(`${ROOT_URI}/api/email`, {
+      fetch(`${ROOT_URI}/api/email/sendEmail`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -37,7 +113,8 @@
         body: JSON.stringify({
           to: to,
           subject: subject,
-          body: body
+          body: body,
+          isHTML: isHTML
         })
       })
         .then(async resp => {
@@ -60,7 +137,7 @@
 
 
 
-	<body>
+	<body onload='createGroupButtons()'>
     <header id="header"></header>
 
     <!-- Alert -->
@@ -69,40 +146,63 @@
     </div>
 
 
-    <form>
+    <form onsubmit='event.preventDefault(); sendEmail()'>
       <h1>Send an email</h1>
       <hr class="half_horizontal_rule">
 
+      <div id='btns-container'></div>
+      <br><br>
 
-      <div class="input-group mb-3 col-6">
+      <div class="input-group mb-3 col-12">
+
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_to">To</span>
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_to">
+            To
+          </span>
         </div>
-        <input id="email_to" name="email_to" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+
+        <textarea id="email_to" name="email_to" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
       </div>
 
-      <div class="input-group mb-3 col-6">
+
+      <div class="input-group mb-3 col-12">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_subject">Subject</span>
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_subject">
+            Subject
+          </span>
         </div>
         <input id="email_subject" name="email_subject" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
 
-      <div class="input-group mb-3 col-6">
+      <div class="input-group mb-3 col-12">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_body">Body</span>
+          <span class="input-group-text" id="inputGroup-sizing-default" for="email_body">
+            Body
+          </span>
         </div>
-        <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="3"></textarea>
+        <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="6"></textarea>
       </div>
+
+      <div class="input-group mb-3 col-4">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default" for="isHTML">
+            Send body as HTML
+          </span>
+        </div>
+        <input id="isHTML" name="isHTML" type="checkbox" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
 
       <!--
         <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
       -->
+
+    <div class="text-center">
+      <button class='btn btn-primary btn-lg'>Send Email</button> 
+    </div>
+
     </form>
     <!-- END TAB REQ FILES -->
-
-    <button class='btn btn-primary btn-lg' onclick="sendEmail()">Send Email</button> 
-
 
 
 

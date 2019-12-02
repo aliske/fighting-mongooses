@@ -17,11 +17,33 @@ var transporter = nodemailer.createTransport({
 });
 
 
+// get all users
+router.get('/groups', middleware.isAdmin, (req, res) => {
+  db_functions.query(`SELECT DISTINCT type FROM user WHERE type <> 'null'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+// get user emails
+router.get('/:group', middleware.isAdmin, (req, res) => {
+  const type = req.params['group']
+  console.log(type)
+
+  db_functions.query(`SELECT DISTINCT email FROM user WHERE type = '${type}' AND email <> 'null'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+
 // send email post
-router.post('/',  async (req, res) => {
+router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const to = req.body['to']
   const subject = req.body['subject']
   const body = req.body['body']
+  const isHTML= req.body['isHTML']
+
 
   // console.log(req.body)
 
@@ -30,8 +52,14 @@ router.post('/',  async (req, res) => {
     from: email, //process.env.EMAIL, // sender address
     to: to, //process.env.EMAIL, // list of receivers
     subject: subject, // Subject line
-    text: body // plain text body
   };
+
+  if (isHTML)
+    mailOptions.html = body // plain text body
+  else
+    mailOptions.text = body
+
+
 
 // ?emailAddress=alecjmaly@gmail.com&emailPassword=....
   try {
@@ -47,6 +75,9 @@ router.post('/',  async (req, res) => {
     res.status(500).json({'msg': 'failed'})
   }
 })
+
+
+
 
 
 
