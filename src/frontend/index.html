@@ -8,6 +8,11 @@
 		<link rel="shortcut icon" type="image/ico" href="/Assets/Bits_and_Bytes_Logo.ico"/>
 		<title>Bits and Bytes Home</title>
 		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+
+		<!-- JavaScript imports -->
+		<script type="text/javascript" src="/js/root_uri.js"></script>
+		<script type="text/javascript" src="/js/get_announcements.js"></script>
+
 		<script type='text/javascript'>
 			$.get('Templates/Header.html',function(response){
 				$('#header').html(response);
@@ -19,7 +24,7 @@
 
 	</head>
 
-	<body>
+	<body onLoad='getAnnouncements("homepage")'>
 	
 		<!-- Insert the header. -->
 		<header id="header"></header>
@@ -27,8 +32,20 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-9">
-					<h1>Home Page</h1>
-					<p>Welcome to the Bits and Bytes portal home page. Check back for future updates.</p>
+
+					<!-- Announcement table -->
+					<h3>Announcements:</h3>
+					<table id="home-annc-table">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Announcement</th>
+								<th>Date & Time</th>
+							</tr>
+						</thead>
+						<tbody id="home-annc-tbody"></tbody>
+					</table>
+
 				</div>
 			</div>
 		</div>
