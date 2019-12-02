@@ -34,9 +34,18 @@ async function getUsers(users_table) {
       return `<td>${row[header.internal_name] || ''}</td>` 
     }).join('')
 
-    return `<tr>${row_data}<td><button class='enroll_student_button' onclick='enroll_student(${row['id']})'>Enroll</button><button class='unenroll_student' onclick='unenroll_student(${row['id']})'>Unenroll</button></td></tr>`
+    return `<tr>${row_data}<td><button class='enroll_student_button' onclick='enroll_student(${row['id']})'>Enroll</button><button class='unenroll_student' onclick='unenroll_student(${row['id']})'>Unenroll</button><button class='unenroll_student' onclick='showStudentRecord(${row['id']})'>Get Record</button></td></tr>`
   }).join('') 
 
   $('#' + users_table).html(headers_HTML + data_HTML)
 
+}
+
+async function getUserRecord(user){
+    const data = await fetch(`${ROOT_URI}/api/users/${user}`)
+                    .then(resp => { return resp.json() })
+
+    $('#student-record-title').html("Student Record for " + data[0]['fname'] + " " + data[0]['lname'])
+    $('#student-record-form-body').text(data);
+    console.log(data);
 }
