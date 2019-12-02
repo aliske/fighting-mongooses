@@ -84,7 +84,7 @@ router.post('/register', function (req, res) {
     var query = `INSERT INTO user(username, password, fname, lname, email, type, parent, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${parent}','${school}','${grade}')`
     db_functions.query(query)
     .then(function(resp) {
-        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname})
+        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname, 'id': resp['insertId']})
     })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
