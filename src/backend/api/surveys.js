@@ -67,9 +67,6 @@ router.post('/', async (req, res) => {
 
 // insert a user's survey response
 router.post('/response', async (req, res) => {
-  
-  console.log("IN THE ENDPOINT");
-  
   let user = req.session.user;
   let question = req.body['question'];
   let answer = req.body['answer'] || null;

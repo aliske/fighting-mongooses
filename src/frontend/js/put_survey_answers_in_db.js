@@ -39,7 +39,8 @@ async function putSurveyAnswersInDb() {
             // ...then save that array into "answers" array
             answers.push(ans);
 
-        // if short answer, simply save the value of the text area into "answers" array
+        // if short answer, simply save the value
+        // of the text area into "answers" array
         } else if (fs.className == "text-fieldset") {
             answers.push(fs.lastChild.value);
         }
@@ -60,6 +61,7 @@ async function putSurveyAnswersInDb() {
             'answer': A
         };
 
+        // POST survey answers to database
         const data = await fetch(`${ROOT_URI}/api/surveys/response`, {
             method: 'POST',
             headers: {
@@ -69,14 +71,12 @@ async function putSurveyAnswersInDb() {
         })
         .then(resp => {
             if (resp.status === 200) {
-                //alert("Survey submitted! Thank you for your feedback.");
-                console.log("Success.")
+                alert("Survey submitted! Thank you for your feedback.");
+                window.location.reload();
             } else {
-                //alert(data.msg);
-                console.log("Fail.")
+                alert("Something went wrong. Please try again.");
+                window.location.reload();
             }
         });
-
-        console.log(body);
     }
 }
