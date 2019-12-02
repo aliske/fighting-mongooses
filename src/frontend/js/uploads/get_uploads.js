@@ -40,7 +40,7 @@ async function getUploads(public = true) {
     }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
-  headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th></tr>`
+  headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th><th>Print <input type="checkbox" onclick="checkAll(this)"></th></tr>`
 
   let data_HTML = data.map(row => {
     const row_data = headers.map(header => {
@@ -59,6 +59,9 @@ async function getUploads(public = true) {
         <button type=button class='btn btn-danger btn-sm' onclick='deleteUpload("${row['uuid']}")'>
           Delete
         </button>
+      </td>
+      <td>
+        <input type="checkbox" class='print.checkbox' name=checkbox.${row['uuid']} >
       </td>
     </tr>`
   }).join('') 
@@ -90,4 +93,11 @@ async function deleteUpload(uuid){
     })
 
 }
-
+    async function checkAll(bx) {
+    var cbs = document.getElementsByClassName('print.checkbox');
+    for(var i=0; i < cbs.length; i++) {
+      if(cbs[i].type == 'checkbox') {
+        cbs[i].checked = bx.checked;
+        }
+      }
+   }
