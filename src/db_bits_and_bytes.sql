@@ -1,11 +1,11 @@
---
+/*
 -- Database: `db_bits_and_bytes`
---
+*/
 CREATE DATABASE IF NOT EXISTS `db_bits_and_bytes` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `db_bits_and_bytes`;
+USE `db_bits_and_byte`;
 
 
---All of the table structures
+/* All of the table structures */
 CREATE TABLE `announcement` (
   `id` int(11) NOT NULL,
   `author` int(11) DEFAULT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `user` (
   `cdate` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---Add all of the indexes
+/* Add all of the indexes */
 ALTER TABLE `announcement`
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `announcement_author_fk` (`author`);
@@ -86,7 +86,7 @@ ALTER TABLE `file`
   ADD KEY `author_fk` (`user`),
   ADD KEY `requiredfile_fk` (`requiredfile`);
 ALTER TABLE `requiredfile`
-  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`session_id`);
 ALTER TABLE `survey`
@@ -94,9 +94,9 @@ ALTER TABLE `survey`
   ADD KEY `user_fk` (`user`);
 ALTER TABLE `user`
   ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `username` (`username`);
 
---Set all of the auto increments
+/* Set all of the auto increments */
 ALTER TABLE `announcement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `attendancelog`
@@ -111,7 +111,7 @@ ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 
---Add all of the foreign keys
+/* Add all of the foreign keys */
 ALTER TABLE `announcement`
   ADD CONSTRAINT `announcement_author_fk` FOREIGN KEY (`author`) REFERENCES `user` (`id`);
 ALTER TABLE `attendancelog`

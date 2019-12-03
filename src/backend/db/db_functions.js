@@ -5,11 +5,11 @@ const mysql = require('mysql2/promise');
 const basepath = path.resolve(__dirname);
 
 const pool = mysql.createPool({
-  host: '104.155.184.169',
+  host: '35.188.30.108',
   port: '3306',
-  user: "app",
-  password: '#&sK@4w37tUgat',
-  database: 'db_bits_and_bytes',
+  user: "app-user",
+  password: 'password2',
+  database: 'bits-and-bytes-db',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

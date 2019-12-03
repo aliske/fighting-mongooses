@@ -13,10 +13,10 @@ const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
 const uuid = require('uuid4')
+require('dotenv').config()
 
 // my variables
-const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
-
+const GCLOUD_STORAGE_BUCKET = process.env.GCLOUD_STORAGE_BUCKET || 'bits-and-bytes-storage-bucket'
 
 const {format} = require('util');
 const Multer = require('multer');
@@ -31,8 +31,10 @@ const {Storage} = require('@google-cloud/storage');
 const request = require('request');
 // Instantiate a storage client
 const storage = new Storage({
-  projectId: 'fighting-mongooses-dev-256623',
-  keyFilename: 'Fighting-Mongooses-dev-17728bdea5cf.json'
+  projectId: process.env.GCLOUD_PROJECT_ID || 'bits-and-bytes-12345',
+  keyFilename: process.env.GCLOUD_STORAGE_KEY || 'key.json'
+  // projectId: 'fighting-mongooses-dev-256623',
+  // keyFilename: 'Fighting-Mongooses-dev-17728bdea5cf.json'
 });
 const bucket = storage.bucket(GCLOUD_STORAGE_BUCKET);
 
@@ -156,7 +158,7 @@ router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, nex
 router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
   // TODO: validate input
   const file_uuid = req.params['uuid']
-
+  console.log('got here')
 
   await db_functions.execute(`
     UPDATE file

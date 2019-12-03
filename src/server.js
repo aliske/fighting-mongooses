@@ -22,11 +22,11 @@ app.use(bodyParser.json())
 
 
 var options = {
-    host: '104.155.184.169',
+    host: '35.188.30.108',
     port: 3306,
-    user: 'app',
-    password: '#&sK@4w37tUgat',
-    database: 'db_bits_and_bytes'
+    user: 'app-user',
+    password: 'password2',
+    database: 'bits-and-bytes-db'
 };
  
 var sessionStore = new MySQLStore(options);
