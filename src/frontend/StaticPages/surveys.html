@@ -44,7 +44,10 @@
         <!-- Announcement form -->
         <div id="entry-form" class="my-card-form">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
+                </div>
+
+                <div class="col-md-6 col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="my-card-title">Create A Survey</h3>
@@ -97,10 +100,12 @@
                                 class="btn btn-primary"
                                 onclick="submitSurvey()"
                                 id="submit-btn">
-                                Submit Announcement
+                                Submit Survey
                             </button>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-3">
                 </div>
             </div>
         </div>
@@ -108,7 +113,7 @@
         <br>
 
         <!-- Announcement table -->
-        <h3>Announcements:</h3>
+        <h3>Surveys:</h3>
         <table id="survey_table" class="table table-striped">
 
             <thead>
@@ -166,6 +171,11 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous">
+        </script>
+        <script>
+            $(document).ready(function(){
+                $("survey_table").addClass("table-striped");
+            });
         </script>
     </div>
 

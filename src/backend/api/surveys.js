@@ -39,6 +39,8 @@ router.get('/by_user', middleware.checkLogin, (req, res) => {
 // get individual survey
 router.get('/:id', (req, res) => {
   const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
   db_functions.query(`SELECT * FROM ${survey_table_name} WHERE id=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -46,6 +48,8 @@ router.get('/:id', (req, res) => {
 
 router.get('/questions/:id', (req, res) => {
   const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
   db_functions.query(`SELECT * FROM survey_questions WHERE survey=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -53,6 +57,8 @@ router.get('/questions/:id', (req, res) => {
 
 router.get('/options/:id', (req, res) => {
   const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
   db_functions.query(`SELECT * FROM question_options WHERE question=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -126,8 +132,8 @@ router.post('/question/options', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
-    res.status(400).json({'msg': 'Please provide a valid ID to delete'})
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
 
   db_functions.query(`DELETE FROM survey WHERE id=${id}`)
     .then(resp => {
