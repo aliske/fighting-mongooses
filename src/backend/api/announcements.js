@@ -27,9 +27,14 @@ router.get('/', (req, res) => {
 // get individual announcement
 router.get('/:id', (req, res) => {
   const id = req.params['id']
-  db_functions.query(`SELECT * FROM ${announcements_table_name} WHERE id=${id}`)
-    .then(resp => { res.json(resp) })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+  if(Number.isInteger(+id))
+  {
+  	db_functions.query(`SELECT * FROM ${announcements_table_name} WHERE id=${id}`)
+    	.then(resp => { res.json(resp) })
+    	.catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+  } else {
+  	res.status(500).json({'msg': 'Internal Server Error'})
+  }
 })
 
 
@@ -56,7 +61,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
@@ -87,7 +92,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to delete'})
 
 

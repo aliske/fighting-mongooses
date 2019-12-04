@@ -40,6 +40,8 @@ router.get('/me', middleware.checkLogin, (req, res) => {
 // get individual user
 router.get('/:id', middleware.isAdmin, (req, res) => {
   const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
   db_functions.query(`SELECT * FROM ${users_table_name} WHERE id=${id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -69,7 +71,7 @@ router.post('/', middleware.isAdmin, async (req, res) => {
 router.patch('/unenroll/:id', middleware.isAdmin,async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
@@ -99,7 +101,7 @@ router.patch('/unenroll/:id', middleware.isAdmin,async (req, res) => {
 router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
@@ -128,7 +130,7 @@ router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
 router.patch('/:id', middleware.isAdmin, async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to modify'})
 
   // get current values
@@ -168,7 +170,7 @@ router.patch('/:id', middleware.isAdmin, async (req, res) => {
 router.delete('/:id', middleware.isAdmin, async (req, res) => {
   // param name, default value
   const id = req.params['id']
-  if (!id)
+  if (!id || !Number.isInteger(+id))
     res.status(400).json({'msg': 'Please provide a valid ID to delete'})
 
 
