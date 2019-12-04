@@ -1,0 +1,13 @@
+DB_HOST=35.188.30.108
+DB_USERNAME=app-user
+DB_USERPASS=password2
+DB_NAME=bits-and-bytes-db
+
+
+GCLOUD_STORAGE_BUCKET=bits-and-bytes-storage-bucket
+GCLOUD_PROJECT_ID=bits-and-bytes-1234567
+GCLOUD_STORAGE_KEY_FILEPATH=key.json
+
+
+EMAIL_ADDRESS=bitsandbytestesting@gmail.com
+EMAIL_APP_PASSWORD=tllpmpmkllgibshz
