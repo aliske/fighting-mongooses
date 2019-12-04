@@ -9,8 +9,6 @@ const email = process.env.EMAIL_ADDRESS || 'bitsandbytestesting@gmail.com'
 const pass = process.env.EMAIL_APP_PASSWORD || 'tllpmpmkllgibshz'
 
 
-const email = 'bitsandbytestesting@gmail.com'
-const pass = 'tllpmpmkllgibshz'
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
