@@ -8,6 +8,8 @@
 
 key.json
 .key3.json
+./key4.json
+key5.json
 
 # User-specific stuff
 .idea/**/workspace.xml
