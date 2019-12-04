@@ -1,8 +1,8 @@
 /*
 -- Database: `db_bits_and_bytes`
 */
-CREATE DATABASE IF NOT EXISTS `db_bits_and_bytes` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `db_bits_and_bytes`;
+-- CREATE DATABASE IF NOT EXISTS `db_bits_and_bytes` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- USE `db_bits_and_bytes`;
 
 
 /* All of the table structures */

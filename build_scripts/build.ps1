@@ -98,6 +98,7 @@ $db_public_ip = (gcloud sql instances list  |  Select-String -Pattern "\d{1,3}(\
 gcloud app create --region $region
 
 # RUN
+# npm run create_env
 # npm run build_db
 # npm run deploy
 

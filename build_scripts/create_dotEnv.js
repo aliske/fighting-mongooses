@@ -46,10 +46,9 @@ const fs = require('fs')
 
 function createDotEnv() {
   // DB vars
-  const stdout = exec(`gcloud sql instances list`) //  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
+  const stdout = exec(`gcloud sql instances list --filter=name=${app_conf.projectID}-sql-instance`) //  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
   let regex = /\d{1,3}(\.\d{1,3}){3}/
   const db_public_ip = stdout.match(regex)[0]
-  output += `\n\n`
 
   let output = '';
   output += `DB_HOST=${db_public_ip}\n`
@@ -59,7 +58,7 @@ function createDotEnv() {
   output += `\n\n`
 
   // GCLOUD vars
-  output += `GCLOUD_STORAGE_BUCKET=${app_conf.project_name}-storage-bucket\n`
+  output += `GCLOUD_STORAGE_BUCKET=${app_conf.projectID}-storage-bucket\n`
   output += `GCLOUD_PROJECT_ID=${app_conf.projectID}\n`
   output += `GCLOUD_STORAGE_KEY_FILEPATH=key.json\n`
   output += `\n\n`

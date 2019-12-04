@@ -39,6 +39,8 @@ const storage = new Storage({
 });
 const bucket = storage.bucket(GCLOUD_STORAGE_BUCKET);
 
+
+
 // Multer is required to process file uploads and make them available via
 // req.files.
 const multer = Multer({
@@ -158,7 +160,7 @@ router.get('/:uuid', middleware.checkLogin, async (req, res) => {
   // check DB if they are the user is the owner of this file OR is an admin
 
   // note, this may cause issues with timezones
-  const minutes_to_expire = 5
+  const minutes_to_expire = 30
   const exp_date = new Date((new Date()).getTime() + minutes_to_expire*60000)
 
   var config = {
