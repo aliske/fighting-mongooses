@@ -21,14 +21,16 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 
+
+
 var options = {
-    host: process.env.DB_HOST || '35.188.30.108',
+    host: process.env.DB_HOST || '104.155.184.169',
     port: 3306,
-    user: process.env.DB_USERNAME || 'app-user',
-    password: 'password2',
-    database: 'bits-and-bytes-db'
+    user: process.env.DB_USERNAME || 'app',
+    password: process.env.DB_USERPASS || '#&sK@4w37tUgat',
+    database: process.env.DB_NAME || 'db_bits_and_bytes'
 };
- 
+
 var sessionStore = new MySQLStore(options);
 
 app.use(session({
@@ -43,11 +45,11 @@ app.use(session({
 }));
 
 
-
+const APP_HOST_URL = process.env.APP_HOST_URL || 'https://fighting-mongooses-dev-256623.appspot.com http://localhost:8080'
 // set headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Origin', 'https://fighting-mongooses-dev-256623.appspot.com http://localhost:8080'); // req.get('host')); || http://fightingmongooses.com
+  res.header('Access-Control-Allow-Origin', APP_HOST_URL); // req.get('host')); || http://fightingmongooses.com
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   if ('OPTIONS' == req.method) {

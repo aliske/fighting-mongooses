@@ -11,3 +11,4 @@ GCLOUD_STORAGE_KEY_FILEPATH=key.json
 
 EMAIL_ADDRESS=bitsandbytestesting@gmail.com
 EMAIL_APP_PASSWORD=tllpmpmkllgibshz
+APP_HOST_URL=bits-and-bytes-12345.appspot.com

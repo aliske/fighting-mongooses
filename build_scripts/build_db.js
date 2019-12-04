@@ -6,11 +6,11 @@ require('dotenv').config()
 console.log(process.env.TEST)
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || '35.188.30.108',
+  host: process.env.DB_HOST,
   port: '3306',
-  user: process.env.DB_USERNAME || "app-user",
-  password: process.env.DB_USERPASS || 'password2',
-  database: process.env.DB_NAME || 'db_bits_and_bytes',
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_USERPASS,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -49,6 +49,9 @@ const start = async () => {
       })
     })
   });
+
+  pool.query(`INSERT INTO user (username, password, type) VALUES ('admin', PASSWORD('1234'), 'admin')`)
+
   console.log('Done');
 }
 start();
