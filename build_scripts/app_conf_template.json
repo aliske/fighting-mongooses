@@ -1,0 +1,14 @@
+{
+  "billingAccountID": "xxxxxx-xxxxxx-xxxxxx",
+  "project_name": "bits-and-bytes",
+  "projectID": "bits-and-bytes-xxxxxx",
+  "region": "us-east1",
+
+  "sqlRootPassword": "password1",
+  "mySqlUsername": "app-user",
+  "sqlUserPassword": "password2",
+
+
+  "gmail_email_account": "bitsandbytestesting@gmail.com",
+  "gmail_app_password": "tlxxxxxxshz"
+}
