@@ -22,9 +22,9 @@ app.use(bodyParser.json())
 
 
 var options = {
-    host: '35.188.30.108',
+    host: process.env.DB_HOST || '35.188.30.108',
     port: 3306,
-    user: 'app-user',
+    user: process.env.DB_USERNAME || 'app-user',
     password: 'password2',
     database: 'bits-and-bytes-db'
 };

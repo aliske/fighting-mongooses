@@ -18,7 +18,7 @@ require('dotenv').config()
 
 // my variables
 // const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
-const GCLOUD_STORAGE_BUCKET = process.env.GCLOUD_STORAGE_BUCKET || 'bits-and-bytes-storage-bucket'
+const GCLOUD_STORAGE_BUCKET = process.env.GCLOUD_STORAGE_BUCKET || 'fighting-mongooses-storage-dev'
 
 
 const {format} = require('util');
@@ -34,10 +34,8 @@ const {Storage} = require('@google-cloud/storage');
 const request = require('request');
 // Instantiate a storage client
 const storage = new Storage({
-  projectId: process.env.GCLOUD_PROJECT_ID || 'bits-and-bytes-12345',
-  keyFilename: process.env.GCLOUD_STORAGE_KEY || 'key.json'
-  // projectId: 'fighting-mongooses-dev-256623',
-  // keyFilename: 'Fighting-Mongooses-dev-17728bdea5cf.json'
+  projectId: process.env.GCLOUD_PROJECT_ID || 'fighting-mongooses-dev-256623',
+  keyFilename: process.env.GCLOUD_STORAGE_KEY_FILEPATH || 'Fighting-Mongooses-dev-17728bdea5cf.json'
 });
 const bucket = storage.bucket(GCLOUD_STORAGE_BUCKET);
 
