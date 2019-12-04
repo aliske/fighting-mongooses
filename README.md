@@ -41,19 +41,19 @@ Ensure version numbers are displayed in a cmd.exe or bash shell. If not, please 
 ```
 
 #### 3. Login to Google and get billing account
-a) [GCloud Billing URL](https://console.cloud.google.com/billing)
-b) Create billing account
-c) Save **'Billing account ID'** for step 5
+- [GCloud Billing URL](https://console.cloud.google.com/billing)
+- Create billing account
+- Save **'Billing account ID'** for step 5
     - It looks like this: "xxxxxx-xxxxxx-xxxxxx"
 
 #### 4. Get email Application Credentials
-a) [How to get application password](https://support.google.com/accounts/answer/185833)
-b) Save**'Email Address'** + **'Application Password'** for step 5
+- [How to get application password](https://support.google.com/accounts/answer/185833)
+- Save**'Email Address'** + **'Application Password'** for step 5
 
 #### 5. Build Config File
 Using /build_scripts/app_conf_template.json as a template:
-a) **create** config file **/build_scripts/app_conf.json**
-b) **populate values**
+- **create** config file **/build_scripts/app_conf.json**
+- **populate values**
 
 ``` json
 {
