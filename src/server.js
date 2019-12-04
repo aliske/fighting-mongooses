@@ -40,7 +40,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 600000
+        maxAge: 60000000,
+        rolling: true
     }
 }));
 
