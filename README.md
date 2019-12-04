@@ -34,5 +34,30 @@ npm run start
 
 
 
+## Deploy
+
+### Download dependencies
+- gcloud SDK
+- node.js
+
+Create config file /build_scripts/app_conf.json
+``` json
+{
+  "billingAccountID": "xxxxxx-xxxxxx-xxxxxx",
+  "project_name": "bits-and-bytes",
+  "projectID": "bits-and-bytes-xxxxxx",
+  "region": "us-east1",
+
+  "sqlRootPassword": "password1",
+  "mySqlUsername": "app-user",
+  "sqlUserPassword": "password2",
+
+
+  "gmail_email_account": "bitsandbytestesting@gmail.com",
+  "gmail_app_password": "tlxxxxxxshz"
+}
+```
+
+
 
 
