@@ -5,11 +5,11 @@ const mysql = require('mysql2/promise');
 const basepath = path.resolve(__dirname);
 
 const pool = mysql.createPool({
-  host: '104.155.184.169',
+  host: process.env.DB_HOST || '104.155.184.169',
   port: '3306',
-  user: "app",
-  password: '#&sK@4w37tUgat',
-  database: 'db_bits_and_bytes',
+  user: process.env.DB_USERNAME || 'app',
+  password: process.env.DB_USERPASS || '#&sK@4w37tUgat',
+  database: process.env.DB_NAME || 'db_bits_and_bytes',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

@@ -13,9 +13,11 @@ const db_functions = require('../db/db_functions')
 const express = require('express')
 const router = express.Router()
 const uuid = require('uuid4')
+require('dotenv').config()
 
 // my variables
-const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
+// const GCLOUD_STORAGE_BUCKET = 'fighting-mongooses-storage-dev'
+const GCLOUD_STORAGE_BUCKET = process.env.GCLOUD_STORAGE_BUCKET || 'fighting-mongooses-storage-dev'
 
 
 const {format} = require('util');
@@ -31,8 +33,8 @@ const {Storage} = require('@google-cloud/storage');
 const request = require('request');
 // Instantiate a storage client
 const storage = new Storage({
-  projectId: 'fighting-mongooses-dev-256623',
-  keyFilename: 'Fighting-Mongooses-dev-17728bdea5cf.json'
+  projectId: process.env.GCLOUD_PROJECT_ID || 'fighting-mongooses-dev-256623',
+  keyFilename: process.env.GCLOUD_STORAGE_KEY_FILEPATH || 'Fighting-Mongooses-dev-17728bdea5cf.json'
 });
 const bucket = storage.bucket(GCLOUD_STORAGE_BUCKET);
 
