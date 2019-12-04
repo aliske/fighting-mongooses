@@ -8,7 +8,7 @@
 
 key.json
 .env
-*/**/app_conf.json
+app_conf.json
 
 
 # User-specific stuff
