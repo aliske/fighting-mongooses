@@ -36,6 +36,11 @@ exec('gcloud auth login')
 
 
 
+// install beta module
+exec(`gcloud components install beta`, 'inherit')
+
+
+
 
 /********** Create Project  **********/ // gcloud projects delete $app_conf.projectID
 exec(`gcloud projects create ${app_conf.projectID} --name ${app_conf.project_name}`)

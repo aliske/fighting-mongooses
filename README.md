@@ -93,7 +93,8 @@ npm run create_env
 gcloud app deploy --stop-previous-version
 ```
 
-*NOTE:* App details can be found by running 'gcloud app describe'
+**NOTE:** App details can be found by running 'gcloud app describe'
+**Note:** This app does not clean up old strage keys. That should be done in the future.
 
 ---
 # Other Resources
