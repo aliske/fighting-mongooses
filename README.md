@@ -28,7 +28,7 @@ npm run start
 
 ---
 
-# Deployment [Setup Google Cloud Environment]
+# Deployment [Configure Local Environment]
 
 #### 1. Install dependencies
 - [gcloud SDK](https://cloud.google.com/sdk/install)
@@ -77,7 +77,8 @@ Using /build_scripts/app_conf_template.json as a template:
 ```
 **NOTE:** Save your configuration file in a safe location. You will need it for future releases.
 
-#### 6. Deploy gcloud Environment
+#### Deployment [Setup Google Cloud Environment]
+This only needs to be done once
 ```
     npm run build_gcloud
     npm run build_db
@@ -86,9 +87,13 @@ Using /build_scripts/app_conf_template.json as a template:
 
 # Deployment [Deploy app]
 **NOTE:** This step requires the GCloud environment to be setup AND the user is logged into the gcloud environment. (gcloud auth login)
+"Updating service..." may take up to 10min. Please be patient.
 ```
-npm run deploy
+npm run create_env
+gcloud app deploy --stop-previous-version
 ```
+
+*NOTE:* App details can be found by running 'gcloud app describe'
 
 ---
 # Other Resources
