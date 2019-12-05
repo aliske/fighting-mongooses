@@ -8,9 +8,9 @@
     "start": "gulp  || node ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build_gcloud": "node ./build_scripts/build_gcloud.js",
-    "build_db": "node ./build_scripts/build_db.js",
+    "build_db": "npm run create_env && node ./build_scripts/build_db.js",
     "create_env": "node ./build_scripts/create_dotEnv.js",
-    "deploy": "npm run create_env && gcloud app deploy"
+    "deploy": "node ./build_scripts/deploy_app.js"
   },
   "author": "",
   "license": "ISC",

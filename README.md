@@ -28,21 +28,25 @@ npm run start
 
 ---
 
-# Deployment [Setup Google Cloud Environment]
+# Deployment [Configure Local Environment]
 
 #### 1. Install dependencies
 - [gcloud SDK](https://cloud.google.com/sdk/install)
+  - Note: This SHOULD also install 'gsutil'
 - [node.js](https://nodejs.org/en/)
 
 #### 2. Ensure PATH environment variables are set
-Ensure version numbers are displayed in a cmd.exe or bash shell. If not, please install the dependencies or validate path dependencies.
+Ensure version numbers are displayed in a cmd.exe or bash shell for each of the following commands. If not, please install the dependencies and/or validate PATH environment variables.
 ```
+    node --version
+    node --version
     gcloud --version
+    gsutil --version
 ```
 
 #### 3. Login to Google and get billing account
 - [GCloud Billing URL](https://console.cloud.google.com/billing)
-- Create billing account
+- Create and enable billing account
 - Save **'Billing account ID'** for step 5
     - It looks like this: "xxxxxx-xxxxxx-xxxxxx"
 
@@ -73,7 +77,8 @@ Using /build_scripts/app_conf_template.json as a template:
 ```
 **NOTE:** Save your configuration file in a safe location. You will need it for future releases.
 
-#### 6. Deploy gcloud Environment
+#### Deployment [Setup Google Cloud Environment]
+This only needs to be done once
 ```
     npm run build_gcloud
     npm run build_db
@@ -82,9 +87,14 @@ Using /build_scripts/app_conf_template.json as a template:
 
 # Deployment [Deploy app]
 **NOTE:** This step requires the GCloud environment to be setup AND the user is logged into the gcloud environment. (gcloud auth login)
+"Updating service..." may take up to 10min. Please be patient.
 ```
-npm run deploy
+npm run create_env
+gcloud app deploy --stop-previous-version
 ```
+
+**NOTE:** App details can be found by running 'gcloud app describe'
+**Note:** This app does not clean up old strage keys. That should be done in the future.
 
 ---
 # Other Resources

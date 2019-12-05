@@ -36,6 +36,11 @@ exec('gcloud auth login')
 
 
 
+// install beta module
+exec(`gcloud components install beta`, 'inherit')
+
+
+
 
 /********** Create Project  **********/ // gcloud projects delete $app_conf.projectID
 exec(`gcloud projects create ${app_conf.projectID} --name ${app_conf.project_name}`)
@@ -60,7 +65,7 @@ services.forEach(service => {
 // storage
 // create account
 const service_account = 'storage'
-// exec(`gcloud iam service-accounts create ${service_account}`)
+exec(`gcloud iam service-accounts create ${service_account}`)
 // // create keys/credentials : key.json file
 exec(`gcloud iam service-accounts keys create key.json --iam-account ${service_account}@${app_conf.projectID}.iam.gserviceaccount.com`)
 
