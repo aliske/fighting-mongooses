@@ -32,17 +32,19 @@ npm run start
 
 #### 1. Install dependencies
 - [gcloud SDK](https://cloud.google.com/sdk/install)
+  - Note: This SHOULD also install 'gsutil'
 - [node.js](https://nodejs.org/en/)
 
 #### 2. Ensure PATH environment variables are set
-Ensure version numbers are displayed in a cmd.exe or bash shell. If not, please install the dependencies or validate path dependencies.
+Ensure version numbers are displayed in a cmd.exe or bash shell. If not, please install the dependencies and/or validate path dependencies.
 ```
     gcloud --version
+    gsutil --version
 ```
 
 #### 3. Login to Google and get billing account
 - [GCloud Billing URL](https://console.cloud.google.com/billing)
-- Create billing account
+- Create and enable billing account
 - Save **'Billing account ID'** for step 5
     - It looks like this: "xxxxxx-xxxxxx-xxxxxx"
 
