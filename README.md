@@ -94,7 +94,8 @@ gcloud app deploy --stop-previous-version
 ```
 
 **NOTE:** App details can be found by running 'gcloud app describe'
-**Note:** This app does not clean up old strage keys. That should be done in the future.
+
+**Note:** This app does not clean up old storage keys. That should be done in the future. [Service Accounts Page](https://console.cloud.google.com/iam-admin/serviceaccounts)
 
 ---
 # Other Resources
