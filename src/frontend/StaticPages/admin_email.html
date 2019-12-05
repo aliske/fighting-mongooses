@@ -370,21 +370,20 @@
                 <!-- table of all users + current emails -->
                 <!-- can filter -->
                 <!-- can check or uncheck -->
-                <h2>Find user from system</h2>
-                <div class='row'>
-                  <div class="col col-sm-2">
-                    <div>Filter Year:</div>
+                <h2>Select user from system</h2>
+
+                <div class="form-row">
+                  <div class="col-6">
+                    <label for='email_year_options'>Filter Year:</label>
+                    <select class='form-control' id='email_year_options' onchange="modal_populateEmailTable()"></select>
                   </div>
-                  <div class="col col-sm-2">
-                    <select id='email_year_options' onchange="modal_populateEmailTable()"></select>
-                  </div>
-                  <div class="col col-sm-2">
-                    <label>Filter Type:</label>
-                  </div>
-                  <div class="col col-sm-2">
-                    <select id='email_type_options' onchange="modal_populateEmailTable()"></select>
+                  <div class="col-6">
+                    <label for='email_type_options'>Filter Type:</label>
+                    <select class='form-control' id='email_type_options' onchange="modal_populateEmailTable()"></select>
                   </div>
                 </div>
+                <br>
+
                 
 
 
