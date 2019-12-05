@@ -36,8 +36,10 @@ npm run start
 - [node.js](https://nodejs.org/en/)
 
 #### 2. Ensure PATH environment variables are set
-Ensure version numbers are displayed in a cmd.exe or bash shell. If not, please install the dependencies and/or validate path dependencies.
+Ensure version numbers are displayed in a cmd.exe or bash shell for each of the following commands. If not, please install the dependencies and/or validate PATH environment variables.
 ```
+    node --version
+    node --version
     gcloud --version
     gsutil --version
 ```
