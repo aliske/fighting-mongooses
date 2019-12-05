@@ -10,7 +10,7 @@
     "build_gcloud": "node ./build_scripts/build_gcloud.js",
     "build_db": "npm run create_env && node ./build_scripts/build_db.js",
     "create_env": "node ./build_scripts/create_dotEnv.js",
-    "deploy": "npm run create_env && gcloud app deploy && gcloud app describe"
+    "deploy": "npm run create_env && gcloud app deploy --stop-previous-version && gcloud app describe"
   },
   "author": "",
   "license": "ISC",
