@@ -69,6 +69,7 @@ router.get('/types/:type', middleware.isAdmin, (req, res) => {
 router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const to = req.body['to']
   const cc = req.body['cc']
+  const bcc = req.body['bcc']
   const subject = req.body['subject']
   const body = req.body['body']
   const isHTML= req.body['isHTML']
@@ -81,6 +82,7 @@ router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
     from: email, //process.env.EMAIL, // sender address
     to: to, //process.env.EMAIL, // list of receivers
     cc: cc,
+    bcc: bcc,
     subject: subject, // Subject line
   };
 

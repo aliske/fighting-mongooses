@@ -155,6 +155,9 @@
         case 'cc':
           $('#email_cc').val(window.current_emails.join(';').replace(/\s/g,''))
           break;
+        case 'bcc':
+          $('#email_bcc').val(window.current_emails.join(';').replace(/\s/g,''))
+          break;
       }
     }
     async function setModal(title) {
@@ -169,6 +172,10 @@
         case 'cc':
           window.email_field = 'cc'
           window.current_emails = $('#email_cc').val().split(';')
+          break;
+        case 'bcc':
+          window.email_field = 'bcc'
+          window.current_emails = $('#email_bcc').val().split(';')
           break;
         default:
           return
@@ -209,6 +216,7 @@
       displayAlert('Email is being sent', 'alert-info')
       const to = $('#email_to').val()
       const cc = $('#email_cc').val()
+      const bcc = $('#email_bcc').val()
       const subject = $('#email_subject').val()
       const body = $('#email_body').val()
       const isHTML = $('#isHTML').is(":checked")
@@ -222,6 +230,7 @@
         body: JSON.stringify({
           to: to,
           cc: cc,
+          bcc: bcc,
           subject: subject,
           body: body,
           isHTML: isHTML
@@ -289,6 +298,21 @@
           <textarea id="email_cc" name="email_cc" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
           <div class="input-group-append">
             <span class="input-group-text"><i class='fas' style='cursor: pointer' onclick="setModal('cc')">&#xf4ff;</i></span>
+          </div>
+        </div>
+        <br>
+
+        
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_bcc">
+              bcc
+            </span>
+          </div>
+
+          <textarea id="email_bcc" name="email_bcc" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
+          <div class="input-group-append">
+            <span class="input-group-text"><i class='fas' style='cursor: pointer' onclick="setModal('bcc')">&#xf4ff;</i></span>
           </div>
         </div>
         <br>
@@ -361,7 +385,7 @@
                   </div>
                   <input id='insertEmail' class='col' name='insertEmail' type='text'></input>
                   <div class="input-group-append">
-                      <button class='btn btn-success' type=button onclick="insertEmail()">+</button>
+                      <button class='btn btn-success' type=button onclick="insertEmail()">Add</button>
                       <!-- add enter button functionality to add user -->
                   </div>
                 </div>
