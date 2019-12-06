@@ -21,61 +21,178 @@
 	</head>
 
 	<script>
-    async function createGroupButtons() {
-      const resp = await fetch(`${ROOT_URI}/api/email/groups`, {
-        credentials: 'include',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-      })
-      .then(resp => { return resp.json() })
-      .then(data => { return data })
-      .catch(err => { 
-        displayAlert("Failed to collect emails. Please sign in again if needed", 'alert-danger')
-        return ''
-      })
+    async function modal_populateYearDropdown() {
+      const uri = `${ROOT_URI}/api/email/types`
 
-      // build buttons for each group
-      resp.forEach(group => {
-        const group_name = group['type']
+      // raw query
+      const data = await fetch(uri, { credentials: 'include' })
+                    .then(resp => {
+                      return resp.json()
+                    })
+                    .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
-        const obj = document.createElement('button')
-        obj.type = 'button'
-        obj.name = 'group_name'
-        obj.classList = 'btn btn-small btn-info'
-        obj.setAttribute('data-toggle', 'button')
-        obj.onclick = (event) => setEmails(event, `${group_name}`)
-        obj.textContent = 'All ' + group_name + 's'
+      const options = data.reduce((str, value, index) => {
+        console.log(value)
+        return str+`<option value='${value.type}'>${value.type}</option>`
+      }, '')
 
-        document.querySelector('#btns-container').appendChild(obj)
-      })
-
+      $('#email_type_options').html(options); 
     }
 
-    async function setEmails(evt, group) {
-      const action = evt.target.classList.contains('active') ? 'remove' : 'add'
-      const group_emails = await getEmails(group)
-      let current_emails = $('#email_to').val().toLowerCase().split(';')
+    async function modal_populateTypeDropdown() {
+      const uri = `${ROOT_URI}/api/email/years`
+
+      // raw query
+      const data = await fetch(uri, { credentials: 'include' })
+                    .then(resp => {
+                      return resp.json()
+                    })
+                    .catch(er => displayAlert('Failed to connect', 'alert-danger'))
+
+      const options = data.reduce((str, value, index) => {
+        console.log(value)
+        return str+`<option value='${value.registered}'>${value.registered}</option>`
+      }, '')
+
+      $('#email_year_options').html(options); 
+    }
 
 
-      // console.log(action)
-      // console.log(group)
-      console.log(current_emails)
+    function insertEmail() {
+      window.current_emails = window.current_emails.concat($('#insertEmail').val().split(';'))
+      modal_populateEmailTable()
+      $('#insertEmail').val('')
+    }
 
 
-      if (action === 'add') {
-        current_emails = new Set(current_emails.concat(group_emails))
-      } else if (action === 'remove') {
-        current_emails = current_emails.filter(email => { return !group_emails.includes(email) })
+    async function modal_populateEmailTable() {
+
+      const year = $('#email_year_options').val()
+      const type = $('#email_type_options').val()
+      const uri = `${ROOT_URI}/api/email/users/${type}/${year}`
+
+
+      const data = await fetch(uri, { credentials: 'include' })
+                    .then(resp => {
+                      return resp.json() 
+                    })
+                    .catch(err => {
+                      displayAlert("No connection, please sign in again if needed", 'alert-danger');
+                    })
+
+      const headers = [
+        {
+          'internal_name': 'email',
+          'display_name': 'email'
+        },
+        {
+          'internal_name': 'type',
+          'display_name': 'type'
+        },
+        {
+          'internal_name': 'fname',
+          'display_name': 'First Name'
+        },
+        {
+          'internal_name': 'lname',
+          'display_name': 'Last Name'
+        }
+      ]
+      let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
+      headers_HTML = `<tr>${headers_HTML}</tr>`
+
+      let data_HTML = data.map(row => {
+        let fontWeight, isSelected, backgroundColor, class_name
+        if (current_emails.find(email => email == row.email) === undefined) {
+          class_name = ''
+        } else {
+          class_name = 'email-selected'
+        }
+
+        const row_data = headers.map(header => {
+          // defaults to '' if null
+          return `<td>${row[header.internal_name] || ''}</td>` 
+        }).join('')
+
+        return `<tr class='${class_name}' onclick='toggleEmailSelected(event)'>${row_data}</tr>`
+      }).join('')
+
+
+      // table
+      // splice in current_emails that don't exist in array already
+      console.log(data)
+      window.current_emails.forEach(email => {
+        if (email !== '' && data.find(user => user.email === email ) === undefined)
+          data_HTML = `<tr class='email-selected' onclick='toggleEmailSelected(event)'><th>${email}</th><th></th><th></th><th></th></tr>` + data_HTML
+      })
+
+
+
+      $('#user_email_Table').html(headers_HTML + data_HTML)
+    }
+
+    function toggleEmailSelected(evt) {
+      const row = evt.target.parentNode
+      const selected_email = row.children[0].innerText
+
+      if (row.classList.contains('email-selected')) {
+        console.log('got here')
+        window.current_emails = window.current_emails.filter(email => email !== '' && email.trim() !== selected_email)
+        row.classList = []
+      } else {
+        window.current_emails.splice(0,0, selected_email)
+        row.classList = ['email-selected']
       }
 
-      // filter out blank emails and join with ';'
-      current_emails = Array.from(current_emails).filter(email => { return email !== '' }).join(';')
-      $('#email_to').val(current_emails)
+      modal_populateEmailTable()
     }
 
-    async function getEmails(group) {
-      let uri = `${ROOT_URI}/api/email/${group}`
+    function setEmails() {
+      switch (window.email_field) {
+        case 'to':
+          $('#email_to').val(window.current_emails.join(';').replace(/\s/g,''))
+          break;
+        case 'cc':
+          $('#email_cc').val(window.current_emails.join(';').replace(/\s/g,''))
+          break;
+        case 'bcc':
+          $('#email_bcc').val(window.current_emails.join(';').replace(/\s/g,''))
+          break;
+      }
+    }
+    async function setModal(title) {
+      await modal_populateYearDropdown();
+      await modal_populateTypeDropdown();
+
+      switch (title) {
+        case 'To':
+          window.email_field = 'to'
+          window.current_emails = $('#email_to').val().split(';')
+          break;
+        case 'cc':
+          window.email_field = 'cc'
+          window.current_emails = $('#email_cc').val().split(';')
+          break;
+        case 'bcc':
+          window.email_field = 'bcc'
+          window.current_emails = $('#email_bcc').val().split(';')
+          break;
+        default:
+          return
+      }
+      // remove old modal content and create new one
+      // must do this for .pdf as the #document gets stale and immutable
+
+      modal_populateEmailTable()
+      $('.modal-title').text('Set ' + title) 
+      $('#emailModal').modal('show')
+
+    }
+
+
+
+    async function getEmails(type, year) {
+      let uri = `${ROOT_URI}/api/email/users/${type}/${year}`
       let emails = ''
 
       const resp = await fetch(uri, {
@@ -95,11 +212,11 @@
     }
 
 
-
-
     function sendEmail() {
       displayAlert('Email is being sent', 'alert-info')
       const to = $('#email_to').val()
+      const cc = $('#email_cc').val()
+      const bcc = $('#email_bcc').val()
       const subject = $('#email_subject').val()
       const body = $('#email_body').val()
       const isHTML = $('#isHTML').is(":checked")
@@ -112,6 +229,8 @@
         },
         body: JSON.stringify({
           to: to,
+          cc: cc,
+          bcc: bcc,
           subject: subject,
           body: body,
           isHTML: isHTML
@@ -133,11 +252,11 @@
   </script>
   <script type="text/javascript" src="/js/root_uri.js"></script>
   <script type="text/javascript" src="/js/display_alert.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 
 
-
-	<body onload='createGroupButtons()'>
+	<body>
     <header id="header"></header>
 
     <!-- Alert -->
@@ -146,65 +265,163 @@
     </div>
 
 
-    <form onsubmit='event.preventDefault(); sendEmail()'>
-      <h1>Send an email</h1>
-      <hr class="half_horizontal_rule">
+    <div class='container'>
+    <div class='row'>
+      <form class='col' onsubmit='event.preventDefault(); sendEmail()'>
+        <h1>Send an email</h1>
+        <hr class="half_horizontal_rule">
 
-      <div id='btns-container'></div>
-      <br><br>
+        
+        <br><br>
 
-      <div class="input-group mb-3 col-12">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_to">
+              To
+            </span>
+          </div>
 
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_to">
-            To
-          </span>
+          <textarea id="email_to" name="email_to" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
+          <div class="input-group-append">
+            <span class="input-group-text"><i class='fas' style='cursor: pointer' onclick="setModal('To')">&#xf4ff;</i></span>
+          </div>
         </div>
+        <br>
 
-        <textarea id="email_to" name="email_to" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_cc">
+              cc
+            </span>
+          </div>
+
+          <textarea id="email_cc" name="email_cc" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
+          <div class="input-group-append">
+            <span class="input-group-text"><i class='fas' style='cursor: pointer' onclick="setModal('cc')">&#xf4ff;</i></span>
+          </div>
+        </div>
+        <br>
+
+        
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_bcc">
+              bcc
+            </span>
+          </div>
+
+          <textarea id="email_bcc" name="email_bcc" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="2"></textarea>
+          <div class="input-group-append">
+            <span class="input-group-text"><i class='fas' style='cursor: pointer' onclick="setModal('bcc')">&#xf4ff;</i></span>
+          </div>
+        </div>
+        <br>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_subject">
+              Subject
+            </span>
+          </div>
+          <input id="email_subject" name="email_subject" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <br>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="email_body">
+              Body
+            </span>
+          </div>
+          <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="6"></textarea>
+        </div>
+        <br>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default" for="isHTML">
+              Send body as HTML
+            </span>
+          </div>
+          <input id="isHTML" name="isHTML" type="checkbox" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <br>
+
+        <!--
+          <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
+        -->
+
+      <div class="text-center">
+        <button class='btn btn-primary btn-lg'>Send Email</button> 
       </div>
 
+      </form>
 
-      <div class="input-group mb-3 col-12">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_subject">
-            Subject
-          </span>
-        </div>
-        <input id="email_subject" name="email_subject" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-      </div>
-
-      <div class="input-group mb-3 col-12">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="email_body">
-            Body
-          </span>
-        </div>
-        <textarea id="email_body" name="email_body" type="text" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default" rows="6"></textarea>
-      </div>
-
-      <div class="input-group mb-3 col-4">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default" for="isHTML">
-            Send body as HTML
-          </span>
-        </div>
-        <input id="isHTML" name="isHTML" type="checkbox" class="form-control rounded-0" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-      </div>
-
-
-      <!--
-        <button class='btn btn-info btn-md' type="button" name="file" size="75" id="impfile" onclick="showImage()">Preview</button>
-      -->
-
-    <div class="text-center">
-      <button class='btn btn-primary btn-lg'>Send Email</button> 
     </div>
-
-    </form>
     <!-- END TAB REQ FILES -->
+  </div>
 
 
+
+      <!-- Modal -->
+      <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="emailModalLabel"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-lg">
+                <div id='btns-container'></div>
+                <br>
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default" for="insertEmail">
+                      New Email
+                    </span>
+                  </div>
+                  <input id='insertEmail' class='col' name='insertEmail' type='text'></input>
+                  <div class="input-group-append">
+                      <button class='btn btn-success' type=button onclick="insertEmail()">Add</button>
+                      <!-- add enter button functionality to add user -->
+                  </div>
+                </div>
+                <br>
+
+                <!-- table of all users + current emails -->
+                <!-- can filter -->
+                <!-- can check or uncheck -->
+                <h2>Select user from system</h2>
+
+                <div class="form-row">
+                  <div class="col-6">
+                    <label for='email_year_options'>Filter Year:</label>
+                    <select class='form-control' id='email_year_options' onchange="modal_populateEmailTable()"></select>
+                  </div>
+                  <div class="col-6">
+                    <label for='email_type_options'>Filter Type:</label>
+                    <select class='form-control' id='email_type_options' onchange="modal_populateEmailTable()"></select>
+                  </div>
+                </div>
+                <br>
+
+                
+
+
+
+                <table id='user_email_Table' class='table table-hover'></table>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmails()">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <footer id="footer"></footer>
 
