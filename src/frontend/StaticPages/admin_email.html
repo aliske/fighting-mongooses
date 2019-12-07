@@ -36,7 +36,7 @@
         return str+`<option value='${value.type}'>${value.type}</option>`
       }, '')
 
-      $('#email_type_options').html(options); 
+      $('#email-type-options').html(options); 
     }
 
     async function modal_populateTypeDropdown() {
@@ -54,7 +54,7 @@
         return str+`<option value='${value.registered}'>${value.registered}</option>`
       }, '')
 
-      $('#email_year_options').html(options); 
+      $('#email-year-options').html(options); 
     }
 
 
@@ -67,8 +67,8 @@
 
     async function modal_populateEmailTable() {
 
-      const year = $('#email_year_options').val()
-      const type = $('#email_type_options').val()
+      const year = $('#email-year-options').val()
+      const type = $('#email-type-options').val()
       const uri = `${ROOT_URI}/api/email/users/${type}/${year}`
 
 
@@ -101,12 +101,14 @@
       let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
       headers_HTML = `<tr>${headers_HTML}</tr>`
 
+      let emails_selected = 0
       let data_HTML = data.map(row => {
         let fontWeight, isSelected, backgroundColor, class_name
         if (current_emails.find(email => email == row.email) === undefined) {
           class_name = ''
         } else {
           class_name = 'email-selected'
+          emails_selected++
         }
 
         const row_data = headers.map(header => {
@@ -117,10 +119,11 @@
         return `<tr class='${class_name}' onclick='toggleEmailSelected(event)'>${row_data}</tr>`
       }).join('')
 
+      emails_selected === data.length ? $('#select-all-button').text('Deselect All') : $('#select-all-button').text('Select All')
 
       // table
       // splice in current_emails that don't exist in array already
-      console.log(data)
+      // console.log(data)
       window.current_emails.forEach(email => {
         if (email !== '' && data.find(user => user.email === email ) === undefined)
           data_HTML = `<tr class='email-selected' onclick='toggleEmailSelected(event)'><th>${email}</th><th></th><th></th><th></th></tr>` + data_HTML
@@ -146,6 +149,24 @@
 
       modal_populateEmailTable()
     }
+
+    function toggleAllEmails() {
+      let action = $('#select-all-button').text()
+      let emails = $('#user_email_Table td:nth-child(1)').toArray().map(ele => { return ele.innerText })
+
+      if (action === 'Select All') {
+        emails.forEach(email => { window.current_emails.splice(0,0, email) })
+        // $('#select-all-button').text('Deselect All')
+      }
+      else if (action === 'Deselect All') {
+        window.current_emails = window.current_emails.filter(email => email !== '' && !emails.includes(email.trim()))
+        // $('#select-all-button').text('Select All')
+      }
+
+
+      modal_populateEmailTable()
+    }
+
 
     function setEmails() {
       switch (window.email_field) {
@@ -397,13 +418,17 @@
                 <h2>Select user from system</h2>
 
                 <div class="form-row">
-                  <div class="col-6">
-                    <label for='email_year_options'>Filter Year:</label>
-                    <select class='form-control' id='email_year_options' onchange="modal_populateEmailTable()"></select>
+                  <div class="col-5">
+                    <label for='email-year-options'>Filter Year:</label>
+                    <select class='form-control' id='email-year-options' onchange="modal_populateEmailTable()"></select>
                   </div>
-                  <div class="col-6">
-                    <label for='email_type_options'>Filter Type:</label>
-                    <select class='form-control' id='email_type_options' onchange="modal_populateEmailTable()"></select>
+                  <div class="col-5">
+                    <label for='email-type-options'>Filter Type:</label>
+                    <select class='form-control' id='email-type-options' onchange="modal_populateEmailTable()"></select>
+                  </div>
+                  <div class="col-2">
+                    <br>
+                    <button class='btn btn-primary' id='select-all-button' type=button onclick='toggleAllEmails()'>Select All</button>
                   </div>
                 </div>
                 <br>
