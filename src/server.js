@@ -110,28 +110,28 @@ app.get('/StaticPages/:name', function(req, res) {
       res.redirect('/');
     else
       res.sendFile(path.join(__dirname + '/frontend/StaticPages/' + page));
-})
+});
 
 app.get('/Templates/:name', function(req, res) {
     var page = req.params.name;
     res.sendFile(path.join(__dirname + '/frontend/Templates/' + page));
-})
+});
 
 app.get('/Assets/:name', function(req, res) {
     var page = req.params.name;
     res.sendFile(path.join(__dirname + '/frontend/Assets/' + page));
-})
+});
 
 app.get('/js/:name', function(req, res) {
     var page = req.params.name;
     res.sendFile(path.join(__dirname + '/frontend/js/' + page));
-})
+});
 
 app.get('/js/:folder/:name', function(req, res) {
     var page = req.params.name;
     var folder = req.params.folder;
     res.sendFile(path.join(__dirname + '/frontend/js/' + folder + '/' + page));
-})
+});
 
 app.listen(port, function() {
   console.log(`app started on port ${port}`);
