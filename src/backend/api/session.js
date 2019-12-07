@@ -41,10 +41,8 @@ router.get('/seeIfLoggedIn', checkLogin, async function(req, res)
 })
 
 router.post('/login', function (req, res) {
-    console.log("got here")
     let username = req.body.username;
     let password = req.body.password;
-    console.log(username + " " + password)
     var query = `SELECT * FROM user WHERE username='${username}' AND password=PASSWORD('${password}')`
     db_functions.query(query)
     .then(async function(resp) {
