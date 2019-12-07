@@ -24,7 +24,7 @@ router.get('/history/:user', (req, res) => {
 })
 
 router.get('/status', middleware.checkLogin, (req, res) => {
-    switch(req.session.type) {
+    switch(req.session.userType) {
         default:
             var filter = ``;
             break;

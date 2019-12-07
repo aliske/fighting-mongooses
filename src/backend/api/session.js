@@ -1,19 +1,15 @@
-db_functions = require('../db/db_functions')
+db_functions = require('../db/db_functions');
 
- express = require('express')
-//var session = require('express-session'); 
+express = require('express');
 
-router = express.Router()
+router = express.Router();
 
 function encodeHTML(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
 function checkLogin(req, res, next) {
-  //console.log(req.session)
-
     if (req.session.user != null) {
-      //res.json({'msg': req.session.name + ' Logged In'})
       next()
     } else {
       res.json({'msg': 'Not Logged In'})
@@ -24,7 +20,7 @@ router.get('/seeIfLoggedIn', checkLogin, async function(req, res)
 {
     if(req.session.user)
     {
-        if(req.session.type == 'Student'){
+        if(req.session.userType === 'Student'){
             req.session.status = await db_functions.query(`SELECT status FROM attendancelog WHERE user=${req.session.user} ORDER BY time DESC LIMIT 1`)
                                 .then(function(response){
                                     return response[0].status
@@ -32,46 +28,45 @@ router.get('/seeIfLoggedIn', checkLogin, async function(req, res)
         } else {
             req.session.status = null
         }
-        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.type, 'parent': req.session.parent, 'status': req.session.status})
+        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.userType, 'parent': req.session.parent, 'status': req.session.status})
     }
     else
     {
         res.json({'msg': 'Not Logged In'})
     }
-})
+});
 
 router.post('/login', function (req, res) {
-    console.log("got here")
     let username = req.body.username;
     let password = req.body.password;
-    console.log(username + " " + password)
-    var query = `SELECT * FROM user WHERE username='${username}' AND password=PASSWORD('${password}')`
+    let query = `SELECT * FROM user WHERE username='${username}' AND password=PASSWORD('${password}')`;
     db_functions.query(query)
     .then(async function(resp) {
         if(resp[0] != null)
         { 
-            req.session.user = resp[0].id
-            req.session.fname = resp[0].fname
-            req.session.lname = resp[0].lname
-            req.session.type = resp[0].type
-            if(req.session.type == 'Student'){
+            req.session.user = resp[0].id;
+            req.session.fname = resp[0].fname;
+            req.session.lname = resp[0].lname;
+            req.session.userType = resp[0].type;
+            if(req.session.userType === 'Student'){
                 req.session.status = await db_functions.query(`SELECT status FROM attendancelog WHERE user=${resp[0].id} ORDER BY time DESC LIMIT 1`)
                                     .then(function(response){
-                                        return response[0].status
+                                        return response[0].status;
                                     })
             } else {
-                req.session.status = null
+                req.session.status = null;
             }
-            req.session.parent = resp[0].parent
-            res.status(200).json({'msg': 'Logged In'})
+            req.session.parent = resp[0].parent;
+            res.status(200).json({'msg': 'Logged In'});
         }
         else
         {
-            res.end()
+            res.writeHead(401);
+            res.end();
         }
     })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}));
+});
 
 router.post('/register', function (req, res) {
     let fname = encodeHTML(req.body.fname);
@@ -81,13 +76,13 @@ router.post('/register', function (req, res) {
     let school = encodeHTML(req.body.school);
     let grade = req.body.grade;
     let parent = req.session.user;
-    var query = `INSERT INTO user(username, password, fname, lname, email, type, parent, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${parent}','${school}','${grade}')`
+    let query = `INSERT INTO user(username, password, fname, lname, email, type, parent, school, grade) VALUES('${email}',PASSWORD('${fname}'),'${fname}','${lname}','${email}','${type}','${parent}','${school}','${grade}')`
     db_functions.query(query)
     .then(function(resp) {
-        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname, 'id': resp['insertId']})
+        res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname, 'id': resp['insertId']});
     })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}));
+});
 
 router.post('/register_parent', function (req, res) {
     let fname = encodeHTML(req.body.fname);
@@ -95,13 +90,13 @@ router.post('/register_parent', function (req, res) {
     let email = encodeHTML(req.body.email);
     let type = "Parent";
 	let password = encodeHTML(req.body.password);
-    var query = `INSERT INTO user(username, password, fname, lname, email, type) VALUES('${email}',PASSWORD('${password}'),'${fname}','${lname}','${email}','${type}')`
+    let query = `INSERT INTO user(username, password, fname, lname, email, type) VALUES('${email}',PASSWORD('${password}'),'${fname}','${lname}','${email}','${type}')`;
     db_functions.query(query)
     .then(function(resp) {
-        res.status(200).json({'msg': 'Registered', 'username': email, 'password': password})
+        resp.status(200).json({'msg': 'Registered', 'username': email, 'password': password});
     })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}));
+});
 
 router.get('/logout', function(req, res, next) {
   if (req.session) {
@@ -116,4 +111,4 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
-module.exports = router
+module.exports = router;

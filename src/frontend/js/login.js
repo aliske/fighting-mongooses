@@ -8,7 +8,6 @@ async function tryLogin(){
 
 	if(data.user)
 	{
-		console.log("tryLogin: Yes Login");
 		let fname = data.fname;
 		let message = "<strong>&nbsp;&nbsp;Welcome, " + fname + `! (<a href='${ROOT_URI}/api/session/logout'>logout</a>)<strong>`;
 		makeMenu(data.type, data.user, data.status);
@@ -27,31 +26,28 @@ async function tryLogin(){
     	formcode += "<p>Parents, new to Bits & Bytes? <a href='../StaticPages/sign-up.html' id='signup'>Sign Up!</a></p>";
     	formcode += "</div>";
 		$("#loginform").html(formcode);
-		console.log("tryLogin: No Login");
-
 	}
 }
 
 function makeMenu(type, userId, status){
 	let menucode = "";
-	console.log(type);
 	menucode +="<ul class='navbar-nav mr-auto nav-links'>";
 	menucode +="<li class='nav-item'>";
 	menucode +="<a class='nav-link nav-link-text text-dark' href='../index.html'>Home</a>";
 	menucode +="</li>";
 	menucode +="<li class='nav-item'>";
 	if(type != null && type !== "none"){
-	    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/gallery.html'>Gallery</a>"
+	    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/gallery.html'>Gallery</a>";
         menucode +="</li>";
         menucode +="<li class='nav-item'>";
 		menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Attendance.html'>Attendance</a>";
-		menucode +="</li>"
+		menucode +="</li>";
 		menucode +="<li class='nav-item'>";
 		if(type === "Student"){
-		    if(status == 0){
-		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkInOut("+ userId +", 1)'>Check In</button>"
+		    if(status === 0){
+		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkInOut("+ userId +", 1)'>Check In</button>";
 		    } else {
-		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-out-button' onclick='checkInOut("+ userId +", 0)'>Check Out</button>"
+		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-out-button' onclick='checkInOut("+ userId +", 0)'>Check Out</button>";
 		    }
 		} else if(type === "Parent"){
 		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
@@ -64,17 +60,17 @@ function makeMenu(type, userId, status){
             menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Announcements.html'>Announcements</a>";
 			menucode +="</li>";
-            menucode +="<li class='nav-item'>"
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>"
-            menucode +="</li>"
-            menucode +="<li class='nav-item'>"
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Admin Page</a>"
-            menucode +="</li>"
-            menucode +="<li class='nav-item'>"
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>"
-            menucode +="</li>"
-            menucode +="<li class='nav-item'>"
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>"
+            menucode +="<li class='nav-item'>";
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>";
+            menucode +="</li>";
+            menucode +="<li class='nav-item'>";
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Admin Page</a>";
+            menucode +="</li>";
+            menucode +="<li class='nav-item'>";
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>";
+            menucode +="</li>";
+            menucode +="<li class='nav-item'>";
+            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>";
 		}
 	}
 	menucode +="</li>";

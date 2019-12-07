@@ -208,7 +208,7 @@ router.post('/upload', middleware.checkLogin, multer.single('file'), (req, res, 
     const user = req.session.user; // TO DO: change to user logged in. session.user.id
     const mimetype = req.file.mimetype
     const filename = req.file.originalname || null;
-    const public = req.body['isPublic'] === 'true' && req.session.type === 'Admin' ? 1 : 0;
+    const public = req.body['isPublic'] === 'true' && req.session.userType === 'Admin' ? 1 : 0;
     const requiredFile = req.body['requiredFile'] || null
 
     if (public === 1 && mimetype.split('/')[0] !== 'image') {
@@ -265,7 +265,7 @@ router.delete('/:uuid', middleware.checkLogin, async (req, res) => {
 
 
   let query;
-  if (req.session.type === 'Admin')
+  if (req.session.userType === 'Admin')
     query = `DELETE FROM ${files_table_name} WHERE uuid = ?`
   else
     query = `DELETE FROM ${files_table_name} WHERE uuid = ? AND user = ${user_id}`
