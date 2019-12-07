@@ -1,26 +1,19 @@
-
-const express = require('express')
-const cors = require('cors')
-const bodyParser = require('body-parser')
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 var session = require('express-session');
 var path = require('path');
 var MySQLStore = require('express-mysql-session')(session);
-const app = express()
-const port = process.env.PORT || 3000
-require('dotenv').config()
+const app = express();
+const port = process.env.PORT || 3000;
+require('dotenv').config();
 
-
-
-app.set('port', port)
-app.use(cors())
-// app.set('view engine', 'html')
-
+app.set('port', port);
+app.use(cors());
 
 // parsers
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
-
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 var options = {
   host: process.env.DB_HOST || '104.155.184.169',
@@ -44,80 +37,76 @@ app.use(session({
     }
 }));
 
-
-const APP_HOST_URL = process.env.APP_HOST_URL || 'https://fighting-mongooses-dev-256623.appspot.com http://localhost:8080'
+const APP_HOST_URL = process.env.APP_HOST_URL || 'https://fighting-mongooses-dev-256623.appspot.com http://localhost:8080';
 // set headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Origin', APP_HOST_URL); // req.get('host')); || http://fightingmongooses.com
+  res.header('Access-Control-Allow-Origin', APP_HOST_URL);
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  if ('OPTIONS' == req.method) {
+  if ('OPTIONS' === req.method) {
       res.send(200);
   } else {
     next();
   }
 });
 
-
-
 // route to backend API
-const users_routes = require('./backend/api/users')
-app.use('/api/users/', users_routes)
-const announcements_routes = require('./backend/api/announcements')
-app.use('/api/announcements/', announcements_routes)
-const session_routes = require('./backend/api/session')
-app.use('/api/session/', session_routes)
+const users_routes = require('./backend/api/users');
+app.use('/api/users/', users_routes);
+const announcements_routes = require('./backend/api/announcements');
+app.use('/api/announcements/', announcements_routes);
+const session_routes = require('./backend/api/session');
+app.use('/api/session/', session_routes);
 
-const attendance_routes = require('./backend/api/attendancelogging')
-app.use('/api/attendancelogging/', attendance_routes)
+const attendance_routes = require('./backend/api/attendancelogging');
+app.use('/api/attendancelogging/', attendance_routes);
 
 
-const file_routes = require('./backend/api/file')
-app.use('/api/file/', file_routes)
-const requiredFile_routes = require('./backend/api/required_file')
-app.use('/api/required_file/', requiredFile_routes)
-const surveys_routes = require('./backend/api/surveys')
-app.use('/api/surveys/', surveys_routes)
-const email_routes = require('./backend/api/email')
-app.use('/api/email/', email_routes)
+const file_routes = require('./backend/api/file');
+app.use('/api/file/', file_routes);
+const requiredFile_routes = require('./backend/api/required_file');
+app.use('/api/required_file/', requiredFile_routes);
+const surveys_routes = require('./backend/api/surveys');
+app.use('/api/surveys/', surveys_routes);
+const email_routes = require('./backend/api/email');
+app.use('/api/email/', email_routes);
 
-const registered_student_routes = require('./backend/api/registered_students')
-app.use('/api/registered_students/', registered_student_routes)
+const registered_student_routes = require('./backend/api/registered_students');
+app.use('/api/registered_students/', registered_student_routes);
 
 // route to frontend static pages
-//app.use(express.static('src/frontend'))
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/frontend/index.html'));
-})
+});
 
 app.get('/index.html', function(req, res) {
     res.sendFile(path.join(__dirname + '/frontend/index.html'));
-})
+});
 
 app.get('/StaticPages/:name', function(req, res) {
-    var page = req.params.name;
-    var type = "none";
+    let page = req.params.name;
+    let type = "none";
     if(req.session.userType)
       type = req.session.userType;
-    var allow = 1;
+    let allow = 1;
     //restrict access here
-    if(decodeURIComponent(page).toUpperCase() === "ANNOUNCEMENTS.HTML" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ANNOUNCEMENTS.HTML" && type !== "Admin")
       allow = 0;
-    if((decodeURIComponent(page).toUpperCase() === "SURVEYS.HTML" || decodeURIComponent(page).toUpperCase() === "SURVEY_QUESTIONS.HTML") && type != "Admin")
+    if((decodeURIComponent(page).toUpperCase() === "SURVEYS.HTML" || decodeURIComponent(page).toUpperCase() === "SURVEY_QUESTIONS.HTML") && type !== "Admin")
       allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type != "Parent" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "UPLOAD_PAGE.HTML" && type !== "Parent" && type !== "Admin")
       allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "ADMIN_EMAIL.HTML" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_EMAIL.HTML" && type !== "Admin")
       allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "ADMIN_FILES.HTML" && type != "Admin")
+    if(decodeURIComponent(page).toUpperCase() === "ADMIN_FILES.HTML" && type !== "Admin")
     allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "ATTENDANCE.HTML" && (type != "Admin" && type != "Parent" && type != "Student"))
+    if(decodeURIComponent(page).toUpperCase() === "ATTENDANCE.HTML" && (type !== "Admin" && type !== "Parent" && type !== "Student"))
       allow = 0;
-    if(decodeURIComponent(page).toUpperCase() === "REGISTRATION.HTML" && type != "Parent")
+    if(decodeURIComponent(page).toUpperCase() === "REGISTRATION.HTML" && type !== "Parent")
       allow = 0;
 
-    if(allow == 0) 
+    if(allow === 0)
       res.redirect('/');
     else
       res.sendFile(path.join(__dirname + '/frontend/StaticPages/' + page));
@@ -144,11 +133,7 @@ app.get('/js/:folder/:name', function(req, res) {
     res.sendFile(path.join(__dirname + '/frontend/js/' + folder + '/' + page));
 })
 
-
-
 app.listen(port, function() {
   console.log(`app started on port ${port}`);
-  console.log(`http://localhost:${port}`)
+  console.log(`http://localhost:${port}`);
 });
-
-
