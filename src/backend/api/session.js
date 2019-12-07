@@ -67,6 +67,7 @@ router.post('/login', function (req, res) {
         }
         else
         {
+            res.writeHead(401)
             res.end()
         }
     })
