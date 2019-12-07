@@ -24,7 +24,7 @@ router.get('/seeIfLoggedIn', checkLogin, async function(req, res)
 {
     if(req.session.user)
     {
-        if(req.session.type == 'Student'){
+        if(req.session.userType == 'Student'){
             req.session.status = await db_functions.query(`SELECT status FROM attendancelog WHERE user=${req.session.user} ORDER BY time DESC LIMIT 1`)
                                 .then(function(response){
                                     return response[0].status
@@ -32,7 +32,7 @@ router.get('/seeIfLoggedIn', checkLogin, async function(req, res)
         } else {
             req.session.status = null
         }
-        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.type, 'parent': req.session.parent, 'status': req.session.status})
+        res.send({'msg': 'Logged In', 'user': req.session.user, 'fname': req.session.fname, 'lname': req.session.lname, 'type': req.session.userType, 'parent': req.session.parent, 'status': req.session.status})
     }
     else
     {
@@ -51,8 +51,8 @@ router.post('/login', function (req, res) {
             req.session.user = resp[0].id
             req.session.fname = resp[0].fname
             req.session.lname = resp[0].lname
-            req.session.type = resp[0].type
-            if(req.session.type == 'Student'){
+            req.session.userType = resp[0].type
+            if(req.session.userType == 'Student'){
                 req.session.status = await db_functions.query(`SELECT status FROM attendancelog WHERE user=${resp[0].id} ORDER BY time DESC LIMIT 1`)
                                     .then(function(response){
                                         return response[0].status

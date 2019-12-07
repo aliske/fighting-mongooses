@@ -98,8 +98,8 @@ app.get('/index.html', function(req, res) {
 app.get('/StaticPages/:name', function(req, res) {
     var page = req.params.name;
     var type = "none";
-    if(req.session.type)
-      type = req.session.type;
+    if(req.session.userType)
+      type = req.session.userType;
     var allow = 1;
     //restrict access here
     if(decodeURIComponent(page).toUpperCase() === "ANNOUNCEMENTS.HTML" && type != "Admin")

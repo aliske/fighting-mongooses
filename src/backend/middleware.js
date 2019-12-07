@@ -28,7 +28,7 @@ module.exports.checkLogin = (req, res, next) => {
 module.exports.isAdmin = (req, res, next) => {
   //console.log(req.session)
 
-  if (req.session.type === 'Admin') {
+  if (req.session.userType === 'Admin') {
     //res.json({'msg': req.session.name + ' Logged In'})
     next()
   } else {
@@ -41,7 +41,7 @@ module.exports.isAdmin = (req, res, next) => {
 module.exports.isParent = (req, res, next) => {
   //console.log(req.session)
 
-  if (req.session.type === 'Parent') {
+  if (req.session.userType === 'Parent') {
     //res.json({'msg': req.session.name + ' Logged In'})
     next()
   } else {
@@ -54,7 +54,7 @@ module.exports.isParent = (req, res, next) => {
 module.exports.isStudent = (req, res, next) => {
   //console.log(req.session)
 
-  if (req.session.type === 'Student') {
+  if (req.session.userType === 'Student') {
     //res.json({'msg': req.session.name + ' Logged In'})
     next()
   } else {
