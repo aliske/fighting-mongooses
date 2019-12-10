@@ -69,8 +69,7 @@ router.get('/me', middleware.checkLogin, (req, res) => {
     WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
-
+ }) 
 
 // get my not-complete files
 router.get('/me/todo', middleware.checkLogin, (req, res) => {

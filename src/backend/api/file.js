@@ -147,6 +147,25 @@ router.get('/me', middleware.checkLogin, (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+// get my files
+router.get('/all', middleware.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
+// replace required number with description
+   db_functions.query (`SELECT ${files_table_name}.id,
+  user.username AS 'user',
+  ${files_table_name}.uuid,
+  ${files_table_name}.public,
+  requiredfile.title AS 'requiredfile',
+  ${files_table_name}.mimetype,
+  ${files_table_name}.cdate
+  FROM ${files_table_name}
+  LEFT JOIN requiredfile ON requiredfile.id=file.requiredfile
+  LEFT JOIN user ON user.id=file.user
+  WHERE ${files_table_name}.user = ${user_id}`)
+   //  db_functions.query(`SELECT * FROM ${files_table_name} WHERE user = ${user_id}`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
 
 // get file: works for pdfs
 router.get('/:uuid', middleware.checkLogin, async (req, res) => {
