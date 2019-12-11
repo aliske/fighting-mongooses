@@ -8,13 +8,13 @@ async function getUploads(public = true) {
   // raw query
 
   populateRequiredFileDropdown()
-  populateFilterDropdown()
-
+  populateFltrDropdown()
 
   const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
                   .catch(er => displayAlert('Failed to connect', 'alert-danger'))
- // data = data.filter(file =>  { return file.uuid === 'f8d88afa-1fa8-4ecb-8415-105fafee30a2' })
+                  
+  //              data = data.filter(row => { return row['requiredfile'] === '' }) 
 
   const headers = [
     {
