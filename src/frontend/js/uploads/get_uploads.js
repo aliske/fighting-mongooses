@@ -1,7 +1,7 @@
-async function getUploads(public = true) {
+async function getUploads(foptions) {
   let uri;
-  if (public === true)
-    uri = `${ROOT_URI}/api/file/public`
+  if (foptions !== "All")
+    uri = `${ROOT_URI}/api/file/fltr/${foptions}`
   else
     uri = `${ROOT_URI}/api/file/me`
 

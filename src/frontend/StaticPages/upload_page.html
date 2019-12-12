@@ -135,7 +135,7 @@
       viewUpload(uuid, mimetype, '1')
     }
     function updateFilterDescription() {
-      const description = $("#fltrFile option:selected").attr('description')
+      const description = $("#fltrFile option:selected disabled").attr('description')
       $('#fltrFile-description').text(description);
     }
     
@@ -153,7 +153,6 @@
   		var link = document.createElement("a");
   		link.download = name;
   		link.href =  type + "," + uri;
-//	alert(link.href)
   		document.body.appendChild(link);
   		link.click();
   		document.body.removeChild(link);
@@ -172,14 +171,14 @@
             .then(data => { return data })
             .catch(er => displayAlert('Failed to connect', 'alert-danger'))   
  			file_url = data.url	
-           downloadURI("Image:image/png",file_url, "HelloWorld.txt"); 
+           downloadURI("data:image/png",file_url, "HelloWorld.txt"); 
       	}
       	}    
       } 
     </script>
     
 
-	<body onLoad='getUploads(false)'>
+	<body onLoad='getUploads("All")'>
     <!-- Insert the header. -->
 	  <header id="header"></header>
 
@@ -229,12 +228,12 @@
           <label for="fltr_cat"> Select option to filter.</label>
           <!-- category TEST EXAMPLE -->
           <div class="col-md-4" >
-           <select id="fltrFile" name='fltrFile' onchange='updateFilterDescription()'> 
+           <select id="fltrFile" name='fltrFile' onchange='getUploads(fltrFile.value)'> 
               <option value=''><strong>All</strong></option>
             </select>
-            <button type=button id='fltrFile-link' onclick='getUploads(false)'>Filter List</button>
+            <button type=button id='fltrFile-link' onclick='getUploads("All")'>Clear Filter List</button>
             <br>
-            <span id='fltrFile-description'></span>
+       <!--     <span id='fltrFile-description'></span>  -->
           </div>
         </div>
       <br>
