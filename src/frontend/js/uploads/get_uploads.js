@@ -1,17 +1,20 @@
-async function getUploads(public = true) {
+async function getUploads(foptions) {
   let uri;
-  if (public === true)
-    uri = `${ROOT_URI}/api/file/public`
+  if (foptions !== "All")
+    uri = `${ROOT_URI}/api/file/fltr/${foptions}`
   else
     uri = `${ROOT_URI}/api/file/me`
 
   // raw query
 
   populateRequiredFileDropdown()
+  populateFltrDropdown()
 
   const data = await fetch(uri, { credentials: 'include' })
                   .then(resp => { return resp.json() })
                   .catch(er => displayAlert('Failed to connect', 'alert-danger'))
+                  
+  //              data = data.filter(row => { return row['requiredfile'] === '' }) 
 
   const headers = [
     {
@@ -40,7 +43,7 @@ async function getUploads(public = true) {
     }
   ]
   let headers_HTML = headers.map(header => { return `<th>${header.display_name}</th>` }).join('')
-  headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th><th>Print <input type="checkbox" onclick="checkAll(this)"></th></tr>`
+  headers_HTML = `<tr>${headers_HTML}<th>View</th><th>Delete</th><th>Download <input type="checkbox" onclick="checkAll(this)"></th></tr>`
 
   let data_HTML = data.map(row => {
     const row_data = headers.map(header => {
@@ -61,12 +64,12 @@ async function getUploads(public = true) {
         </button>
       </td>
       <td>
-        <input type="checkbox" class='print.checkbox' name=checkbox.${row['uuid']} >
+        <input type="checkbox" class='download.checkbox' name=checkbox.${row['uuid']} >
       </td>
     </tr>`
   }).join('') 
 
-  console.log('update table')
+//  console.log('update table')
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
 
@@ -94,7 +97,7 @@ async function deleteUpload(uuid){
 
 }
     async function checkAll(bx) {
-    var cbs = document.getElementsByClassName('print.checkbox');
+    var cbs = document.getElementsByClassName('download.checkbox');
     for(var i=0; i < cbs.length; i++) {
       if(cbs[i].type == 'checkbox') {
         cbs[i].checked = bx.checked;

@@ -69,8 +69,7 @@ router.get('/me', middleware.checkLogin, (req, res) => {
     WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
-
+ }) 
 
 // get my not-complete files
 router.get('/me/todo', middleware.checkLogin, (req, res) => {
@@ -84,7 +83,15 @@ router.get('/me/todo', middleware.checkLogin, (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+// get my not-complete files
+router.get('/fltr', middleware.checkLogin, (req, res) => {
+  const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
+  db_functions.query(`SELECT id, title, uuid, mimetype, description
+      FROM requiredfile`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
 
 // Process the file upload and upload to Google Cloud Storage.
 router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, next) => {
