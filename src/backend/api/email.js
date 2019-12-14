@@ -18,9 +18,26 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+// get years
+router.get('/years', middleware.isAdmin, (req, res) => {
+  db_functions.query(`SELECT DISTINCT registered FROM user WHERE registered <> 'null'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
 
 // get all users
-router.get('/groups', middleware.isAdmin, (req, res) => {
+router.get('/users/:type/:year', middleware.isAdmin, (req, res) => {
+  const type = req.params['type']
+  const year = req.params['year']
+
+  db_functions.query(`SELECT email,type,fname,lname FROM user WHERE email <> 'null' AND type = '${type}' AND registered = '${year}'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+// get all users
+router.get('/types', middleware.isAdmin, (req, res) => {
   db_functions.query(`SELECT DISTINCT type FROM user WHERE type <> 'null'`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
@@ -28,8 +45,18 @@ router.get('/groups', middleware.isAdmin, (req, res) => {
 
 
 // get user emails
-router.get('/:group', middleware.isAdmin, (req, res) => {
-  const type = req.params['group']
+router.get('/types/:type/users', middleware.isAdmin, (req, res) => {
+  const type = req.params['type']
+  console.log(type)
+
+  db_functions.query(`SELECT DISTINCT email,type,fname,lname FROM user WHERE type = '${type}' AND email <> 'null'`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+// get user emails
+router.get('/types/:type', middleware.isAdmin, (req, res) => {
+  const type = req.params['type']
   console.log(type)
 
   db_functions.query(`SELECT DISTINCT email FROM user WHERE type = '${type}' AND email <> 'null'`)
@@ -38,10 +65,11 @@ router.get('/:group', middleware.isAdmin, (req, res) => {
 })
 
 
-
 // send email post
 router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const to = req.body['to']
+  const cc = req.body['cc']
+  const bcc = req.body['bcc']
   const subject = req.body['subject']
   const body = req.body['body']
   const isHTML= req.body['isHTML']
@@ -53,6 +81,8 @@ router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const mailOptions = {
     from: email, //process.env.EMAIL, // sender address
     to: to, //process.env.EMAIL, // list of receivers
+    cc: cc,
+    bcc: bcc,
     subject: subject, // Subject line
   };
 

@@ -222,3 +222,8 @@ td.right-align {
                 color: darkred;
             }
 
+
+.email-selected {
+  font-weight: 700;
+  background-color: lightgrey
+}
