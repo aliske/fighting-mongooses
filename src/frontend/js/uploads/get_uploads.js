@@ -83,7 +83,7 @@ async function deleteUpload(uuid){
     .then(async resp => {
 
       if (resp.status === 200) {
-        getUploads(false)
+        getUploads("All")
         displayAlert('File deleted successfully', 'alert-success')
       }
       else {
