@@ -236,7 +236,7 @@ router.get('/:uuid', middleware.checkLogin, async (req, res) => {
         res.status(500).json({'msg': 'Internal Server Error'})
 
       // resp.statusCode = 200
-      console.log(url)
+ //     console.log(url)
       res.json({'url': url})
     });
   });
