@@ -63,7 +63,7 @@ router.get('/', middleware.checkLogin, (req, res) => {
 // get my completed files
 router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
-//  console.log(user_id)
+  console.log(user_id)
   db_functions.query(`SELECT id, title, uuid, mimetype, description
     FROM requiredfile
     WHERE id IN (SELECT requiredfile FROM file WHERE user = ${user_id} AND requiredfile IS NOT NULL)`)
