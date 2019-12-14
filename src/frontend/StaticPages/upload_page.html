@@ -129,11 +129,11 @@
       $('#requiredFile-description').text(description);
     }
 
-    function viewfltrFile() {
-      const uuid = $("#fltrFile option:selected").attr('name').split(':')[0]
-      const mimetype = $("#fltrFile option:selected").attr('name').split(':')[1]
-      viewUpload(uuid, mimetype, '1')
-    }
+ //   function viewfltrFile() {
+   //   const uuid = $("#fltrFile option:selected").attr('name').split(':')[0]
+     // const mimetype = $("#fltrFile option:selected").attr('name').split(':')[1]
+//      viewUpload(uuid, mimetype, '1')
+//    }
     function updateFilterDescription() {
       const description = $("#fltrFile option:selected disabled").attr('description')
       $('#fltrFile-description').text(description);
@@ -149,12 +149,13 @@
   <script type="text/javascript" src="../js/display_alert.js"></script>
 
   <script>
-		function downloadURI(type,uri, name) {
-  		var link = document.createElement("a");
-  		link.download = name;
-  		link.href =  type + "," + uri;
-  		document.body.appendChild(link);
-  		link.click();
+		function downloadURI(uri,name) {
+  	  var link = document.createElement("a");
+  		link.target = "_blank"
+      link.href =  uri;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
   		document.body.removeChild(link);
   		delete link;
 }
@@ -170,9 +171,9 @@
             .then(resp => { return resp.json() })
             .then(data => { return data })
             .catch(er => displayAlert('Failed to connect', 'alert-danger'))   
- 			file_url = data.url	
-           downloadURI("data:image/png",file_url, "HelloWorld.txt"); 
-      	}
+			      file_url = data.url	
+            downloadURI(file_url,file_uuid);          
+          }
       	}    
       } 
     </script>
