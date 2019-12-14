@@ -44,16 +44,22 @@ function makeMenu(type, userId, status){
 		menucode +="</li>";
 		menucode +="<li class='nav-item'>";
 		if(type === "Student"){
-		    if(status === 0){
+			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/survey_respond.html'>Surveys</a>";
+			menucode +="</li>";
+			menucode +="<li class='nav-item'>";
+			if(status === 0){
 		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-in-button' onclick='checkInOut("+ userId +", 1)'>Check In</button>";
 		    } else {
 		        menucode += "<button type='button' style='margin-left: 10px;' class='btn btn-success' id='check-out-button' onclick='checkInOut("+ userId +", 0)'>Check Out</button>";
-		    }
+			}
 		} else if(type === "Parent"){
 		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
             menucode +="</li>";
             menucode +="<li class='nav-item'>";
 			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/Registration.html'>Register Student</a>";
+			menucode +="</li>";
+			menucode +="<li class='nav-item'>";
+			menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/survey_respond.html'>Surveys</a>";
 		} else if(type === "Admin"){
 		    menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/upload_page.html'>Uploads</a>";
             menucode +="</li>";
