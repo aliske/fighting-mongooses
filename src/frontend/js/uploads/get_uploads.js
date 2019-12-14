@@ -21,10 +21,10 @@ async function getUploads(foptions) {
       'internal_name': 'user',
       'display_name': 'Author'
     },
-    {
-      'internal_name': 'uuid',
-      'display_name': 'uuid'
-    },
+ //   {
+ //     'internal_name': 'uuid',
+ //     'display_name': 'uuid'
+ //   },
     // {
     //   'internal_name': 'filename',
     //   'display_name': 'Title'
@@ -64,7 +64,7 @@ async function getUploads(foptions) {
         </button>
       </td>
       <td>
-        <input type="checkbox" class='download.checkbox' name=${row['uuid']} >
+        <input type="checkbox" class='download.checkbox' name=checkbox.${row['uuid']} >
       </td>
     </tr>`
   }).join('') 
