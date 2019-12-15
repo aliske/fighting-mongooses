@@ -199,7 +199,7 @@ td.right-align {
 			color:black;
 			}
 /*  attendance table */
-            #current-attendance-status-tbody td,.uploads-table th,#home-annc-tbody td {
+            #current-attendance-status-tbody td, #current-attendance-status-tbody th,#home-annc-tbody td {
                 border: 1px solid black;
                 border-collapse: collapse
             }
@@ -221,7 +221,45 @@ td.right-align {
                 background-color: lightcoral;
                 color: darkred;
             }
+/*  student records table */
+            #sudent-records-table td, #Student-records-table th, #home-annc-tbody td {
+                border: 1px solid black;
+                border-collapse: collapse
+            }
+            #student-records-table tr:nth-child(odd),
+            #home-annc-tbody tr:nth-child(odd) {
+                background-color:lightgrey;
+                color:black;
+            }
+            #student-records-table tr:nth-child(even),
+            #home-annc-tbody tr:nth-child(even) {
+                background-color:grey;
+                color:black;
+            }
+            #student-records-table td.in {
+                background-color: lightgreen;
+                color: darkgreen;
+            }
+            #student-records-table td.out {
+                background-color: lightcoral;
+                color: darkred;
+            }
 
+/*  Users table */
+			#users_table td, #users_table th {
+			border: 1px solid black;
+			border-collapse: collapse
+			}	
+			#users_table tr:nth-child(odd) 
+			{
+				background-color:lightgrey;
+				color:black;
+			}
+			#users_table tr:nth-child(even)
+			{
+			background-color:grey;
+			color:black;
+			}
 
 .email-selected {
   font-weight: 700;
