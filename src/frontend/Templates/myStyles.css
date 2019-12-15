@@ -265,3 +265,8 @@ td.right-align {
   font-weight: 700;
   background-color: lightgrey
 }
+
+div.scrollable {
+	overflow: auto;
+	height: 500px;
+}

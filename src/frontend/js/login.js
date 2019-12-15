@@ -73,7 +73,7 @@ function makeMenu(type, userId, status){
             // menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Admin Page</a>";
             // menucode +="</li>";
             menucode += `
-            <div class='nav-item dropdown'>
+            <div style='padding-left: 10px' class='nav-item dropdown'>
               <button class='btn btn-outline-secondary dropdown-toggle' type="button" id="dropdownAdminPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Admin</a>
               <ul class="dropdown-menu" aria-labelledby="dropdownAdminPages">
                 <li>
