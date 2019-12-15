@@ -1,8 +1,7 @@
-const db_functions = require('../db/db_functions')
-const express = require('express')
-const router = express.Router()
+const db_functions = require('../db/db_functions');
+const express = require('express');
+const router = express.Router();
 
-const users_table_name = 'user'
 const middleware = require('../middleware');
 
 function encodeHTML(s) {
@@ -10,29 +9,29 @@ function encodeHTML(s) {
 }
 
 router.get('/history/:user', (req, res) => {
-  const user = req.params['user']
+  const user = req.params['user'];
   if (!user || !Number.isInteger(+user))
     res.status(400).json({'msg': 'Please provide a valid ID'})
-
-  var query = `SELECT a.time, a.status, u.fname, u.lname
+  let query = `SELECT a.time, a.status, u.fname, u.lname
                FROM user u
-                        JOIN attendancelog a on u.id = a.user AND u.id=${user} ORDER BY a.time DESC;`
+                        JOIN attendancelog a on u.id = a.user AND u.id=${user} ORDER BY a.time DESC;`;
 
     db_functions.query(query)
       .then(resp => { res.json(resp) })
       .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
+});
 
 router.get('/status', middleware.checkLogin, (req, res) => {
+    let filter;
     switch(req.session.userType) {
         default:
-            var filter = ``;
+            filter = ``;
             break;
         case 'Parent':
-            var filter = ` AND user.parent=${req.session.user}`;
+            filter = ` AND user.parent=${req.session.user}`;
             break;
         case 'Student':
-            var filter = ` AND user.id=${req.session.user}`;
+            filter = ` AND user.id=${req.session.user}`;
             break;
     }
     var query = `SELECT user.id, user.fname, user.lname, logs.time, logs.status
@@ -43,11 +42,11 @@ router.get('/status', middleware.checkLogin, (req, res) => {
                                                  ON (logs1.user = logs2.user AND logs1.time < logs2.time)
                               WHERE logs2.time IS NULL
                           ) AS logs
-                              JOIN user on user.id = logs.user${filter};`
+                              JOIN user on user.id = logs.user${filter};`;
     db_functions.query(query)
       .then(resp => { res.json(resp) })
-      .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
-})
+      .catch(err => res.status(500).json({'msg': 'Internal Server Error'}));
+});
 
 router.post('/checkinout', async (req, res) => {
     let user = req.body['user'];
@@ -56,9 +55,9 @@ router.post('/checkinout', async (req, res) => {
     const [rows, fields] = await db_functions.execute('INSERT INTO attendancelog (user, status) VALUES (?, ?)', [user, status]);
 
     if (rows.insertId)
-        res.json({'insertID': rows.insertId})
+        await res.json({'insertID': rows.insertId});
     else
         res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
-})
+});
 
-module.exports = router
+module.exports = router;
