@@ -199,17 +199,15 @@ td.right-align {
 			color:black;
 			}
 /*  attendance table */
-            #current-attendance-status-tbody td,.uploads-table th,#home-annc-tbody td {
+            #current-attendance-status-tbody td,.uploads-table th {
                 border: 1px solid black;
                 border-collapse: collapse
             }
-            #current-attendance-status-tbody tr:nth-child(odd),
-            #home-annc-tbody tr:nth-child(odd) {
+            #current-attendance-status-tbody tr:nth-child(odd) {
                 background-color:lightgrey;
                 color:black;
             }
-            #current-attendance-status-tbody tr:nth-child(even),
-            #home-annc-tbody tr:nth-child(even) {
+            #current-attendance-status-tbody tr:nth-child(even) {
                 background-color:grey;
                 color:black;
             }
@@ -239,10 +237,12 @@ h5.space_after {
 div.scrollable {
 	overflow: scroll;
 	height: 400px;
-	background-color:rgba(255, 255, 255, 0.15);
-	padding-left: 10px;
-	padding-right: 30px;
+	background-color:rgba(255, 255, 255, 0.25);
+	padding: 10px;
+	border: 3px ridge rgb(30, 61, 40);
+
 }
 div.postscript {
 	padding-top: 10px;
+	padding-left: 15px;
 }
