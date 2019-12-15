@@ -39,7 +39,7 @@ npm run start
 Ensure version numbers are displayed in a cmd.exe or bash shell for each of the following commands. If not, please install the dependencies and/or validate PATH environment variables.
 ```
     node --version
-    node --version
+    npm --version
     gcloud --version
     gsutil --version
 ```
@@ -52,7 +52,7 @@ Ensure version numbers are displayed in a cmd.exe or bash shell for each of the 
 
 #### 4. Get email Application Credentials
 - [How to get application password](https://support.google.com/accounts/answer/185833)
-- Save**'Email Address'** + **'Application Password'** for step 5
+- Save **'Email Address'** + **'Application Password'** for step 5
 
 #### 5. Build Config File
 Using /build_scripts/app_conf_template.json as a template:

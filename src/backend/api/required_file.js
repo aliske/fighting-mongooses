@@ -47,7 +47,9 @@ const multer = Multer({
 });
 // router.use(multer.array())
 
-
+function encodeHTML(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
 
 const files_table_name = 'requiredfile'
 
@@ -118,8 +120,8 @@ router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, nex
     // update database
     const user = req.session.user; // TO DO: change to user logged in. session.user.id
     const mimetype = req.file.mimetype
-    const title = req.body['title'] || req.file.originalname
-    const description = req.body['description'] || ''
+    const title = encodeHTML(req.body['title']) || req.file.originalname
+    const description = encodeHTML(req.body['description']) || ''
     const public = 1
 
 
@@ -162,18 +164,13 @@ router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, nex
 // Update file
 router.patch('/:uuid', middleware.isAdmin, async (req, res) => {
   // param name, default value
-  const uuid = req.params['uuid']
+  const uuid = encodeHTML(req.params['uuid'])
 
 
   // set update values
-  let title = req.body['title'] || ''
-  let description = req.body['description'] || ''
+  let title = encodeHTML(req.body['title']) || ''
+  let description = encodeHTML(req.body['description']) || ''
 
-
-  console.log(uuid)
-  console.log(title)
-  console.log(description)
-  
 
   // update db
   const [rows, fields] = await db_functions.execute(`
@@ -196,7 +193,7 @@ router.patch('/:uuid', middleware.isAdmin, async (req, res) => {
 // get file: works for pdfs
 router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
   // TODO: validate input
-  const file_uuid = req.params['uuid']
+  const file_uuid = encodeHTML(req.params['uuid'])
 
 
   await db_functions.execute(`
