@@ -7,7 +7,7 @@ async function deleteFile(uuid){
     uri = `${ROOT_URI}/api/file/${uuid}`
 
 
-  console.log(uri)
+
   await fetch(uri, {
     method: 'DELETE',
     credentials: 'include'
@@ -19,7 +19,6 @@ async function deleteFile(uuid){
       }
       else {
         const data = await resp.json()
-        console.log(data)
         
         displayAlert(data.msg, 'alert-danger');
       }

@@ -32,7 +32,6 @@
                     .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
       const options = data.reduce((str, value, index) => {
-        console.log(value)
         return str+`<option value='${value.type}'>${value.type}</option>`
       }, '')
 
@@ -50,7 +49,6 @@
                     .catch(er => displayAlert('Failed to connect', 'alert-danger'))
 
       const options = data.reduce((str, value, index) => {
-        console.log(value)
         return str+`<option value='${value.registered}'>${value.registered}</option>`
       }, '')
 
@@ -123,7 +121,6 @@
 
       // table
       // splice in current_emails that don't exist in array already
-      // console.log(data)
       window.current_emails.forEach(email => {
         if (email !== '' && data.find(user => user.email === email ) === undefined)
           data_HTML = `<tr class='email-selected' onclick='toggleEmailSelected(event)'><th>${email}</th><th></th><th></th><th></th></tr>` + data_HTML
@@ -139,7 +136,6 @@
       const selected_email = row.children[0].innerText
 
       if (row.classList.contains('email-selected')) {
-        console.log('got here')
         window.current_emails = window.current_emails.filter(email => email !== '' && email.trim() !== selected_email)
         row.classList = []
       } else {

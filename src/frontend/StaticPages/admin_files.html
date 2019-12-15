@@ -29,7 +29,6 @@
           // prints base64 to screen
           // this reader.result value can be uploaded to db
           setModal('[Preview] ' + file.name, reader.result, file.type)
-          console.log(reader.result)
         }, false);
 
         if (file) {
@@ -62,13 +61,8 @@
         .then(data => { return data })
         .catch(err => alert('error'))
 
-      // console.log(data.url)
+
       const file_url = data.url
-
-
-      // console.log(file_uuid)
-      // console.log(filetype)
-      // console.log(isPublic)
 
       // update modal properties
       $('#modal-image').remove()

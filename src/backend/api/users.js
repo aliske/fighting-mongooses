@@ -29,7 +29,6 @@ router.get('/byType/:type', middleware.isAdmin, (req, res) => {
 router.get('/me', middleware.checkLogin, (req, res) => {
   const user_id = req.session.user // TO DO: update user ID to use session.user.id
 
-  console.log(user_id)
   db_functions.query(`SELECT id, username, type FROM ${users_table_name} WHERE id = ${user_id}`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))

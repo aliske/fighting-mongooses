@@ -83,7 +83,6 @@ async function collectFileUrlsFromGoogle(resp) {
       });
     }).catch(err => console.log(err))
 
-    // console.log(url)
     file_promises.push(file_promise)
   })
 

@@ -18,18 +18,7 @@ async function getUploads(public = true) {
       'internal_name': 'user',
       'display_name': 'Author'
     },
- //   {
- //     'internal_name': 'uuid',
- //     'display_name': 'uuid'
- //   },
-    // {
-    //   'internal_name': 'filename',
-    //   'display_name': 'Title'
-    // },
- //   {
- //     'internal_name': 'public',
- //     'display_name': 'public?'
- //   },
+
     {
       'internal_name': 'requiredfile',
       'display_name': 'required File'
@@ -66,7 +55,6 @@ async function getUploads(public = true) {
     </tr>`
   }).join('') 
 
-  console.log('update table')
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
 

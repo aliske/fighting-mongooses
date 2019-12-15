@@ -13,7 +13,7 @@ router.get('/history/:user', (req, res) => {
   const user = req.params['user']
   if (!user || !Number.isInteger(+user))
     res.status(400).json({'msg': 'Please provide a valid ID'})
-  console.log("This is the user: " + user)
+
   var query = `SELECT a.time, a.status, u.fname, u.lname
                FROM user u
                         JOIN attendancelog a on u.id = a.user AND u.id=${user} ORDER BY a.time DESC;`

@@ -13,8 +13,7 @@ module.exports.validate_user_permissions = (req, res, next) => {
 }
 
 module.exports.checkLogin = (req, res, next) => {
-  //console.log(req.session)
-  // console.log('query from user: ' + req.session.user)
+
 
   if (req.session.user != null) {
     //res.json({'msg': req.session.name + ' Logged In'})
@@ -26,7 +25,7 @@ module.exports.checkLogin = (req, res, next) => {
 
 
 module.exports.isAdmin = (req, res, next) => {
-  //console.log(req.session)
+
 
   if (req.session.userType === 'Admin') {
     //res.json({'msg': req.session.name + ' Logged In'})
@@ -39,7 +38,7 @@ module.exports.isAdmin = (req, res, next) => {
 
 
 module.exports.isParent = (req, res, next) => {
-  //console.log(req.session)
+
 
   if (req.session.userType === 'Parent') {
     //res.json({'msg': req.session.name + ' Logged In'})
@@ -52,7 +51,7 @@ module.exports.isParent = (req, res, next) => {
 
 
 module.exports.isStudent = (req, res, next) => {
-  //console.log(req.session)
+
 
   if (req.session.userType === 'Student') {
     //res.json({'msg': req.session.name + ' Logged In'})
