@@ -69,17 +69,38 @@ function makeMenu(type, userId, status){
             menucode +="<li class='nav-item'>";
             menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/surveys.html'>Surveys</a>";
             menucode +="</li>";
-            menucode +="<li class='nav-item'>";
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Admin Page</a>";
-            menucode +="</li>";
-            menucode +="<li class='nav-item'>";
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>";
-            menucode +="</li>";
-            menucode +="<li class='nav-item'>";
-            menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>";
+            // menucode +="<li class='nav-item'>";
+            // menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Admin Page</a>";
+            // menucode +="</li>";
+            menucode += `
+            <div class='nav-item dropdown'>
+              <button class='btn btn-outline-secondary dropdown-toggle' type="button" id="dropdownAdminPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Admin</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownAdminPages">
+                <li>
+                  <a class='admin-link nav-link nav-link-text text-dark' href='../StaticPages/admin_page.html'>Registration + Student Records</a>
+                </li>
+                <li>
+                  <a class='admin-link nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>Manage Required Files + Photo Gallery</a>
+                </li>
+                <li>
+                  <a class='admin-link nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>Send Email</a>
+                </li>
+              </ul>
+            </div>
+            `
+            // menucode +="<li class='nav-item'>";
+            // menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_files.html'>[Admin] Manage Files</a>";
+            // menucode +="</li>";
+            // menucode +="<li class='nav-item'>";
+            // menucode +="<a class='nav-link nav-link-text text-dark' href='../StaticPages/admin_email.html'>[Admin] Send Email</a>";
 		}
 	}
 	menucode +="</li>";
 	menucode +="</ul>";
-	$("#menubar").html(menucode);
+  $("#menubar").html(menucode);
+
+  // stop dropdown click propagation
+  $('.admin-link').click(function(e){
+    e.stopPropagation()
+});
 }

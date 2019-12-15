@@ -1,5 +1,11 @@
 
 async function deleteFile(uuid){
+  // validate user wants to delete record
+  let response = confirm('Are you sure you want to delete this record? OK to confirm.')
+  if (response === false)
+    return
+
+
   let uri
   if (document.currentTab === 'required_files')
     uri = `${ROOT_URI}/api/required_file/${uuid}`

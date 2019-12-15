@@ -72,8 +72,8 @@
 
   </script>
   <script type="text/javascript" src="/js/root_uri.js"></script>
-  <script type="text/javascript" src="/js/admin_required_file/getFiles.js"></script>
-  <script type="text/javascript" src="/js/admin_required_file/deleteFile.js"></script>
+  <script type="text/javascript" src="/js/admin_files/getFiles.js"></script>
+  <script type="text/javascript" src="/js/admin_files/deleteFile.js"></script>
   <script type="text/javascript" src="/js/display_alert.js"></script>
 
 
@@ -96,7 +96,7 @@
           <a class="nav-link active" id="required_files_tab" data-toggle="tab" href="#required_files" role="tab" aria-controls="required_files" aria-selected="true" onclick='getFiles("required_files")'>Required Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="public_images_tab" data-toggle="tab" href="#public_images" role="tab" aria-controls="public_images" aria-selected="false" onclick='getFiles("public_files")'>Public Images</a>
+          <a class="nav-link" id="public_images_tab" data-toggle="tab" href="#public_images" role="tab" aria-controls="public_images" aria-selected="false" onclick='getFiles("public_files")'>Photo Gallery</a>
         </li>
       </ul>
 
@@ -180,8 +180,10 @@
 
       <br>
       <hr>
-      <table id='uploads-table'></table>
 
+      <div class='table-responsive'>
+        <table id='uploads-table' class='text-center center' style='width:95%'></table>
+      </div>
 
       <!-- Modal -->
       <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
