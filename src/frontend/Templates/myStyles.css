@@ -227,3 +227,15 @@ td.right-align {
   font-weight: 700;
   background-color: lightgrey
 }
+
+h5.space_after {
+	padding-bottom: 50px;
+}
+
+div.scrollable {
+	overflow: scroll;
+	height: 400px;
+	background-color:rgba(255, 255, 255, 0.15);
+	padding-left: 10px;
+	padding-right: 30px;
+}
