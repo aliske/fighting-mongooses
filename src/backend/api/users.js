@@ -9,7 +9,7 @@ const middleware = require('../middleware');
 
 // get all users
 router.get('/', middleware.isAdmin, (req, res) => {
-  db_functions.query(`SELECT * FROM ${users_table_name}`)
+  db_functions.query(`SELECT * FROM ${users_table_name} ORDER BY registered DESC` )
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
