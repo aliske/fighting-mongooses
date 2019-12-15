@@ -228,6 +228,10 @@ td.right-align {
   background-color: lightgrey
 }
 
+h2.space_after {
+	padding-bottom: 10px;
+}
+
 h5.space_after {
 	padding-bottom: 50px;
 }
@@ -238,4 +242,7 @@ div.scrollable {
 	background-color:rgba(255, 255, 255, 0.15);
 	padding-left: 10px;
 	padding-right: 30px;
+}
+div.postscript {
+	padding-top: 10px;
 }
