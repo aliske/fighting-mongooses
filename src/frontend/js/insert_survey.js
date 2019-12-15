@@ -20,11 +20,11 @@ const data = await fetch(`${ROOT_URI}/api/surveys`, {
   },
   body: JSON.stringify(body)
 })
-.then(resp => { 
+.then(resp => {
   if (resp.status === 200) {
     window.location.reload();
   }
-  else 
+  else
     alert(data.msg);
 })
 }
@@ -55,13 +55,13 @@ const data = await fetch(`${ROOT_URI}/api/surveys/question`, {
   },
   body: JSON.stringify(body)
 })
-.then(resp => { 
+.then(resp => {
   if (resp.status === 200) {
     return resp.json();
   } else
     alert(data.msg);
 })
-//alert(data.insertID);
+
 if(data.insertID > 0 && type != "Short Answer" && option1 != "")
 {
   var body = {
@@ -75,7 +75,7 @@ if(data.insertID > 0 && type != "Short Answer" && option1 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
@@ -95,13 +95,13 @@ if(data.insertID > 0 && type != "Short Answer" && option2 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
       alert(data2.msg);
   })
-  
+
 }
 if(data.insertID > 0 && type != "Short Answer" && option3 != "")
 {
@@ -116,7 +116,7 @@ if(data.insertID > 0 && type != "Short Answer" && option3 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
@@ -136,7 +136,7 @@ if(data.insertID > 0 && type != "Short Answer" && option4 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
@@ -156,7 +156,7 @@ if(data.insertID > 0 && type != "Short Answer" && option5 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
@@ -176,7 +176,7 @@ if(data.insertID > 0 && type != "Short Answer" && option6 != "")
     },
     body: JSON.stringify(body)
   })
-  .then(resp => { 
+  .then(resp => {
     if (resp.status === 200) {
       return resp.json();
     } else
