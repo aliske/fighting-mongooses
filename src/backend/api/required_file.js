@@ -159,6 +159,40 @@ router.post('/upload', middleware.isAdmin, multer.single('file'), (req, res, nex
 
 
 
+// Update file
+router.patch('/:uuid', middleware.isAdmin, async (req, res) => {
+  // param name, default value
+  const uuid = req.params['uuid']
+
+
+  // set update values
+  let title = req.body['title'] || ''
+  let description = req.body['description'] || ''
+
+
+  console.log(uuid)
+  console.log(title)
+  console.log(description)
+  
+
+  // update db
+  const [rows, fields] = await db_functions.execute(`
+    UPDATE ${files_table_name}
+    SET title=?, description=?
+    WHERE uuid=?`, [title, description, uuid]);
+
+
+  if (rows.affectedRows > 0)
+    res.json({'msg': 'Your data has been updated.'})
+  else
+    res.status(500).json({'msg': 'No update.'})
+
+
+})
+
+
+
+
 // get file: works for pdfs
 router.delete('/:uuid', middleware.isAdmin, async (req, res) => {
   // TODO: validate input
