@@ -21,18 +21,7 @@ async function getUploads(foptions) {
       'internal_name': 'user',
       'display_name': 'Author'
     },
- //   {
- //     'internal_name': 'uuid',
- //     'display_name': 'uuid'
- //   },
-    // {
-    //   'internal_name': 'filename',
-    //   'display_name': 'Title'
-    // },
- //   {
- //     'internal_name': 'public',
- //     'display_name': 'public?'
- //   },
+
     {
       'internal_name': 'requiredfile',
       'display_name': 'required File'
@@ -47,7 +36,7 @@ async function getUploads(foptions) {
 
   let data_HTML = data.map(row => {
     const row_data = headers.map(header => {
-      // defaults to '' if null
+
       return `<td>${row[header.internal_name] || ''}</td>` 
     }).join('')
 
@@ -69,7 +58,6 @@ async function getUploads(foptions) {
     </tr>`
   }).join('') 
 
-//  console.log('update table')
   $('#uploads-table').html(headers_HTML + data_HTML)
 }
 

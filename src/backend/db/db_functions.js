@@ -16,18 +16,12 @@ const pool = mysql.createPool({
 });
 
 
-// db.connect(function(err) {
-//   if (err) throw err;
-//   console.log("database connected!");
-// });
 
 
 function run_prebuilt_sql_query(filename) {
   let sql = fs.readFileSync(`${basepath}/queries/${filename}.sql`, 'UTF8');
-  // console.log(sql);
+
   pool.query(sql, function (err, result) {
-    // if (err) throw err;
-    // console.log('Result: ', result)
   })
 }
 
@@ -37,7 +31,6 @@ async function query(sql) {
 }
 
 async function execute(sql, params) {
-  // const data = await pool.execute(sql, params);
   return await pool.execute(sql, params)
 }
 

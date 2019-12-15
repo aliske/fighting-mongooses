@@ -47,7 +47,6 @@ router.get('/types', middleware.isAdmin, (req, res) => {
 // get user emails
 router.get('/types/:type/users', middleware.isAdmin, (req, res) => {
   const type = req.params['type']
-  console.log(type)
 
   db_functions.query(`SELECT DISTINCT email,type,fname,lname FROM user WHERE type = '${type}' AND email <> 'null'`)
     .then(resp => { res.json(resp) })
@@ -57,7 +56,6 @@ router.get('/types/:type/users', middleware.isAdmin, (req, res) => {
 // get user emails
 router.get('/types/:type', middleware.isAdmin, (req, res) => {
   const type = req.params['type']
-  console.log(type)
 
   db_functions.query(`SELECT DISTINCT email FROM user WHERE type = '${type}' AND email <> 'null'`)
     .then(resp => { res.json(resp) })
@@ -75,7 +73,6 @@ router.post('/sendEmail',  middleware.isAdmin,  async (req, res) => {
   const isHTML= req.body['isHTML']
 
 
-  // console.log(req.body)
 
 
   const mailOptions = {

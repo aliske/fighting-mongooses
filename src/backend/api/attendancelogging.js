@@ -11,7 +11,7 @@ function encodeHTML(s) {
 router.get('/history/:user', (req, res) => {
   const user = req.params['user'];
   if (!user || !Number.isInteger(+user))
-    res.status(400).json({'msg': 'Please provide a valid ID'});
+    res.status(400).json({'msg': 'Please provide a valid ID'})
   let query = `SELECT a.time, a.status, u.fname, u.lname
                FROM user u
                         JOIN attendancelog a on u.id = a.user AND u.id=${user} ORDER BY a.time DESC;`;
