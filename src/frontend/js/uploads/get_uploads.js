@@ -64,7 +64,7 @@ async function getUploads(foptions) {
         </button>
       </td>
       <td>
-        <input type="checkbox" class='download.checkbox' name=checkbox.${row['uuid']} >
+        <input type="checkbox" class='download.checkbox' name=${row['uuid']} >
       </td>
     </tr>`
   }).join('') 
