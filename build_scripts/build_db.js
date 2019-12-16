@@ -39,7 +39,7 @@ async function asyncForEach(array, callback) {
 const start = async () => {
   let sql = fs.readFileSync(`./src/backend/db/queries/db_bits_and_bytes.sql`, 'UTF8');
   sql = sql.trim().split(';')
-  sql.push(`INSERT INTO user (username, password, type) VALUES ('admin', PASSWORD('1234'), 'admin')`)
+  sql.push(`INSERT INTO user (username, fname, password, type) VALUES ('admin', 'admin', PASSWORD('1234'), 'Admin')`)
 
 
   await asyncForEach(sql, async (query) => {
