@@ -64,6 +64,34 @@ router.get('/options/:id', (req, res) => {
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
 
+router.get('/name/:id', (req, res) => {
+  const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
+  db_functions.query(`SELECT name FROM survey WHERE id=${id}`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+
+router.get('/responders/:id', (req, res) => {
+  const id = req.params['id']
+  if (!id || !Number.isInteger(+id))
+    res.status(400).json({'msg': 'Please provide a valid ID'})
+  db_functions.query(`SELECT DISTINCT survey_answers.user, user.fname, user.lname FROM survey_answers JOIN survey_questions ON survey_questions.id=survey_answers.question JOIN user ON survey_answers.user=user.id WHERE survey_questions.survey=${id}`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
+
+router.get('/response/:question/:user', (req, res) => {
+  const question = req.params['question'];
+  const user = req.params['user'];
+  if(!question || !user || !Number.isInteger(+question) || !Number.isInteger(+user))
+    res.statu(400).json({'msg' : 'Please provide valid data'})
+  db_functions.query(`SELECT answer FROM survey_answers WHERE user=${user} AND question=${question} ORDER BY id DESC LIMIT 1`)
+    .then(resp => { res.json(resp) })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+})
 
 
 // insert survey
@@ -78,7 +106,7 @@ router.post('/', async (req, res) => {
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
-  else 
+  else
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
@@ -87,12 +115,12 @@ router.post('/response', async (req, res) => {
   let user = req.session.user;
   let question = req.body['question'];
   let answer = req.body['answer'] || null;
-  
+
   const [rows, fields] = await db_functions.execute('INSERT INTO survey_answers(user, question, answer) VALUES (?, ?, ?)', [user, question, answer]);
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
-  else 
+  else
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
@@ -106,7 +134,7 @@ router.post('/question', async (req, res) => {
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
-  else 
+  else
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
@@ -119,7 +147,7 @@ router.post('/question/options', async (req, res) => {
 
   if (rows.insertId)
     res.json({'insertID': rows.insertId})
-  else 
+  else
     res.status(500).json({'msg': 'Internal Server Error. Please check your query parameters.'})
 })
 
