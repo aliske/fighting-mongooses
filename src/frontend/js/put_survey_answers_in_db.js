@@ -71,11 +71,9 @@ async function putSurveyAnswersInDb() {
         })
         .then(resp => {
             if (resp.status === 200) {
-                alert("Survey submitted! Thank you for your feedback.");
                 window.location.reload();
             } else {
-                alert("Something went wrong. Please try again.");
-                window.location.reload();
+                alert("Something went wrong. Please try again later.")
             }
         });
     }

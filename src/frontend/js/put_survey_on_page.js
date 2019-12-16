@@ -1,12 +1,11 @@
 async function putSurveyOnPage() {
-    
+
     // get the ID of survey being taken
     const $names_choice = $("#survey-name");
-    const choice = $names_choice.children("option:selected").val();
-    const survey_id = choice.split(" ")[0];
+    const choice = $names_choice.val();
 
     // get the questions for that survey
-    const questions = await fetch(`${ROOT_URI}/api/surveys/questions/${survey_id}`)
+    const questions = await fetch(`${ROOT_URI}/api/surveys/questions/${choice}`)
         .then(resp => { return resp.json() });
 
     // get the options for each question
@@ -19,11 +18,11 @@ async function putSurveyOnPage() {
 
     // make the survey title visible
     $("survey-title").removeAttr("hidden");
-    
+
     // build the HTML to display quesions/options in a table on the page
     var table_data = "";
     for (var i = 0; i < questions.length; i++) {
-        
+
         table_data += "<tr>";
 
         // current question ID get a column (should eventually probably be hidden from user)

@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
 // get all surveys the current user can fill out
 router.get('/by_user', middleware.checkLogin, (req, res) => {
   const user_type = req.session.userType
+  const user = req.session.user;
 
   // get the proper survey type name for each user type
   var survey_type;
@@ -31,7 +32,7 @@ router.get('/by_user', middleware.checkLogin, (req, res) => {
     survey_type = "Child";
   }
 
-  db_functions.query(`SELECT * FROM ${survey_table_name} WHERE type='${survey_type}'`)
+  db_functions.query(`SELECT * from survey WHERE type = '${survey_type}' AND id NOT IN (SELECT DISTINCT survey FROM survey_questions WHERE id IN (SELECT DISTINCT question FROM survey_answers WHERE user = ${user}))`)
     .then(resp => { res.json(resp) })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 })
