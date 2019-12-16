@@ -261,6 +261,21 @@ td.right-align {
 			color:black;
 			}
 
+/*  registration table */
+			#registration-table td, #registration-table th {
+			border: 1px solid black;
+			border-collapse: collapse
+			}	
+			#registration-table tr:nth-child(odd) 
+			{
+				background-color:lightgrey;
+				color:black;
+			}
+			#registration-table tr:nth-child(even)
+			{
+			background-color:grey;
+			color:black;
+			}
 .email-selected {
   font-weight: 700;
   background-color: lightgrey
