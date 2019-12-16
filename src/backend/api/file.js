@@ -112,7 +112,21 @@ router.get('/public', middleware.checkLogin, (req, res) => {
 
 // get all public file content
 router.get('/content/public', middleware.checkLogin, async (req, res) => {
-  db_functions.query(`SELECT uuid,mimetype FROM ${files_table_name} WHERE public = 1`)
+
+  // get user data
+  const row = await db_functions.query(`SELECT registered FROM user WHERE id=${req.session.user}`)
+    .then(resp => { return resp[0] })
+    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
+
+
+  let sql = `SELECT uuid,mimetype FROM ${files_table_name} WHERE public = 1`
+
+  let user_registered_year = row['registered'] || null
+  // filter non-admins for the date they were registered
+  if (req.session.userType !== 'Admin')
+    sql += ` AND YEAR(cdate) = ${user_registered_year}`
+
+  db_functions.query(sql)
     .then(async resp => {
       const file_urls = await collectFileUrlsFromGoogle(resp)
 
