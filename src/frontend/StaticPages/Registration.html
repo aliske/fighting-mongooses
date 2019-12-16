@@ -6,6 +6,7 @@
 
 	<script type="text/javascript" src="../js/root_uri.js"></script>
 	<script type="text/javascript" src="../js/get_my_students.js"></script>
+	<script type="text/javascript" src="../js/check_return_student.js"></script>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -71,9 +72,14 @@
 					<label class="form-label" for="student-grade">Grade</label>
 					<select id="student-grade" class="form-control">
 						<option value="0">Select Grade</option>
+						<option value="5">5</option>
 						<option value="6">6</option>
 						<option value="7">7</option>
 						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
 					</select>
 				</div>
 			</div>
@@ -119,6 +125,8 @@
 
 		$(document).ready(function () {
 			$("#submit-btn").on("click", function (e) {
+				
+				if(!checkReturnStudent("#student-email")) {
 				e.preventDefault();
 				$.ajax({
 					url: "../api/session/register",
@@ -131,6 +139,12 @@
 				});
 				formClear();
 				getMyStudents();
+				}
+				else{
+				
+					alert("This Student has already been registered for this camp, either this year or a previous year.");
+				
+				}
 			});
 		});
 	</script>
