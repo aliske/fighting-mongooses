@@ -136,6 +136,12 @@
 				}).done(function (data) {
 					alert(data.msg + " Username: " + data.username + " Password: " + data.password)
 					checkInOut(data.id, 0)
+				}).fail(function (data) {
+					if(data.status === 400) {
+						alert('This user has already been registered. If this student has attended Bits & Bytes in the past, they are not eligible for additional sessions.');
+					} else {
+						alert('An unknown error has occurred.')
+					}
 				});
 				formClear();
 				getMyStudents();

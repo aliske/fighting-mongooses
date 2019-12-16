@@ -14,6 +14,6 @@ async function getSurveysByUser() {
     const $names_choice = $("#survey-name");
     $names_choice.empty();
     $.each(surveys, function (idx, survey) {
-        $names_choice.append("<option>" + survey[0] + " - " + survey[1] + "</option>")
+        $names_choice.append("<option value = '" + survey[0] + "'>" + survey[1] + "</option>")
     });
 }

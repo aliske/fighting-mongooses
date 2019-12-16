@@ -66,22 +66,26 @@
                             <div class="form-group">
                                 <label class="form-label"
                                     for="startdate">
-                                    Start Date:
+                                    Start Date
                                 </label>
-                                <input type="date"
-                                    class="form-control"
-                                    placeholder="Enter a Start Date here."
-                                    id="startdate"/>
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id='startdate'/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="enddate">
-                                    End Date:
+                                    for="startdate">
+                                    End Date
                                 </label>
-                                <input type="date"
-                                    class="form-control"
-                                    placeholder="Enter an End Date here."
-                                    id="enddate"/>
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id='enddate'/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label"
@@ -155,7 +159,7 @@
                 $("#announcement").val("");
 
             }
-
+            
 
         </script>
 
@@ -172,9 +176,18 @@
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous">
         </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         <script>
             $(document).ready(function(){
                 $("survey_table").addClass("table-striped");
+                var options={
+                    format: 'yyyy-mm-dd',
+                    todayHighlight: true,
+                    autoclose: true,
+                  };
+                $('#startdate').datepicker(options);
+                $('#enddate').datepicker(options);
             });
         </script>
     </div>

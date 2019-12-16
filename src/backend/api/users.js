@@ -88,8 +88,19 @@ router.patch('/unenroll/:id', middleware.isAdmin,async (req, res) => {
     WHERE id=?`, [registered, id]);
 
 
-  if (rows.affectedRows > 0)
+  if (rows.affectedRows > 0){
     res.json({'msg': 'Your data has been updated.'})
+    const sibRow = await db_functions.query(`
+        SELECT * FROM ${users_table_name}
+        WHERE parent=${row['parent']}
+        AND registered<>0`)
+    if (sibRow.length == 0){
+        const [parentRows, parentFields] = db_functions.execute(`
+            UPDATE ${users_table_name}
+            SET registered=?
+            WHERE id=?`, [registered, row['parent']]);
+        }
+  }
   else
     res.status(500).json({'msg': 'No update.'})
 })
@@ -108,6 +119,8 @@ router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
     .then(resp => { return resp[0] })
     .catch(err => res.status(500).json({'msg': 'Internal Server Error'}))
 
+  console.log(row['parent'])
+
   // set update values
   let registered = req.body['registered'] || row.registered
 
@@ -118,8 +131,13 @@ router.patch('/enroll/:id', middleware.isAdmin,async (req, res) => {
     WHERE id=?`, [registered, id]);
 
 
-  if (rows.affectedRows > 0)
+  if (rows.affectedRows > 0){
     res.json({'msg': 'Your data has been updated.'})
+    const [parentRows, parentFields] = await db_functions.execute(`
+        UPDATE ${users_table_name}
+        SET registered=?
+        WHERE id=?`, [registered, row['parent']]);
+  }
   else
     res.status(500).json({'msg': 'No update.'})
 })

@@ -86,7 +86,7 @@ div.bottom {
 div.scroll {
 	margin:4px;
 	padding:4px;
-	width: 500px;
+	width: 95%;
 	height: 300px;
 	overflow-x: hidden;
 	overflow-x: auto;
@@ -118,9 +118,6 @@ li.navbarRight{
 	font-weight: bold;
 }
 
-table {
-	width: 50%;
-}
 
 .td-title {
 	width: 20%;
@@ -149,9 +146,7 @@ table {
 	margin-right: auto;
 }
 
-.minwidth {
-	min-width: 300px;
-}
+
 
 td.left-align {
 	text-align: left;

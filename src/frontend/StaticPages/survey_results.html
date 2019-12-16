@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Bootstrap things -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/Templates/myStyles.css">
+    <link rel="shortcut icon" type="image/ico" href="/Assets/Bits_and_Bytes_Logo.ico"/>
+
+    <meta charset="UTF-8">
+
+    <!-- JavaScript imports -->
+    <script type="text/javascript" src="/js/root_uri.js"></script>
+    <script type="text/javascript" src="/js/get_survey_results.js"></script>
+
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        $.get('../Templates/Header.html',function(response){
+            $('#header').html(response);
+        });
+        $.get('../Templates/Footer.html',function(response){
+            $('#footer').html(response);
+        });
+    </script>
+
+    <title>Survey Results</title>
+</head>
+
+<body onLoad='get_results()'>
+
+    <!-- Insert the header. -->
+	<header id="header"></header>
+
+    <div class="container-fluid">
+
+        <h1>Survey Results</h1>
+        <hr>
+        <br>
+
+        <!-- Announcement table -->
+        <h3><span id="survey_title"></span></h3>
+        <div class="row">
+            <div class="col-md-12" style="overflow: auto;">
+                <table id="survey_table" class="table table-striped">
+                    <thead id="survey-thead">
+                        <tr><th>Test</th></tr>
+                    </thead>
+                    <tbody id="survey-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- JavaScript things -->
+        <script>
+            // it would be nice to, at some point, refactor
+            // away this global variable once i get the hang
+            // of this better
+            var global_ctl = null;
+            // returns the time and date as a string
+        </script>
+
+        <!-- jQuery things -->
+        <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous">
+        </script>
+        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+
+    </div>
+
+    <!-- Insert the footer. -->
+    <footer id="footer"></footer>
+
+</body>
+<script>
+var $_GET = {};
+if(document.location.toString().indexOf('?') !== -1) {
+    var query = document.location
+                   .toString()
+                   // get the query string
+                   .replace(/^.*?\?/, '')
+                   // and remove any existing hash string (thanks, @vrijdenker)
+                   .replace(/#.*$/, '')
+                   .split('&');
+
+    for(var i=0, l=query.length; i<l; i++) {
+       var aux = decodeURIComponent(query[i]).split('=');
+       $_GET[aux[0]] = aux[1];
+    }
+}
+function get_results() {
+  get_title($_GET['id']);
+  get_questions($_GET['id']);
+  get_responses($_GET['id']);
+}
+
+</script>
+
+</html>

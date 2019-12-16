@@ -81,7 +81,13 @@ router.post('/register', function (req, res) {
     .then(function(resp) {
         res.status(200).json({'msg': 'Registered', 'username': email, 'password': fname, 'id': resp['insertId']});
     })
-    .catch(err => res.status(500).json({'msg': 'Internal Server Error'}));
+    .catch(err => {
+        if(err['errno'] === 1062){
+            res.status(400).json({'msg':'Email already exists.'})
+        } else {
+            res.status(500).json({'msg': 'Internal Server Error'});
+        }
+    });
 });
 
 router.post('/register_parent', function (req, res) {
