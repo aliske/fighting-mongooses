@@ -12,7 +12,7 @@ async function enroll_student(id){
     })
 	.then(resp => { 
 		if (resp.status === 200) {
-			//alert('record updated successfully')
+			window.location.reload();
 		}
 		else 
 			alert(data.msg);
