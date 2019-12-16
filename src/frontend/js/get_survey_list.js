@@ -31,7 +31,7 @@ async function getSurveyList(page) {
         return `<td>${row[header.internal_name] || ''}</td>` 
       }).join('')
 
-      return `<tr>${row_data}<td><a href="survey_questions.html?id=${row['id']}" style="color: white;">Add Questions</a><br><a href="survey_results.html" style="color: white;">View Results</a><br></td></tr>`
+      return `<tr>${row_data}<td><a href="survey_questions.html?id=${row['id']}" style="color: white;">Add Questions</a><br><a href="survey_results.html?id=${row['id']}" style="color: white;">View Results</a><br></td></tr>`
     }).join('') 
 
     $('#survey_table').html(headers_HTML + data_HTML)
