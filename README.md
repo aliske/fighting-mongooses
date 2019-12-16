@@ -34,13 +34,14 @@ npm run start
 - [gcloud SDK](https://cloud.google.com/sdk/install)
   - Note: This SHOULD also install 'gsutil'
 - [node.js](https://nodejs.org/en/)
+- Setup local environment using insturcitons above: clone repository + run 'npm install'
 
 #### 2. Ensure PATH environment variables are set
 Ensure version numbers are displayed in a cmd.exe or bash shell for each of the following commands. If not, please install the dependencies and/or validate PATH environment variables.
 ```
     node --version
     npm --version
-    gcloud --version
+    gcloud --version 
     gsutil --version
 ```
 
@@ -78,7 +79,7 @@ Using /build_scripts/app_conf_template.json as a template:
 **NOTE:** Save your configuration file in a safe location. You will need it for future releases.
 
 #### Deployment [Setup Google Cloud Environment]
-This only needs to be done once
+These commands only need to be done once
 ```
     npm run build_gcloud
     npm run build_db
@@ -86,16 +87,17 @@ This only needs to be done once
 
 
 # Deployment [Deploy app]
-**NOTE:** This step requires the GCloud environment to be setup AND the user is logged into the gcloud environment. (gcloud auth login)
+- **This step requires app_conf.json file to be present in /build_scripts/app_conf.json**
+
 "Updating service..." may take up to 10min. Please be patient.
 ```
-npm run create_env
-gcloud app deploy --stop-previous-version
+npm run deploy
 ```
+Deployed resources can be found on the [Google Cloud Console](https://console.cloud.google.com/)
 
-**NOTE:** App details can be found by running 'gcloud app describe'
+**NOTE:** App details can be seen by running 'gcloud app describe' in a terminal with the Gcloud SDK
 
-**Note:** This app does not clean up old storage keys. That should be done in the future. [Service Accounts Page](https://console.cloud.google.com/iam-admin/serviceaccounts)
+**NOTE 2:** New storage keys are genearted for each deployment. This app does not clean up previous keys which should be purged manually (or update the depoly script). [Service Accounts Page](https://console.cloud.google.com/iam-admin/serviceaccounts)
 
 ---
 # Other Resources
