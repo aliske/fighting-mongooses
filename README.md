@@ -99,7 +99,7 @@ Deployed resources can be found on the [Google Cloud Console](https://console.cl
 
 **NOTE 2:** New storage keys are genearted for each deployment. This app does not clean up previous keys which should be purged manually (or update the depoly script). [Service Accounts Page](https://console.cloud.google.com/iam-admin/serviceaccounts)
 
-**NOTE 3:** The app is deployed as HTTP. You should create a certificate [Generate SSL certificate](https://www.ibm.com/support/knowledgecenter/en/SSMNED_5.0.0/com.ibm.apic.cmc.doc/task_apionprem_gernerate_self_signed_openSSL.html) and upload it to the [Google Cloud Console - Certificates portal](https://console.cloud.google.com/appengine/settings/certificates)
+**NOTE 3:** The app is deployed as HTTP and HTTPS. You should never use the HTTP site. Please use HTTPS. Custom domains and SSL certificates will need to be configured after deployment.
 
 ---
 # Other Resources
